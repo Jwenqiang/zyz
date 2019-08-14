@@ -1,0 +1,86 @@
+<wxs module="phone">
+var toHide = function(array) {
+  var mphone = array.substring(0, 3) + '****' + array.substring(7);
+  return mphone;
+}
+module.exports.toHide = toHide;
+</wxs>
+<view class="page">
+  <view class="top">
+    <image src="/img/mbj.png" class="mbj"></image>
+    <view class="msg">
+      <view class="outer topA" wx:if="{{isLogin}}">
+        <label class="tx"><image src="/img/tx3.png" wx:if="{{userTx==''||userTx==null}}"></image><image src="{{userTx}}" wx:else></image></label>
+        <view class="name">
+          <label wx:if="{{userName==''||userName==null}}">转转</label>
+          <label wx:else>{{userName}}</label>
+          <text>{{phone.toHide(mobile)}}</text>
+          <image src="/img/icon-rz.png" class="rz" wx:if="{{isJjr==5}}"></image>
+        </view>
+        <view class="edit" bindtap="goMyself">
+          <text class='iconfont icon-bianji'></text>
+          编辑资料
+        </view>
+      </view>
+      <view class="outer topA" wx:else>
+        <label class="tx"><image src="/img/tx3.png"></image></label>
+        <view class="name">
+          <button open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" class="login">登录</button>
+        </view>
+      </view>  
+ <view wx:if="{{isLogin}}">
+      <view class="topB" wx:if="{{isJjr==5}}">
+        <image src="/img/icon-rz.png" class="rz"></image>
+        <label class="mtip">您已升级为经纪人啦</label>
+        <label class="goTq" bindtap="goJjr">去查看我的特权<text class='iconfont icon-right'></text></label>
+      </view>
+      <view class="topB" wx:else>
+        <image src="/img/icon-rz.png" class="rz"></image>
+        <label class="mtip">升级为经纪人,可开启获客权限哦</label>
+        <label class="goTq" bindtap="goJjr">去升级<text class='iconfont icon-right'></text></label>
+      </view>
+</view>
+      <view class="topB" wx:if="{{isLogin==false}}">
+        <image src="/img/icon-rz.png" class="rz"></image>
+        <label class="mtip">升级为经纪人,可开启获客权限哦</label>
+        <button class="goTq" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber">去升级<text class='iconfont icon-right'></text></button>
+      </view>      
+    </view>
+  </view>
+
+  <view class="ul">
+    <view class='li' bindtap='goMoney' wx:if="{{isLogin}}">
+      我的奖金
+      <text class='iconfont icon-right' style='float:right'></text>
+      <text wx:if="{{money>0}}">{{money}}元</text>
+    </view>
+    <button class='li' open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" wx:else>
+      我的奖金
+      <text class='iconfont icon-right' style='float:right'></text>
+    </button>    
+    <view class='li' bindtap='goKf'>
+      联系客服
+      <text class='iconfont icon-right' style='float:right'></text>
+    </view>    
+  </view>
+  <!--  wx:if="{{isJjr==4||isJjr==5}}" -->
+  <view class="ul" wx:if="{{isJjr==5||isJjr==4}}">
+    <view class="li">
+    分享活动/海报是否展示您的电话号码？
+    <switch checked="{{check}}" disabled="{{check}}" bindtap="switchChange" data-c="{{check}}"/>
+    </view>
+  </view>
+
+<!-- 弹窗 -->
+<view class="show" wx:if="{{show}}">
+  <view class="bj"></view>
+  <view class="showMsg">
+    <view class="mstip">开启该功能可保证您分享出去的活动均带您的电话号码，客户可直接联系您，是重要拓客途径，确定关闭吗？</view>
+    <view class="showBtn">
+      <button bindtap="confim">确定</button>
+      <button bindtap="cancel">取消</button>
+    </view>
+  </view>
+</view>
+
+</view>

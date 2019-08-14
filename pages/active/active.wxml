@@ -1,0 +1,227 @@
+<wxs module="filter" src="../fun.wxs"></wxs>
+<!-- 活动页 -->
+<view wx:if="{{isOld==false}}" class="hd {{show?'hidden':''}}">
+<view class="page" wx:if="{{house.State!=2}}">
+  <view class="partOne" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part1.png') center no-repeat;background-size:100%">
+    <view class="h1">{{house.Title}}</view>
+    <view class="h4">{{house.SecondTitle}}</view>
+  </view>
+  <view class="partTwo" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part2.png') center no-repeat;background-size:100%">
+    <view class="acMsg">
+      <image src="{{house.DetailImg}}"></image>
+    </view>
+    <view class="floatArea" animation="{{animationData}}" bindtap="goMoney" wx:if="{{house.RotateStartUserAmountList.length>0}}">
+      <view class="user">
+        <image src="{{house.RotateStartUserAmountList[0].StartHeadImg}}"></image>
+        <view class="fl areaMsg">
+          <label class="name">{{house.RotateStartUserAmountList[0].StartNickName}}</label>
+          <label class="money">已得<text>{{house.RotateStartUserAmountList[0].Amount}}元</text></label>
+        </view>
+      </view>
+    </view>   
+
+    <view class="floatArea1" animation="{{animationData1}}" wx:if="{{house.RotateStartUserAmountList.length>1}}">
+      <view class="user">
+        <image src="{{house.RotateStartUserAmountList[1].StartHeadImg}}"></image>
+        <view class="fl areaMsg">
+          <label class="name">{{house.RotateStartUserAmountList[1].StartNickName}}</label>
+          <label class="money">已得<text>{{house.RotateStartUserAmountList[1].Amount}}元</text></label>
+        </view>
+      </view>
+    </view>       
+  </view>
+  <view class="partThird" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part3.png') center no-repeat;background-size:100%" wx:if="{{active!=null}}">
+    <view class="title"><image src="/img/icon-title.png"></image> 我的任务 <image src="/img/icon-title.png"></image></view>
+    <view class="myTask">
+      <view class="taskTitle">你最高可获得<label>{{active.UserMaxAmount}}</label><text>元</text>,已获得<label>{{active.Amount}}</label><text>元</text></view>
+      <view class="lineNum"><label class="fl">0元</label><label class="fr">{{active.UserMaxAmount}}元</label></view>
+      <!-- 活动进行中 -->
+      <view class="proLine" wx:if="{{house.StateTerm==2}}">
+        <progress percent="{{active.Amount/active.UserMaxAmount*100}}" border-radius="10" backgroundColor='#c3f3f1' activeColor="#3dcac3" stroke-width="8"/>
+        <view class="tipNum" style="left:{{active.Amount/active.UserMaxAmount*100-7}}%">
+          <label>{{active.Amount}}元</label>
+          <view class="point"></view>
+        </view>
+      </view>
+      <view class="proLine" wx:else>
+        <progress percent="{{active.Amount/active.UserMaxAmount*100}}" border-radius="10" backgroundColor='#ededed' activeColor="#999" stroke-width="8"/>
+        <view class="tipNum" style="left:{{active.Amount/active.UserMaxAmount*100-7}}%;background:#999">
+          <label>{{active.Amount}}元</label>
+          <view class="point" style="border-color: transparent transparent #999 transparent;"></view>
+        </view>
+      </view>      
+      <view class="msgTip">
+        单次有效点击<text>{{house.EveryTimeAmount}}元</text>,还需要<text>{{active.NeedUserClick}}</text>位好友助力
+      </view>
+      <view class="time">
+        <view class="timeT">- 活动倒计时 - </view>
+        <!-- 倒计时 -->
+        <view class='xjDate' wx:if="{{bzHouse.djs}}">
+        <text>{{filter.dTime(bzHouse.djs)[1]}}</text>:<text>{{filter.dTime(bzHouse.djs)[2]}}</text>:<text>{{filter.dTime(bzHouse.djs)[3]}}</text>
+        </view>  
+        <view class='xjDate' wx:else><label style="color:#999">距离结束：</label><text>0</text>时<text>0</text>分<text>0</text>秒</view>      
+      </view>
+    </view>  
+  </view>
+  <view class="partFour" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part4.png') center no-repeat;background-size:100%">
+    <view class="title"><image src="/img/icon-title.png"></image> 有效点击 <image src="/img/icon-title.png"></image></view>
+    <view class="friends">
+      <view class="uClick">已获得{{house.RotateHelpUserClickList.length}}次有效点击<text class="goF" bindtap="goFriend" data-id="1" wx:if="{{house.RotateHelpUserClickList.length>0}}">查看全部 ></text></view>
+      <view class="outer utx">
+      <block wx:for="{{house.RotateHelpUserClickList}}" wx:key="{{index}}" wx:if="{{house.RotateHelpUserClickList.length>0}}">
+        <image src="{{item.HeadImg}}" class="tx" wx:if="{{index<5}}"></image>
+      </block>
+        <text wx:if="{{house.RotateHelpUserClickList.length<1}}">暂无有效点击~</text>
+      </view>
+    </view>
+  </view>
+  <view class="partFive" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part5.png') center no-repeat;background-size:100%">
+    <view class="title"><image src="/img/icon-title.png"></image> 奖金榜单 <image src="/img/icon-title.png"></image></view>
+    <view class="friends">
+      <view class="uClick">奖金排行版<text class="goF" bindtap="goMoney" data-id="1">查看全部 ></text></view>
+      <view class="outer utx">
+        <view class="pm" wx:if="{{house.RotateStartUserAmountList.length>1}}">
+          <image src="/img/pm2.png" class="hg"></image>
+          <image src="{{house.RotateStartUserAmountList[1].StartHeadImg}}" class="tx"></image>
+          <label>2</label>
+          <text>{{house.RotateStartUserAmountList[1].StartNickName}}</text>
+        </view>
+        <view class="pm no1" wx:if="{{house.RotateStartUserAmountList.length>0}}">
+          <image src="/img/pm1.png" class="hg hg1"></image>
+          <image src="{{house.RotateStartUserAmountList[0].StartHeadImg}}" class="tx"></image>
+          <label>1</label>
+          <text>{{house.RotateStartUserAmountList[0].StartNickName}}</text>
+        </view>
+        <view class="pm" wx:if="{{house.RotateStartUserAmountList.length>2}}">
+          <image src="/img/pm2.png" class="hg"></image>
+          <image src="{{house.RotateStartUserAmountList[2].StartHeadImg}}" class="tx"></image>
+          <label>3</label>
+          <text>{{house.RotateStartUserAmountList[0].StartNickName}}</text>
+        </view> 
+        <text wx:if="{{house.RotateStartUserAmountList.length==0}}">暂无排名~</text>               
+      </view>
+    </view>    
+  </view>
+  <view class="partSix" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part6.png') center no-repeat;background-size:100%">
+    <view class="title"><image src="/img/icon-title.png"></image> 活动规则 <image src="/img/icon-title.png"></image></view>
+    <view class="role">
+      <view class="uClick">分享活动邀好友点击,你即可获得奖金！</view>
+      <view class="roleMsg">
+        <rich-text nodes="{{house.RotateRule}}"></rich-text>
+      </view>
+    </view>
+    <view class="tipSm">
+      <label><text class="iconfont icon-dian"></text> 活动所得奖金不可拆分、不可转赠、不提供发票。</label>
+      <label><text class="iconfont icon-dian"></text> 活动解释权归深圳房友圈网络科技有限公司所有。</label>
+      <label><text class="iconfont icon-dian"></text> 如有疑问请咨询：400-666-030。</label>
+    </view>
+  </view>
+
+    <!-- 底部固定 -->
+    <view class="fixPhone" bindtap="call" data-phone="{{house.RotatePhone}}">
+      <text class="iconfont icon-dianhua"></text>
+    </view>    
+    <view class="footFix">
+      <view class="topB" wx:if="{{role!=5&&role!=4}}">
+        <image src="/img/icon-rz.png" class="rz"></image>
+        <label class="mtip">升级为经纪人，开启获客权限</label>
+        <button class="goTq" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" wx:if="{{mobile==''||mobile==null}}">去升级<text class='iconfont icon-right'></text></button>
+        <button class="goTq" catchtap="goJjr" wx:else>去升级<text class='iconfont icon-right'></text></button>
+      </view>
+      <view class="footBar">
+        <view class='fbName'>
+          <label wx:if="{{active}}"><text>{{active.Amount}}</text>元<text wx:if="{{active.Amount==active.UserMaxAmount}}" style="font-weight:400;font-size:24rpx">(已封顶)</text></label>
+          <label wx:else><text>0</text>元</label>
+          <label>已获得奖金</label>
+        </view>
+        <view class='fbtn'>
+        <block wx:if="{{house.StateTerm==2}}">
+          <button bindtap="goHb">分享海报</button>
+          <button open-type="share">分享好友</button>
+        </block>
+        <block wx:if="{{house.StateTerm==1}}">
+          <button style="background:#ddd;color:#333">活动未开始</button>
+        </block>
+        <block wx:if="{{house.StateTerm==3}}">
+          <button style="background:#ddd;color:#333">活动已结束</button>
+        </block>        
+          <!-- 领取完成后 -->
+        <!-- <block wx:if="">  
+          <button bindtap="goHb" class="only">炫耀一下</button>
+        </block>   -->
+        </view>
+      </view>
+    </view>
+</view>
+
+<view class="noMsg" wx:else>
+  <view class="noImg">
+    <image src="/img/noQ.png"></image>
+    <text>下次早点来哦，活动已结束了~</text>
+  </view>
+  <button class="go">去看看其他活动</button>
+</view>
+
+
+<!-- 弹窗 -->
+<view class="show" wx:if="{{house.TotalAmountEnd==false}}">
+  <view class="bj"></view>
+  <view class="showMsg" style="background:#fff;height:400rpx;padding-top:80rpx;font-weight:bold;font-size:36rpx;">
+    <view style="margin-bottom:40rpx;">你来晚啦</view>
+    该活动总奖金已被瓜分完了~
+  </view>
+</view>
+
+
+</view>
+<!-- 抽奖 -->
+<view class="cj" wx:else>
+
+<view class="container">
+  <!-- 停止位置:<input value='{{luckPosition}}' style="width:100%;text-align:center" bindinput='input' type='number'></input> -->
+  <view class='frame_view' wx:if="{{isHas==false}}" :style="">
+    <view class="top">
+      <!-- <view class="h3">活动即将开始</view>
+      <view>-正在为您抽取最高奖金资格-</view> -->
+      <image src="/img/bonus.png" mode="widthFix"></image>
+    </view>
+    <view class="frame_list">
+      <view class='frame_row'>
+        <view class='frame_item' style='opacity:{{color[0]}}'><label><text>{{money[0].Amount}}</text>元</label>最高可获得</view>
+        <view class='frame_item' style='opacity:{{color[1]}}'><label><text>{{money[1].Amount}}</text>元</label>最高可获得</view>
+        <view class='frame_item' style='opacity:{{color[2]}}'><label><text>{{money[2].Amount}}</text>元</label>最高可获得</view>
+      </view>
+      <view class='frame_row'>
+        <view class='frame_item' style='opacity:{{color[5]}}'><label><text>{{money[5].Amount}}</text>元</label>最高可获得</view>
+        <view class='frame_item' style='opacity:{{color[4]}}'><label><text>{{money[4].Amount}}</text>元</label>最高可获得</view>
+        <view class='frame_item' style='opacity:{{color[3]}}'><label><text>{{money[3].Amount}}</text>元</label>最高可获得</view>
+      </view>
+    </view>
+    <view class="tip">-正在为您抽取最高奖金资格-</view>
+  </view>
+  <view class="bonus" wx:else>
+    <view class="h3">恭喜您</view>
+    <view>抽取：最高可获得<text class="red">{{money[luckPosition].Amount}}</text>元奖金资格</view>
+    <button catchtap="setMoney" data-num="{{money[luckPosition].Amount}}">确定</button>
+  </view>
+</view>
+
+
+</view>
+
+<!-- 弹窗 -->
+<view class="show" wx:if="{{show}}">
+  <view class="bj" style="opacity:1"></view>
+  <view class="showMsg" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/sq.png') center no-repeat;background-size:100%">
+    <view class="title">转一转</view>
+    <text class="show_tip">- 买房卖房、赚钱拓客样样不误 -</text>
+    <view class="show_rect">
+      <view class="sbj"></view>
+      <view class="show_info">
+        <label>小程序即将申请</label>
+        <label>使用您的公开信息（头像、昵称等）</label>      
+      </view>
+    </view>
+    <button class="show_btn"  open-type="getUserInfo" bindgetuserinfo	="getUserInfo">进入活动</button>
+  </view>
+</view>

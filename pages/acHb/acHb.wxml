@@ -1,0 +1,2 @@
+<!-- <view class='btn' bindtap='getSharePoster'>生成海报</view> -->
+<my-poster id="getPoster" bindmyevent="myEventListener" avater="{{bgImg}}" codeimg="{{ewm}}" tx="{{tx}}"  phone="{{mobile}}" productname="{{name}}"></my-poster>

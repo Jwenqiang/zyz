@@ -1,0 +1,12 @@
+<view class="container">
+  <view class='kfT'>
+    <image src='../../img/tx2.png'></image>
+    <view style='color:#666;margin-bottom:20rpx;'>您好！</view>
+    <view style='color:#666;margin-bottom:20rpx;'>我是客服小美，很高兴为您服务！</view>
+    <button open-type='contact'>在线咨询</button>
+  </view>
+  <view class='kfM'>
+    <text>如需电话联系，请点击拨打</text>
+    <view style='font-size:38rpx;font-weight:bold;margin-top:20rpx;' bindtap='callPhone' data-p="4000-666-030">4000-666-030</view>
+  </view>
+</view>

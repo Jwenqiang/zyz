@@ -1,0 +1,9 @@
+<view class="page">
+  <view class="outer list" wx:for="{{clickList}}" wx:key="{{index}}" wx:if="{{clickList.length>0}}">
+    <image src="{{item.HeadImg}}"></image>
+    <view class="listR">
+      <label>{{item.NickName}}</label>
+      <text>{{item.AddTime}}</text>
+    </view>
+  </view>
+</view>

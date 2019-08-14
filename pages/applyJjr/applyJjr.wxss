@@ -1,0 +1,32 @@
+.top {padding: 40rpx}
+.top .tx{width: 120rpx;height: 120rpx;display: block;float: left;border-radius: 50%;overflow: hidden;margin-right: 24rpx}
+.name{
+  width: 200rpx;
+  float: left;
+  font-size: 24rpx;
+  position: relative
+}
+.name image.rz{width: 42rpx;height: 36rpx;position: absolute;top: 16rpx;right: 0}
+.name label{display: block;margin-bottom: 20rpx;font-size: 40rpx;font-weight: bold}
+.tip{padding: 40rpx}
+
+.hInp{border-bottom: 1px solid #f5f5f7;padding: 20rpx 40rpx;font-size: 28rpx;position: relative}
+.hInp label{display: block;float: left;line-height: 60rpx}
+.hInp text{display: inline-block;width: 180rpx;float: left;height: 60rpx;line-height: 60rpx;font-weight: bold}
+.hInp input{height: 60rpx;line-height: 60rpx;width: 430rpx;float: left;text-align: right;font-size: 28rpx;color: #333;font-weight: bold}
+.hInp text.iconfont{width: 40rpx;display: inline-block;float: right;color: #999;font-weight: 400;font-size: 24rpx;text-align: right}
+.ok{padding: 0 40rpx;margin-bottom: 80rpx}
+.btn{
+  background: #fe483a;
+  color: #fff;
+  margin-top: 100rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 32rpx
+}
+.qxTip{padding: 40rpx}
+.qxMsg{margin-top: 40rpx;line-height: 1.6;color: #999}
+
+.show .h3{text-align: center;margin-bottom: 20rpx}
+.showMsg{padding: 40rpx}
+.showBtn{margin-top: 40rpx}
