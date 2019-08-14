@@ -13,6 +13,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    wxcode:"",
     isOld:false, 
     activeId:5, 
     oneId:0,
@@ -460,26 +461,35 @@ Page({
     }, 1000);
     // }  
   },
-
+  getCode: function () {
+    var that = this;
+    wx.login({
+      success(res) {
+        console.log(res);
+        that.setData({
+          wxcode: res.code
+        })
+      }
+    })
+  },
   //获取头像昵称
   getUserInfo: function (e) {
     var ivObj = e.detail.iv
     var telObj = e.detail.encryptedData;
     var that = this;
+    //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
+    if (e.detail.errMsg == 'getUserInfo:fail auth deny') { //用户点击拒绝
+      console.log(e);
+    } else { //授权通过执行跳转
+      console.log(e);
     wx.showLoading({
       title: '授权中',
       mask: true
     })
-    wx.login({
-      success(res) {
-        console.log(res);
-        // that.setData({
-        //   wxcode: res.code
-        // })
         wx.request({
           url: 'https://spapi.centaline.com.cn/api/Users/UserLogin', //接口地址
           data: {
-            code: res.code,
+            code: that.data.wxcode,
             encryptedData: telObj,
             iv: ivObj,
             Type: 4,
@@ -513,24 +523,8 @@ Page({
             wx.hideLoading();
           }
         })
-      }
-    })
+    }
 
-    //   }
-    // });
-
-    //---------登录有效期检查
-    wx.checkSession({
-      success: function () {
-        console.log("登录未过期");
-        //session_key 未过期，并且在本生命周期一直有效     
-      },
-      fail: function () {
-        // session_key 已经失效，需要重新执行登录流程
-        console.log("登录过期");
-        wx.login() //重新登录
-      }
-    });
   }, 
   //通过绑定手机号登录
   getPhoneNumber: function (e) {
@@ -539,20 +533,19 @@ Page({
     var telObj = e.detail.encryptedData;
     var that = this;
     console.log(ivObj);
-    wx.showLoading({
-      title: '授权中',
-      mask: true
-    })
-    wx.login({
-      success(res) {
-        console.log(res);
-        // that.setData({
-        //   wxcode: res.code
-        // })
+
+    //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny') { //用户点击拒绝
+      console.log(e);
+    } else { //授权通过执行跳转   
+      wx.showLoading({
+        title: '授权中',
+        mask: true
+      })     
         wx.request({
           url: 'https://spapi.centaline.com.cn/api/Users/UserLogin', //接口地址
           data: {
-            code: res.code,
+            code: that.data.wxcode,
             encryptedData: telObj,
             iv: ivObj,
             Type: 4,
@@ -580,26 +573,6 @@ Page({
           }
         })
       }
-    })
-
-    //   }
-    // });
-
-    //---------登录有效期检查
-    // wx.checkSession({
-    //   success: function () {
-    //     console.log(1);
-    //     //session_key 未过期，并且在本生命周期一直有效     
-
-
-
-    //   },
-    //   fail: function () {
-    //     // session_key 已经失效，需要重新执行登录流程
-    //     console.log(2);
-    //     wx.login() //重新登录
-    //   }
-    // });
   },
   goJjr(){
     wx.navigateTo({

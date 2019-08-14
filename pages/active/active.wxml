@@ -125,7 +125,7 @@
       <view class="topB" wx:if="{{role!=5&&role!=4}}">
         <image src="/img/icon-rz.png" class="rz"></image>
         <label class="mtip">升级为经纪人，开启获客权限</label>
-        <button class="goTq" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" wx:if="{{mobile==''||mobile==null}}">去升级<text class='iconfont icon-right'></text></button>
+        <button class="goTq" bindtap="getCode" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" wx:if="{{mobile==''||mobile==null}}">去升级<text class='iconfont icon-right'></text></button>
         <button class="goTq" catchtap="goJjr" wx:else>去升级<text class='iconfont icon-right'></text></button>
       </view>
       <view class="footBar">
@@ -222,6 +222,6 @@
         <label>使用您的公开信息（头像、昵称等）</label>      
       </view>
     </view>
-    <button class="show_btn"  open-type="getUserInfo" bindgetuserinfo	="getUserInfo">进入活动</button>
+    <button class="show_btn" bindtap="getCode"  open-type="getUserInfo" bindgetuserinfo	="getUserInfo">进入活动</button>
   </view>
 </view>

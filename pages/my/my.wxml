@@ -25,7 +25,7 @@ module.exports.toHide = toHide;
       <view class="outer topA" wx:else>
         <label class="tx"><image src="/img/tx3.png"></image></label>
         <view class="name">
-          <button open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" class="login">登录</button>
+          <button bindtap="getCode"  open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" class="login">登录</button>
         </view>
       </view>  
  <view wx:if="{{isLogin}}">
@@ -43,7 +43,7 @@ module.exports.toHide = toHide;
       <view class="topB" wx:if="{{isLogin==false}}">
         <image src="/img/icon-rz.png" class="rz"></image>
         <label class="mtip">升级为经纪人,可开启获客权限哦</label>
-        <button class="goTq" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber">去升级<text class='iconfont icon-right'></text></button>
+        <button class="goTq" bindtap="getCode" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber">去升级<text class='iconfont icon-right'></text></button>
       </view>      
     </view>
   </view>
@@ -54,7 +54,7 @@ module.exports.toHide = toHide;
       <text class='iconfont icon-right' style='float:right'></text>
       <text wx:if="{{money>0}}">{{money}}元</text>
     </view>
-    <button class='li' open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" wx:else>
+    <button class='li' bindtap="getCode"  open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" wx:else>
       我的奖金
       <text class='iconfont icon-right' style='float:right'></text>
     </button>    

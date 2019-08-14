@@ -189,34 +189,35 @@ Page({
     })
   },
 
-  // getCode: function () {
-  //   var that = this;
-  //   wx.login({
-  //     success(res) {
-  //       console.log(res);
-  //       that.setData({
-  //         wxcode: res.code
-  //       })
-  //     }
-  //   })  
-  // },
+  getCode: function () {
+    var that = this;
+    wx.login({
+      success(res) {
+        console.log(res);
+        that.setData({
+          wxcode: res.code
+        })
+      }
+    })  
+  },
   //通过绑定手机号登录
   getPhoneNumber: function (e) {
     console.log(e);
     var ivObj = e.detail.iv
     var telObj = e.detail.encryptedData;
     var that = this;
-    console.log(ivObj); 
-    wx.login({
-      success(res) {
-        console.log(res);
-        // that.setData({
-        //   wxcode: res.code
-        // })
+    //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny') { //用户点击拒绝
+      console.log(e);
+    } else { //授权通过执行跳转
+      wx.showLoading({
+        title: '授权中',
+        mask: true
+      })   
           wx.request({
             url: 'https://spapi.centaline.com.cn/api/Users/UserLogin', //接口地址
             data: {
-              code: res.code,
+              code: that.data.wxcode,
               encryptedData: telObj,
               iv: ivObj,
               Type: 4,
@@ -243,13 +244,9 @@ Page({
               }
               wx.hideLoading();
             }
-          })       
-      }
-    })
+          })  
+    }     
     wx.hideLoading();
-    //   }
-    // });
-
     //---------登录有效期检查
     // wx.checkSession({
     //   success: function () {
