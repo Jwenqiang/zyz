@@ -195,51 +195,52 @@ Component({
           ctx.setFontSize(14);
           ctx.setFillStyle('#fff');
           ctx.setTextAlign('left');
-        }
-
-        //  绘制二维码
-        if (codeSrc) {
-          ctx.drawImage(codeSrc, width - width / 4-10, imgheght + 10, width / 4, width / 4)
-          ctx.setFontSize(10);
-          ctx.setFillStyle('#999');
-          ctx.fillText("长按扫码或保存图片", width - 100, imgheght + 110);
-        }
-
-        //名称
-        if (that.data.productname) {
-          console.log(that.data.productname);
-          const CONTENT_ROW_LENGTH = 24; // 正文 单行显示字符长度
-          let [contentLeng, contentArray, contentRows] = that.textByteLength((that.data.productname).substr(0, 40), CONTENT_ROW_LENGTH);
-          ctx.font = 'normal 14px sans-serif';
-          ctx.setTextAlign('left');
-          ctx.setFillStyle('#000');
-          // ctx.setFontSize(20);
-          let contentHh = 22 * 1;
-          for (let m = 0; m < contentArray.length; m++) {
-            ctx.fillText(contentArray[m], width / 6 + 20, imgheght + 60 + contentHh * m);
+// 背景画完之后才能画其他
+          //  绘制二维码
+          if (codeSrc) {
+            ctx.drawImage(codeSrc, width - width / 4 - 10, imgheght + 10, width / 4, width / 4)
+            ctx.setFontSize(10);
+            ctx.setFillStyle('#999');
+            ctx.fillText("长按扫码或保存图片", width - 100, imgheght + 110);
           }
-        }
 
-
-        //电话
-        if (that.data.phone || that.data.phone == 0) {
-          ctx.setFontSize(16);
-          ctx.setFillStyle('#000');
-          ctx.setTextAlign('left');
-          var phone = that.data.phone;
-          if (!isNaN(phone)) {
-            phone = that.data.phone
+          //名称
+          if (that.data.productname) {
+            console.log(that.data.productname);
+            const CONTENT_ROW_LENGTH = 24; // 正文 单行显示字符长度
+            let [contentLeng, contentArray, contentRows] = that.textByteLength((that.data.productname).substr(0, 40), CONTENT_ROW_LENGTH);
+            ctx.font = 'normal 14px sans-serif';
+            ctx.setTextAlign('left');
+            ctx.setFillStyle('#000');
+            // ctx.setFontSize(20);
+            let contentHh = 22 * 1;
+            for (let m = 0; m < contentArray.length; m++) {
+              ctx.fillText(contentArray[m], width / 6 + 20, imgheght + 60 + contentHh * m);
+            }
           }
-          ctx.fillText(phone, width / 6 + 20, imgheght + 85); //电话
-        }
-        // 头像
-        if (tx) {
-          ctx.beginPath() //开始创建一个路径
-          ctx.arc(10 + width / 12, imgheght + 90 - width / 12, width / 12, 0, 2 * Math.PI, false)
-          // ctx.stroke();
-          ctx.clip() //裁剪    
 
-          ctx.drawImage(tx, 10, imgheght + 90 - width / 6, width / 6, width / 6)
+
+          //电话
+          if (that.data.phone || that.data.phone == 0) {
+            ctx.setFontSize(16);
+            ctx.setFillStyle('#000');
+            ctx.setTextAlign('left');
+            var phone = that.data.phone;
+            if (!isNaN(phone)) {
+              phone = that.data.phone
+            }
+            ctx.fillText(phone, width / 6 + 20, imgheght + 85); //电话
+          }
+          // 头像
+          if (tx) {
+            ctx.beginPath() //开始创建一个路径
+            ctx.arc(10 + width / 12, imgheght + 90 - width / 12, width / 12, 0, 2 * Math.PI, false)
+            // ctx.stroke();
+            ctx.clip() //裁剪    
+
+            ctx.drawImage(tx, 10, imgheght + 90 - width / 6, width / 6, width / 6)
+
+          }
 
         }
 

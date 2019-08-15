@@ -86,6 +86,9 @@
   color: #ffc700;
   display: block;
   line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
 }
 
 .floatArea .money,.floatArea1 .money {

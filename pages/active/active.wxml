@@ -96,7 +96,7 @@
           <image src="/img/pm2.png" class="hg"></image>
           <image src="{{house.RotateStartUserAmountList[2].StartHeadImg}}" class="tx"></image>
           <label>3</label>
-          <text>{{house.RotateStartUserAmountList[0].StartNickName}}</text>
+          <text>{{house.RotateStartUserAmountList[2].StartNickName}}</text>
         </view> 
         <text wx:if="{{house.RotateStartUserAmountList.length==0}}">暂无排名~</text>               
       </view>

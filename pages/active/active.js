@@ -106,9 +106,9 @@ Page({
               shareSecondId: res.data.UserId,
             })
           } else {//不是经纪人
-            if (e.Id) {
+            if (that.data.activeId) {
               that.setData({
-                shareOneId: e.oneId,
+                shareOneId: that.data.oneId,
                 shareSecondId: res.data.UserId,
               })
             } else {
@@ -477,15 +477,20 @@ Page({
     var ivObj = e.detail.iv
     var telObj = e.detail.encryptedData;
     var that = this;
+    console.log(that.data.wxcode);
     //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
     if (e.detail.errMsg == 'getUserInfo:fail auth deny') { //用户点击拒绝
-      console.log(e);
+      wx.showToast({
+        title: "授权后才能进入活动哦",
+        icon: "none"
+      })      
     } else { //授权通过执行跳转
-      console.log(e);
-    wx.showLoading({
-      title: '授权中',
-      mask: true
-    })
+      if (that.data.wxcode!=''){
+        wx.showLoading({
+          title: '授权中',
+          mask: true
+        })
+        
         wx.request({
           url: 'https://spapi.centaline.com.cn/api/Users/UserLogin', //接口地址
           data: {
@@ -523,6 +528,7 @@ Page({
             wx.hideLoading();
           }
         })
+      }
     }
 
   }, 
@@ -536,12 +542,16 @@ Page({
 
     //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
     if (e.detail.errMsg == 'getPhoneNumber:fail user deny') { //用户点击拒绝
-      console.log(e);
-    } else { //授权通过执行跳转   
-      wx.showLoading({
-        title: '授权中',
-        mask: true
-      })     
+      wx.showToast({
+        title: "同意后才能升级为经纪人哦",
+        icon: "none"
+      })   
+    } else { //授权通过执行跳转 
+      if (that.data.wxcode != '') {  
+        wx.showLoading({
+          title: '授权中',
+          mask: true
+        })     
         wx.request({
           url: 'https://spapi.centaline.com.cn/api/Users/UserLogin', //接口地址
           data: {
@@ -573,6 +583,7 @@ Page({
           }
         })
       }
+    }
   },
   goJjr(){
     wx.navigateTo({
