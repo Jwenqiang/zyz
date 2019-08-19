@@ -36,7 +36,7 @@ Page({
           mobile:res.data.Mobile,
           role: res.data.RoleType
         })
-        that.getUser();
+        // that.getUser();
       },
     })
   },
@@ -164,7 +164,7 @@ Page({
               }) 
               setTimeout(function(){
                 that.getUser();
-                wx.reLaunch({
+                wx.switchTab({
                   url: '../my/my',
                 })
               },300)

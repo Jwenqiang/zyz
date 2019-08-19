@@ -12,12 +12,12 @@ module.exports.toHide = toHide;
       <view class="outer topA" wx:if="{{isLogin}}">
         <label class="tx"><image src="/img/tx3.png" wx:if="{{userTx==''||userTx==null}}"></image><image src="{{userTx}}" wx:else></image></label>
         <view class="name">
-          <label wx:if="{{userName==''||userName==null}}">转转</label>
+          <label wx:if="{{userName==''||userName==null}}">转转用户</label>
           <label wx:else>{{userName}}</label>
-          <text>{{phone.toHide(mobile)}}</text>
+          <text wx:if="{{hasNum}}">{{phone.toHide(mobile)}}</text>
           <image src="/img/icon-rz.png" class="rz" wx:if="{{isJjr==5}}"></image>
         </view>
-        <view class="edit" bindtap="goMyself">
+        <view class="edit" bindtap="goMyself" wx:if="{{hasNum}}">
           <text class='iconfont icon-bianji'></text>
           编辑资料
         </view>
@@ -28,19 +28,19 @@ module.exports.toHide = toHide;
           <button bindtap="getCode"  open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" class="login">登录</button>
         </view>
       </view>  
- <view wx:if="{{isLogin}}">
+ <view wx:if="{{hasNum}}">
       <view class="topB" wx:if="{{isJjr==5}}">
         <image src="/img/icon-rz.png" class="rz"></image>
         <label class="mtip">您已升级为经纪人啦</label>
         <label class="goTq" bindtap="goJjr">去查看我的特权<text class='iconfont icon-right'></text></label>
       </view>
-      <view class="topB" wx:else>
+      <view class="topB" wx:if="{{isJjr!=5}}">
         <image src="/img/icon-rz.png" class="rz"></image>
         <label class="mtip">升级为经纪人,可开启获客权限哦</label>
         <label class="goTq" bindtap="goJjr">去升级<text class='iconfont icon-right'></text></label>
       </view>
 </view>
-      <view class="topB" wx:if="{{isLogin==false}}">
+      <view class="topB" wx:if="{{hasNum==false}}">
         <image src="/img/icon-rz.png" class="rz"></image>
         <label class="mtip">升级为经纪人,可开启获客权限哦</label>
         <button class="goTq" bindtap="getCode" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber">去升级<text class='iconfont icon-right'></text></button>
@@ -49,7 +49,7 @@ module.exports.toHide = toHide;
   </view>
 
   <view class="ul">
-    <view class='li' bindtap='goMoney' wx:if="{{isLogin}}">
+    <view class='li' bindtap='goMoney' wx:if="{{hasNum}}">
       我的奖金
       <text class='iconfont icon-right' style='float:right'></text>
       <text wx:if="{{money>0}}">{{money}}元</text>

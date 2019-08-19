@@ -16,30 +16,15 @@ Page({
     mobile:"",
     isJjr:1,
     money:"",
-    role:1
+    role:1,
+    hasNum:false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that=this;
-    wx.getStorage({
-      key: 'userInfo',
-      success: function(res) {
-        if (res.data.Mobile != '' && res.data.Mobile != null){  
-          that.setData({
-            isLogin:true,
-            utoken: res.data.Token,
-            userTx: res.data.HeadImg,
-            userName:res.data.NickName,
-            mobile: res.data.Mobile,
-            isJjr: res.data.RoleType,
-            check: res.data.MobileDisplayBl 
-          })
-        }
-      },
-    })
+
   },
 
   /**
@@ -59,7 +44,27 @@ Page({
         selected: 1
       })
     } 
-    this.onLoad();
+    var that = this;
+    wx.getStorage({
+      key: 'userInfo',
+      success: function (res) {
+        that.setData({
+          isLogin: true,
+          utoken: res.data.Token,
+          userTx: res.data.HeadImg,
+          userName: res.data.NickName
+        })
+        if (res.data.Mobile != '' && res.data.Mobile != null) {
+          that.setData({
+            utoken: res.data.Token,
+            hasNum: true,
+            mobile: res.data.Mobile,
+            isJjr: res.data.RoleType,
+            check: res.data.MobileDisplayBl,
+          })
+        }
+      },
+    })
   },
 
   /**
@@ -113,7 +118,7 @@ Page({
           "token": that.data.utoken
         },
         data: {
-          MobileDisplayBl: false
+          MobileDisplayBl: true
         },
         success: res => {
           console.log(res);
@@ -146,7 +151,7 @@ Page({
         "token":that.data.utoken
       },
       data:{
-        MobileDisplayBl:true
+        MobileDisplayBl:false
       },
       success:res=>{
         console.log(res);
@@ -286,7 +291,8 @@ Page({
             mobile: res.data.data.Mobile,
             isJjr: res.data.data.RoleType,
             check: res.data.data.MobileDisplayBl,
-            money: res.data.data.RotateStartUserAmountTotal 
+            money: res.data.data.RotateStartUserAmountTotal,
+            hasNum:true 
           })
           wx.hideLoading()
         }

@@ -8,7 +8,7 @@
     <view class="h1 conT">热门活动</view>
     <view class="section" wx:for="{{bzHouse}}" wx:key="index"  bindtap="goActive" data-id="{{item.Id}}">
       <view class="outer secT">
-          <label class="secNum"><block wx:if="{{item.RotateStartUserAmountList.Count!=null}}">{{item.RotateStartUserAmountList.Count}}</block><block wx:else>0</block>人已参与！</label>
+          <label class="secNum"><block wx:if="{{item.RotateStartUserAmountList.length>0}}">{{item.RotateStartUserAmountList.length}}</block><block wx:else>0</block>人已参与！</label>
         <!-- 倒计时 -->
           <view class='xjDate' wx:if="{{item.djs}}"><label style="color:#999">距离结束：</label><text>{{filter.dTime(item.djs)[1]}}</text>时<text>{{filter.dTime(item.djs)[2]}}</text>分<text>{{filter.dTime(item.djs)[3]}}</text>秒
           </view>

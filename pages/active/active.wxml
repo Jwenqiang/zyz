@@ -1,6 +1,6 @@
 <wxs module="filter" src="../fun.wxs"></wxs>
 <!-- 活动页 -->
-<view wx:if="{{isOld==false}}" class="hd {{show?'hidden':''}}">
+<view wx:if="{{isOld==false&&hasData}}" class="hd {{show?'hidden':''}}">
 <view class="page" wx:if="{{house.State!=2}}">
   <view class="partOne" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part1.png') center no-repeat;background-size:100%">
     <view class="h1">{{house.Title}}</view>
@@ -10,7 +10,7 @@
     <view class="acMsg">
       <image src="{{house.DetailImg}}"></image>
     </view>
-    <view class="floatArea" animation="{{animationData}}" bindtap="goMoney" wx:if="{{house.RotateStartUserAmountList.length>0}}">
+    <view class="floatArea" animation="{{animationData}}" bindtap="goMoney"  wx:if="{{house.RotateStartUserAmountList[0].Amount>0}}">
       <view class="user">
         <image src="{{house.RotateStartUserAmountList[0].StartHeadImg}}"></image>
         <view class="fl areaMsg">
@@ -20,7 +20,7 @@
       </view>
     </view>   
 
-    <view class="floatArea1" animation="{{animationData1}}" wx:if="{{house.RotateStartUserAmountList.length>1}}">
+    <view class="floatArea1" animation="{{animationData1}}" wx:if="{{house.RotateStartUserAmountList[1].Amount>0}}">
       <view class="user">
         <image src="{{house.RotateStartUserAmountList[1].StartHeadImg}}"></image>
         <view class="fl areaMsg">
@@ -67,9 +67,9 @@
     <view class="title"><image src="/img/icon-title.png"></image> 有效点击 <image src="/img/icon-title.png"></image></view>
     <view class="friends">
       <view class="uClick">已获得{{house.RotateHelpUserClickList.length}}次有效点击<text class="goF" bindtap="goFriend" data-id="1" wx:if="{{house.RotateHelpUserClickList.length>0}}">查看全部 ></text></view>
-      <view class="outer utx">
-      <block wx:for="{{house.RotateHelpUserClickList}}" wx:key="{{index}}" wx:if="{{house.RotateHelpUserClickList.length>0}}">
-        <image src="{{item.HeadImg}}" class="tx" wx:if="{{index<5}}"></image>
+      <view class="outer utx uclick">
+      <block wx:for="{{house.RotateHelpUserClickList}}" wx:key="{{index}}" wx:if="{{house.RotateHelpUserClickList.length>0}}">   
+        <image src="{{item.HeadImg}}" class="tx" wx:if="{{index<5}}" style="display:inline-block"></image>
       </block>
         <text wx:if="{{house.RotateHelpUserClickList.length<1}}">暂无有效点击~</text>
       </view>
@@ -172,14 +172,15 @@
   </view>
 </view>
 
+  <view class="gohome" style='background: #fff url(http://hfugweb.centaline.com.cn/img/smallR/img/gh.png) center 20% no-repeat;background-size: 44rpx;' bindtap='goIndex' wx:if="{{isShare}}">首页</view> 
 
 </view>
 <!-- 抽奖 -->
-<view class="cj" wx:else>
+<view class="cj" wx:if="{{isOld==true}}">
 
 <view class="container">
   <!-- 停止位置:<input value='{{luckPosition}}' style="width:100%;text-align:center" bindinput='input' type='number'></input> -->
-  <view class='frame_view' wx:if="{{isHas==false}}" :style="">
+  <view class='frame_view' wx:if="{{isHas==false}}">
     <view class="top">
       <!-- <view class="h3">活动即将开始</view>
       <view>-正在为您抽取最高奖金资格-</view> -->
@@ -199,11 +200,16 @@
     </view>
     <view class="tip">-正在为您抽取最高奖金资格-</view>
   </view>
-  <view class="bonus" wx:else>
+  <view class="bonus" wx:if="{{isHas&&secondCj==false}}">
     <view class="h3">恭喜您</view>
     <view>抽取：最高可获得<text class="red">{{money[luckPosition].Amount}}</text>元奖金资格</view>
     <button catchtap="setMoney" data-num="{{money[luckPosition].Amount}}">确定</button>
   </view>
+  <view class="bonus" wx:if="{{secondCj}}">
+    <view class="h3">恭喜您</view>
+    <view>抽取：最高可获得<text class="red">{{house.UserMaxAmount}}</text>元奖金资格</view>
+    <button catchtap="setMoney" data-num="{{house.UserMaxAmount}}">确定</button>
+  </view>  
 </view>
 
 
@@ -222,6 +228,6 @@
         <label>使用您的公开信息（头像、昵称等）</label>      
       </view>
     </view>
-    <button class="show_btn" bindtap="getCode"  open-type="getUserInfo" bindgetuserinfo	="getUserInfo">进入活动</button>
+    <button class="show_btn" open-type="getUserInfo" bindgetuserinfo	="getUserInfo">进入活动</button>
   </view>
 </view>

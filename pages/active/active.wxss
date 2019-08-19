@@ -282,10 +282,10 @@
   height: 100rpx;
   border-radius: 50%;
   margin-left: 16rpx;
-  display: block
+  display: block;
 }
 
-.utx image:first-child {
+.utx image.tx:first-child {
   margin-left: 0;
 }
 
@@ -358,6 +358,10 @@ image.hg1 {
 .pm text {
   font-size: 24rpx;
   color: #666;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .partSix {
@@ -425,7 +429,7 @@ button.goTq::after{border: 0}
 .fixPhone {
   text-align: center;
   position: fixed;
-  bottom: 280rpx;
+  bottom: 270rpx;
   right: 40rpx;
   width: 100rpx;
   height: 100rpx;
@@ -621,3 +625,21 @@ page,.cj{height: 100%}
 .show_rect label:last-child{margin: 0}
 
 .show_btn{height: 80rpx;width: 84%;line-height: 80rpx;background: #f8cc37;margin: 200rpx auto 0;display: block;border-radius: 40rpx;color: #ff442d;font-weight: bold}
+
+.gohome {
+  box-sizing: border-box;
+    padding-top: 60rpx;
+    line-height: 1;
+    font-size: 20rpx;
+    color: #59a0f9;
+    display: block;
+    box-shadow: 0 3px 10px #e2e4ea;
+    border-radius: 50%;
+    bottom: 400rpx;
+    height: 100rpx;
+    right: 40rpx;
+    text-align: center;
+    width: 100rpx;
+    position: fixed;
+    z-index: 999;    
+}

@@ -37,7 +37,6 @@ Page({
         secondId: e.StartUserId
       })
     } 
-    this.getEwm();
     var that = this;
     wx.getStorage({
       key: 'activeData',
@@ -46,7 +45,7 @@ Page({
           bgImg: res.data.Poster
         })
       },
-    })    
+    })
     wx.getStorage({
       key: 'userInfo',
       success: function (res) {
@@ -54,11 +53,15 @@ Page({
           utoken: res.data.Token,
           role: res.data.RoleType,
           tx: res.data.HeadImg,
-          name: res.data.NickName,          
+          name: res.data.NickName,
         })
         that.getUser();
       },
-    })    
+    })  
+    setTimeout(function(){
+      that.getEwm(); 
+    },10)      
+           
   
     // that.setData({
     //   bgImg: "https://hfugfile.centaline.com.cn/filedata/4/image/20190808/20190808162409_5984.png",
@@ -80,11 +83,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var that=this;
-    setTimeout(function(){
-      that.getSharePoster(); 
-    },100)
-     
+  
   },
 
   /**
@@ -122,14 +121,14 @@ Page({
 
   },
   //调用子组件的方法
-  getSharePoster: function () {
-    this.setData({ showVideo: false})
+  getSharePoster() {
+    // this.setData({ showVideo: false})
     this.selectComponent('#getPoster').getAvaterInfo();
   },
 
-  myEventListener: function (e) {
-    this.setData({ showVideo: true })
-  },
+  // myEventListener: function (e) {
+  //   this.setData({ showVideo: true })
+  // },
   getUser(){
     var that=this;
     wx.request({
@@ -153,6 +152,10 @@ Page({
     })
   },
   getEwm(){
+    wx.showLoading({
+      title: '获取数据',
+      mask: true,
+    });
     var that=this;
     wx.request({
       url: 'https://spapi.centaline.com.cn/api/Rotate/GetWxQRcode',
@@ -167,6 +170,10 @@ Page({
           that.setData({
             ewm:res.data.message
           })
+          setTimeout(function(){
+            that.getSharePoster(); 
+          },10)
+          
         }else{
           wx.showToast({
             title: '网络异常,请稍后~',

@@ -137,5 +137,12 @@ Page({
         }
       }
     })
+  },
+  goActive(e) {
+    var that = this;
+    var id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '../active/active?Id=' + id,
+    })
   }
 })

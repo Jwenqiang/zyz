@@ -80,8 +80,8 @@ image.hg {
   width: 44rpx;
   height: 35rpx;
   position: absolute;
-  left: 30rpx;
-  top: -24rpx;
+  left: 32rpx;
+  top: -22rpx;
 }
 .bk{
   border: 4rpx solid #ffc700;

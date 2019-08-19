@@ -14,10 +14,10 @@
     </view>
   </view>
   <view class="list">
-    <view class="section" wx:for="{{list}}" wx:key="{{index}}">
+    <view class="section" wx:for="{{list}}" wx:key="{{index}}" wx:if="{{list.length>0}}">
       <view class="sect has" wx:if="{{item.Settlement}}">已发放</view>
       <view class="sect nohas" wx:else>待发放</view>
-      <view class="secb">
+      <view class="secb" bindtap="goActive" data-id="{{item.RotateId}}">
         <image src="{{item.MainImg}}"></image>
         <view class='hifMsg'>
           <text class="name">{{item.Title}}</text>

@@ -13,9 +13,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    hasData:false,
     wxcode:"",
     isOld:false, 
-    activeId:5, 
+    activeId:0, 
     oneId:0,
     secondId:0,
     shareOneId: 0,
@@ -28,6 +29,7 @@ Page({
     active:{},
     datetime: {},
     isActive:true,
+    isShare:false,
 
     color: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
     //奖品金额
@@ -42,13 +44,15 @@ Page({
     utoken: "",
     uid: "",
     role: "",
-    mobile:""
+    mobile:"",
+    secondCj:false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
+    console.log(e);
     if(e.Id){
       if(e.Id.indexOf(",")<0){
         this.setData({
@@ -57,6 +61,7 @@ Page({
       }else{
         var arr=e.Id.split(",");
         this.setData({
+          isShare:true,
           activeId: arr[0],
           oneId: arr[1],
           secondId: arr[2],
@@ -73,7 +78,7 @@ Page({
     //     secondId: e.StartUserId
     //   })
     // }       
-      
+      this.getCode();
   },
 
   /**
@@ -88,11 +93,10 @@ Page({
    */
   onShow: function () {
     var that=this;
-    var that = this;
     wx.getStorage({
       key: 'userInfo',
       success: function (res) {
-        if (res.data.HeadImg != '' && res.data.HeadImg != null && res.data.NickName != '' && res.data.NickName != null) {
+        if (res.data.HeadImg != '' && res.data.HeadImg != null && res.data.NickName != '' && res.data.NickName != null)         {
           that.setData({
             utoken: res.data.Token,
             uid: res.data.UserId,
@@ -100,13 +104,16 @@ Page({
             mobile: res.data.Mobile,
             show: false
           })
+          setTimeout(function () {
+            that.getCj();
+          }, 10)          
           if (res.data.RoleType == 5 || res.data.RoleType == 4) {//是经纪人
             that.setData({
               shareOneId: res.data.UserId,
               shareSecondId: res.data.UserId,
             })
           } else {//不是经纪人
-            if (that.data.activeId) {
+            if (that.data.oneId>0) {
               that.setData({
                 shareOneId: that.data.oneId,
                 shareSecondId: res.data.UserId,
@@ -118,9 +125,6 @@ Page({
               })
             }
           }
-          setTimeout(function () {
-            that.getCj();
-          }, 10)
         }else{
           that.setData({
             show:true
@@ -171,7 +175,12 @@ Page({
       title: this.data.shareTitle,
       path: '/pages/active/active?Id=' + this.data.activeId +","+ this.data.shareOneId + "," + this.data.shareSecondId
     }
-  
+
+  },
+  goIndex(){
+    wx.switchTab({
+      url: '../index/index',
+    })
   },
   animation(){
     // 显示遮罩层 
@@ -213,7 +222,7 @@ Page({
     var that = this;
     setInterval(function () {
       setTimeout(function () {
-        animation.translateX(-200).step()
+        animation.translateX(-220).step()
         animation.opacity(1).step()
         that.setData({
           animationData1: animation.export(),
@@ -225,8 +234,8 @@ Page({
             animationData1: animation.export()
           })
         }.bind(this), 1000)
-      }, 1000)
-    }, 3500)
+      }, 2000)
+    }, 3000)
 
   },  
   goHb(){
@@ -597,6 +606,9 @@ Page({
       mask: true
     })    
     var that=this;
+    console.log(that.data.activeId);
+    console.log(that.data.oneId);
+    console.log(that.data.secondId);
     wx.request({
       url: 'https://spapi.centaline.com.cn/api/Rotate/GetRotateById',
       method:"post",
@@ -615,12 +627,14 @@ Page({
             house:res.data.data,
             shareTitle: res.data.data.ShareTitle,
             active: res.data.data.RotateUserAmount,
-            bzHouse: { EndTime: res.data.data.EndTime}
+            bzHouse: { EndTime: res.data.data.EndTime},
+            hasData:true,
           })
-          // if (res.data.data.RotateStartUserAmountList.length > 0){
-          //   that.animation();
-          //   that.animation1();
-          // }
+          console.log(res.data.data.RotatePhone);
+          if (res.data.data.RotateStartUserAmountList.length > 0){
+            that.animation();
+            that.animation1();
+          }
           // 设计定时器
           that.setData({
             timer: setInterval(function () {
@@ -636,7 +650,8 @@ Page({
             })
             if (res.data.data.RotateAmountType == 1) {
               that.setData({
-                isHas: true
+                isHas:true,
+                secondCj: true
               })
             } else if (res.data.data.RotateAmountType == 2) {//转盘抽奖
               that.setData({
@@ -689,7 +704,8 @@ Page({
         if(res.data.code==1001){
           that.setData({
             isOld: false
-          })          
+          }) 
+          that.getCj();         
         }else{
           wx.showToast({
             title: '网络异常,请稍后~',
