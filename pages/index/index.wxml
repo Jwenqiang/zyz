@@ -10,9 +10,9 @@
       <view class="outer secT">
           <label class="secNum"><block wx:if="{{item.RotateStartUserAmountList.length>0}}">{{item.RotateStartUserAmountList.length}}</block><block wx:else>0</block>人已参与！</label>
         <!-- 倒计时 -->
-          <view class='xjDate' wx:if="{{item.djs}}"><label style="color:#999">距离结束：</label><text>{{filter.dTime(item.djs)[1]}}</text>时<text>{{filter.dTime(item.djs)[2]}}</text>分<text>{{filter.dTime(item.djs)[3]}}</text>秒
+          <view class='xjDate' wx:if="{{item.djs}}"><label>距离结束：</label><text>{{filter.dTime(item.djs)[1]}}</text>时<text class="rect">{{filter.dTime(item.djs)[2]}}</text>分<text class="rect">{{filter.dTime(item.djs)[3]}}</text>秒
           </view>
-          <view class='xjDate' wx:else><label style="color:#999">距离结束：</label><text>0</text>时<text>0</text>分<text>0</text>秒</view>          
+          <view class='xjDate' wx:else><label>距离结束：</label><text>0</text>时<text>0</text>分<text>0</text>秒</view>          
       </view>
       <view class="secMsg">
         <view class="secImg">
@@ -25,8 +25,8 @@
           <view class="secTip">{{item.SecondTitle}}</view>  
           <view class="outer secP">
             <view class="spl">
-              <view class="price">总奖金<text class="mainNum">{{item.TotalAmount}}</text><label style="font-size:32rpx;font-weight:400;color:#ff4631">元</label></view>
-              <progress percent="{{(item.TotalAmountAlready/item.TotalAmount)*100}}" border-radius="10" color='#ff9087' stroke-width="4"/><text style="color:#666;font-size:24rpx">已抢{{item.TotalAmountAlready}}元</text>
+              <view class="price">总奖金<text class="mainNum">{{item.TotalAmount}}</text><label style="font-weight:400;color:#ff4631">元</label></view>
+              <progress percent="{{(item.TotalAmountAlready/item.TotalAmount)*100}}" border-radius="10" color='#ff9087' stroke-width="4"/><text style="color:#999;font-size:24rpx" wx:if="{{item.TotalAmountAlready<item.TotalAmount}}">已抢{{item.TotalAmountAlready}}元</text><text style="color:#999;font-size:24rpx" wx:else>已抢光</text>
             </view>
             <view class="spr">
               <button wx:if="{{item.StateTerm==1}}" class="over">活动未开始</button>

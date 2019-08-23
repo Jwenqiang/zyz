@@ -5,7 +5,7 @@ page,.page{width: 100%;min-height: 100%;font-size: 28rpx;color: #333}
 .outer { zoom:1; } /*为了兼容性，因为ie6/7不能使用伪类，所以加上此行代码。*/
 .outer:after { clear:both;content:'.';display:block;width:0;height:0;visibility:hidden; }
 .red{color: #ff0000;margin: 0 4rpx}
-.h1{font-size: 44rpx;color: #000;font-weight: bold}
+.h1{font-size: 46rpx;color: #000;font-weight: bold}
 .h2{font-size: 40rpx;color: #000;font-weight: bold}
 .h3{font-size: 36rpx;color: #000;font-weight: bold}
 .h3{font-size: 32rpx;color: #000;font-weight: bold}
@@ -17,8 +17,8 @@ image{height: 100%;width: 100%}
 /* 弹窗 */
 .show{position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 9995;transition: all 1s ease}
 .bj{width: 100%;height: 100%;background: #000;opacity: 0.5;z-index: 9996}
-.showMsg{position: fixed;top: 20%;left: 80rpx;height: 500rpx;width: 590rpx;background: #fff;z-index: 9997;border-radius: 6px;box-sizing: border-box;padding: 80rpx 60rpx 40rpx}
+.showMsg{position: fixed;top: 20%;left: 80rpx;height: 500rpx;width: 590rpx;background: #fff;z-index: 9997;border-radius: 30rpx;box-sizing: border-box;padding: 80rpx 60rpx 40rpx}
 .showBtn{margin-top: 80rpx;width: 100%;}
-.showBtn button{border: none;width: 180rpx;display: inline-block;float: left;height: 80rpx;line-height: 80rpx;font-size: 32rpx;background: #fe796f;color: #fff}
+.showBtn button{border: none;width: 200rpx;display: inline-block;float: left;height: 80rpx;line-height: 80rpx;font-size: 32rpx;background: #fe483a;color: #fff;border-radius: 20px}
 .mstip{line-height: 60rpx}
-.showBtn button:last-child{float: right;background: #3f72ff}
+.showBtn button:last-child{float: right;background: #999}

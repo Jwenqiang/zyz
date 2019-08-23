@@ -62,6 +62,7 @@ Page({
             isJjr: res.data.RoleType,
             check: res.data.MobileDisplayBl,
           })
+          console.log(that.data.isJjr);
         }
       },
     })
@@ -207,7 +208,7 @@ Page({
   },
   //通过绑定手机号登录
   getPhoneNumber: function (e) {
-    console.log(e);
+    console.log(this.data.wxcode);
     var ivObj = e.detail.iv
     var telObj = e.detail.encryptedData;
     var that = this;

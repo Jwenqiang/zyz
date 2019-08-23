@@ -17,17 +17,6 @@ Page({
       title: '加载中'
     })       
 
-
-  },
-  onShow(){
-    // 底部tabbar
-    if (typeof this.getTabBar === 'function' &&
-      this.getTabBar()) {
-      this.getTabBar().setData({
-        selected: 0
-      })
-    }  
-
     var p1 = this.getBanner();
     var p2 = this.getData();
     var that = this;
@@ -42,11 +31,40 @@ Page({
       })
       setTimeout(function () { wx.hideLoading(); }, 300)
     })
-    .catch(function (error) {
-      console.log(error)
-    })
+      .catch(function (error) {
+        console.log(error)
+      })
+  },
+  onShow(){
+    // 底部tabbar
+    if (typeof this.getTabBar === 'function' &&
+      this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 0
+      })
+    }  
 
   },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    var that = this;
+    wx.stopPullDownRefresh();
+    //显示动画
+    wx.showNavigationBarLoading();
+    that.setData({
+      ptotal: 0,
+      pidx: 2,
+      pval: "",
+      no: false      
+    })
+    that.getData();
+    setTimeout(function () {
+      //隐藏动画
+      wx.hideNavigationBarLoading()
+    }, 500)
+  },  
   /**
    * 页面上拉触底事件的处理函数
    */

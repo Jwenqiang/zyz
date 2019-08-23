@@ -20,7 +20,7 @@ module.exports.toHide = toHide;
       <label>昵称</label>
       <view class='outer uName'>
         <text class='iconfont icon-right' style='float:right;font-weight:400;font-size:24rpx;margin-left:10rpx;color:#ccc'></text>
-        <input type='text' value='{{name}}' bindblur='setName' maxlength="5"></input>
+        <input type='text' value='{{name}}' bindblur='setName' maxlength="8"></input>
       </view>
     </view>   
     <view class='hr10'></view>    

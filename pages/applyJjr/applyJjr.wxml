@@ -2,12 +2,11 @@
   <view class="outer top">
     <label class="tx"><image src="/img/tx3.png" wx:if="{{userTx==''||userTx==null}}"></image><image src="{{userTx}}" wx:else></image></label>
     <view class="name">
-      <label wx:if="{{userName==''||userName==null}}">转转</label>
-      <label wx:else>{{userName}}</label>
+      <label wx:if="{{userName==''||userName==null}}"><text class="nick">转转用户</text><image src="/img/icon-rz.png" class="rz" wx:if="{{role==5}}"></image></label>
+      <label wx:else><text class="nick">{{userName}}</text><image src="/img/icon-rz.png" class="rz" wx:if="{{role==5}}"></image></label>
       <text wx:if="{{role!=5}}">暂未升级为经纪人</text>
       <view wx:else>
         <text>您已升级为经纪人</text>
-        <image src="/img/icon-rz.png" class="rz"></image>
       </view>
     </view>
   </view>
@@ -37,11 +36,11 @@
       </view> 
       <view class="ok">
         <button class="btn" bindtap="rz" wx:if="{{role!=5}}">立即成为经纪人</button>   
-        <button class="btn" bindtap="rz" wx:else>重新认证</button>   
+        <button class="btn" bindtap="rz" wx:else>重新提交认证</button>   
       </view> 
       <view class="hr20"></view>
       <view class="qxTip">
-        <view class="h3">经纪人权限</view>
+        <view class="h2">经纪人权限</view>
         <view class="qxMsg">
           <rich-text nodes="{{msg}}"></rich-text>
         </view>

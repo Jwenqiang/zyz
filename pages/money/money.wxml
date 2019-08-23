@@ -43,7 +43,7 @@
         <label>350</label>
       </view> -->
       <!-- 无数据时 -->
-      <view wx:if="{{moneyList.length==0}}" style="text-align:center;padding-top:500rpx;background:url(http://hfugweb.centaline.com.cn/img/smallR/img/noMsg.png) center no-repeat;background-size:320rpx;color:#999">
+      <view wx:if="{{moneyList.length==0}}" style="text-align:center;padding-top:500rpx;background:url(https://hfugweb.centaline.com.cn/img/smallR/rotate/none.png) center no-repeat;background-size:320rpx;color:#999">
         <text>暂无奖金记录</text>
       </view>        
     </view>

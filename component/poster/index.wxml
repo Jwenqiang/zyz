@@ -5,7 +5,7 @@
     <canvas canvas-id="myCanvas" style="width:100%;height:{{imgHeight}}px;" />
   </view>
 </view>
-<cover-view class='close-poste'>
+<cover-view class='close-poste' wx:if="{{save}}">
   <!-- <image src='/img/dele.png' catchtap='closePoste'></image> -->
   <button catchtap='saveShareImg'>保存到相册</button>
 </cover-view>

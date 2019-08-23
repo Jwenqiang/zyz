@@ -1,5 +1,8 @@
 /* pages/active/active.wxss */
-
+button::after{
+  border: none;
+  content: none;
+}
 .partOne, .partTwo, .partThird, .partFour, .partFive, .partSix {
   padding: 0 40rpx;
   text-align: center;
@@ -47,7 +50,8 @@
   background: linear-gradient(to bottom right, #2d56fa, #4274ef); /* 标准语法 */
   border-radius: 30px;
   z-index: 8;
-  opacity: 1;
+  opacity: 0;
+  transform: translateX(-200rpx)
 }
 
 .floatArea1 {
@@ -138,15 +142,17 @@
   border: 4px solid #f8a88e;
   border-radius: 8px;
   box-sizing: border-box;
-  padding: 40rpx;
+  padding: 30rpx 40rpx 40rpx;
+  position: relative
 }
 
 .taskTitle {
-  font-size: 30rpx;
+  font-size: 32rpx;
   font-weight: bold;
-  margin-bottom: 40rpx;
+  margin-bottom: 20rpx;
+  text-align: left
 }
-
+progress{border:  1px solid #b2e0de;border-radius: 20rpx}
 .taskTitle label {
   font-size: 60rpx;
   color: #ff4631;
@@ -200,7 +206,7 @@
 .msgTip {
   font-size: 24rpx;
   color: #999;
-  margin-top: 10rpx;
+  margin-top: 20rpx;
   width: 100%;
   text-align: left;
 }
@@ -211,33 +217,40 @@
 }
 
 .time {
-  margin-top: 40rpx;
+  /* margin-top: 20rpx; */
+  width: 100%;
+  position: absolute;
+  bottom: 30rpx;
+  left: 0
 }
 
 .timeT {
   font-size: 28rpx;
   font-weight: bold;
-  margin-bottom: 40rpx;
+  margin-bottom: 30rpx;
 }
 
 .xjDate {
   clear: both;
   font-size: 28rpx;
-  font-weight: bold;
-  color: #333;
+  color: #999;
   /* width: 430rpx;
   text-align: right; */
 }
 
 .xjDate text {
   background: #000;
-  padding: 4rpx 8rpx;
+  padding: 0 8rpx;
   color: #fff;
   margin: 0 10rpx;
   border-radius: 3px;
   font-size: 34rpx;
   font-weight: bold;
+  display: inline-block;
+  height: 52rpx;
+  line-height: 52rpx;  
 }
+.xjDate text.rect{width: 58rpx;padding: 0}
 
 .partFour {
   height: 478rpx;
@@ -261,7 +274,7 @@
   font-weight: bold;
   height: 42rpx;
   line-height: 42rpx;
-  margin-bottom: 60rpx;
+  margin-bottom: 80rpx;
 }
 
 .goF {
@@ -298,6 +311,7 @@
   float: left;
   margin-left: 60rpx;
   position: relative;
+  text-align: center
 }
 
 .pm image.tx {
@@ -307,7 +321,7 @@
 
 .partFive .no1 {
   /* width: 130rpx; */
-  top: -30rpx;
+  top: -24rpx;
 }
 
 .no1 image.tx {
@@ -318,17 +332,17 @@
 
 image.hg {
   width: 44rpx;
-  height: 35rpx;
+  height: 27rpx;
   position: absolute;
   left: 32rpx;
-  top: -32rpx;
+  top: -19rpx;
 }
 
 image.hg1 {
   width: 54rpx;
-  height: 42rpx;
+  height: 35rpx;
   left: 42rpx;
-  top: -40rpx;
+  top: -28rpx;
 }
 
 .pm label {
@@ -343,15 +357,15 @@ image.hg1 {
   text-align: center;
   background: #8798a8;
   color: #fff;
-  font-weight: bold;
+  font-size: 20rpx
 }
 
 .no1 label {
-  width: 46rpx;
-  height: 46rpx;
-  line-height: 46rpx;
-  left: 45rpx;
-  top: 90rpx;
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  left: 49rpx;
+  top: 96rpx;
   background: #fdb027;
 }
 
@@ -362,6 +376,8 @@ image.hg1 {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  height: 60rpx;
+  line-height: 60rpx
 }
 
 .partSix {
@@ -399,9 +415,8 @@ image.hg1 {
   height: 84rpx;
   line-height: 84rpx;
   width: 670rpx;
-  margin: 40rpx;
+  margin: 40rpx 40rpx 20rpx;
   background: #f8f5ce;
-  margin-top: 40rpx;
   border-radius: 10rpx;
   padding: 0 20rpx;
   box-sizing: border-box;
@@ -460,6 +475,7 @@ button.goTq::after{border: 0}
   padding: 10rpx 40rpx;
   box-sizing: border-box;
   background: #fff;
+  border-top: 1px solid #ededed
 }
 
 .footBar image {
@@ -511,6 +527,7 @@ button.goTq::after{border: 0}
   background: linear-gradient(to bottom right, #23a09a, #3acac3); /* 标准语法 */
   border: 0;
   color: #fff;
+  font-weight: bold
 }
 .fbtn button:last-child {
   margin: 0;
@@ -550,7 +567,7 @@ page,.cj{height: 100%}
   justify-content: space-between;
   padding: 260rpx 0 0;
   box-sizing: border-box;
-  background: #170e47;
+  background: #000;
 } 
 .top{font-size: 28rpx;color: #666;text-align: center;width: 100%;margin-bottom: 20rpx}
 .top image{width: 100%}
@@ -572,7 +589,7 @@ page,.cj{height: 100%}
 }
 .bonus .h3{margin-bottom: 60rpx}
 .bonus button{width: 300rpx;height: 80rpx;line-height: 76rpx; background: #5285ff;color: #fff;border-radius: 20px;border: 1px solid #5285ff;margin-top: 120rpx}
-.tip{font-size: 28rpx;color: #999;margin-top: 20rpx}
+.tip{font-size: 28rpx;color: #999;margin-top: 40rpx}
 .frame_view{
   bottom: 160rpx;
   left: 60rpx;
@@ -616,7 +633,7 @@ page,.cj{height: 100%}
 .frame_item label text{font-size: 44rpx;font-weight: bold}
 
 .showMsg{width:568rpx;height: 650rpx;left: 91rpx;padding: 40rpx;text-align: center}
-.show .title{font-size: 42rpx;color: #fff;text-align: center;font-weight: bold;margin-bottom: 10rpx}
+.show .title{font-size: 46rpx;color: #fff;text-align: center;font-weight: bold;margin-bottom: 10rpx}
 .show_tip{color: #fdcabe;}
 .show_rect{width: 100%;height: 136rpx; box-sizing: border-box;margin-top: 40rpx;color: #fff;text-align: center;border-radius: 10rpx;position: relative}
 .sbj{width: 100%;height: 100%;position: absolute; left: 0;top: 0;background: #f08241;border-radius: 10rpx;opacity: 0.6;z-index: 9998}
@@ -624,22 +641,12 @@ page,.cj{height: 100%}
 .show_rect label{display: block;margin-bottom: 20rpx}
 .show_rect label:last-child{margin: 0}
 
-.show_btn{height: 80rpx;width: 84%;line-height: 80rpx;background: #f8cc37;margin: 200rpx auto 0;display: block;border-radius: 40rpx;color: #ff442d;font-weight: bold}
+.show_btn{height: 88rpx;width: 84%;line-height: 88rpx;background: #f8cc37;margin: 200rpx auto 0;display: block;border-radius: 40rpx;color: #ff442d;font-weight: bold;font-size: 34rpx}
 
 .gohome {
-  box-sizing: border-box;
-    padding-top: 60rpx;
-    line-height: 1;
-    font-size: 20rpx;
-    color: #59a0f9;
-    display: block;
-    box-shadow: 0 3px 10px #e2e4ea;
-    border-radius: 50%;
     bottom: 400rpx;
-    height: 100rpx;
-    right: 40rpx;
-    text-align: center;
-    width: 100rpx;
-    position: fixed;
-    z-index: 999;    
 }
+.gohome .iconfont{
+font-size: 50rpx
+}
+.hover{background: #ccad44 !important}

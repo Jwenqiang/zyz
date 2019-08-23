@@ -11,13 +11,13 @@ Component({
     selectedColor: "#ff4631",
     list: [{
       pagePath: "/pages/index/index",
-      iconPath: "/img/fx.png",
-      selectedIconPath: "/img/fx1.png",
-      text: "发现"
+      iconPath: "/img/zyz.png",
+      selectedIconPath: "/img/zyz1.png",
+      text: "转一转"
     }, {
         pagePath: "/pages/my/my",
-        iconPath: "/img/my.png",
-        selectedIconPath: "/img/my1.png",
+        iconPath: "/img/wd.png",
+        selectedIconPath: "/img/wd1.png",
         text: "我的"
       }]
   },

@@ -7,6 +7,7 @@
     "pages/money/money",    
         
     "pages/my/my",
+    "pages/mclick/mclick",
     "pages/active/active",    
     "pages/first/first",
     
@@ -49,9 +50,9 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "img/home.png",
-        "selectedIconPath": "img/home1.png",
-        "text": "发现"
+        "iconPath": "img/zyz.png",
+        "selectedIconPath": "img/zyz1.png",
+        "text": "转一转"
       },
       {
         "pagePath": "pages/my/my",

@@ -10,12 +10,11 @@ module.exports.toHide = toHide;
     <image src="/img/mbj.png" class="mbj"></image>
     <view class="msg">
       <view class="outer topA" wx:if="{{isLogin}}">
-        <label class="tx"><image src="/img/tx3.png" wx:if="{{userTx==''||userTx==null}}"></image><image src="{{userTx}}" wx:else></image></label>
+        <label class="tx"><image src="/img/tx3.png" wx:if="{{userTx==''||userTx==null}}"></image><image src="{{userTx}}"  mode='aspectFill' wx:else></image></label>
         <view class="name">
           <label wx:if="{{userName==''||userName==null}}">转转用户</label>
-          <label wx:else>{{userName}}</label>
+          <label wx:else><text class="nick">{{userName}}</text><image src="/img/icon-rz.png" class="rz" wx:if="{{isJjr==5}}"></image></label>
           <text wx:if="{{hasNum}}">{{phone.toHide(mobile)}}</text>
-          <image src="/img/icon-rz.png" class="rz" wx:if="{{isJjr==5}}"></image>
         </view>
         <view class="edit" bindtap="goMyself" wx:if="{{hasNum}}">
           <text class='iconfont icon-bianji'></text>
@@ -75,7 +74,9 @@ module.exports.toHide = toHide;
 <view class="show" wx:if="{{show}}">
   <view class="bj"></view>
   <view class="showMsg">
-    <view class="mstip">开启该功能可保证您分享出去的活动均带您的电话号码，客户可直接联系您，是重要拓客途径，确定关闭吗？</view>
+    <view class="mstip">开启该功能可保证您分享出去的活动展示您的电话号码,客户可直接联系您,是重要拓客途径。
+     <label style="display:block">确定关闭吗？</label> 
+    </view>
     <view class="showBtn">
       <button bindtap="confim">确定</button>
       <button bindtap="cancel">取消</button>

@@ -10,6 +10,7 @@
     <view class="acMsg">
       <image src="{{house.DetailImg}}"></image>
     </view>
+
     <view class="floatArea" animation="{{animationData}}" bindtap="goMoney"  wx:if="{{house.RotateStartUserAmountList[0].Amount>0}}">
       <view class="user">
         <image src="{{house.RotateStartUserAmountList[0].StartHeadImg}}"></image>
@@ -20,7 +21,7 @@
       </view>
     </view>   
 
-    <view class="floatArea1" animation="{{animationData1}}" wx:if="{{house.RotateStartUserAmountList[1].Amount>0}}">
+    <view class="floatArea" animation="{{animationData1}}" wx:if="{{house.RotateStartUserAmountList[1].Amount>0}}">
       <view class="user">
         <image src="{{house.RotateStartUserAmountList[1].StartHeadImg}}"></image>
         <view class="fl areaMsg">
@@ -28,17 +29,50 @@
           <label class="money">已得<text>{{house.RotateStartUserAmountList[1].Amount}}元</text></label>
         </view>
       </view>
-    </view>       
+    </view> 
+
+    <view class="floatArea" animation="{{animationData2}}" wx:if="{{house.RotateStartUserAmountList[2].Amount>0}}">
+      <view class="user">
+        <image src="{{house.RotateStartUserAmountList[2].StartHeadImg}}"></image>
+        <view class="fl areaMsg">
+          <label class="name">{{house.RotateStartUserAmountList[2].StartNickName}}</label>
+          <label class="money">已得<text>{{house.RotateStartUserAmountList[2].Amount}}元</text></label>
+        </view>
+      </view>
+    </view> 
+
+    <view class="floatArea" animation="{{animationData3}}" wx:if="{{house.RotateStartUserAmountList[3].Amount>0}}">
+      <view class="user">
+        <image src="{{house.RotateStartUserAmountList[3].StartHeadImg}}"></image>
+        <view class="fl areaMsg">
+          <label class="name">{{house.RotateStartUserAmountList[3].StartNickName}}</label>
+          <label class="money">已得<text>{{house.RotateStartUserAmountList[3].Amount}}元</text></label>
+        </view>
+      </view>
+    </view> 
+
+    <view class="floatArea" animation="{{animationData4}}" wx:if="{{house.RotateStartUserAmountList[4].Amount>0}}">
+      <view class="user">
+        <image src="{{house.RotateStartUserAmountList[4].StartHeadImg}}"></image>
+        <view class="fl areaMsg">
+          <label class="name">{{house.RotateStartUserAmountList[4].StartNickName}}</label>
+          <label class="money">已得<text>{{house.RotateStartUserAmountList[4].Amount}}元</text></label>
+        </view>
+      </view>
+    </view> 
+
+
+
   </view>
   <view class="partThird" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part3.png') center no-repeat;background-size:100%" wx:if="{{active!=null}}">
     <view class="title"><image src="/img/icon-title.png"></image> 我的任务 <image src="/img/icon-title.png"></image></view>
     <view class="myTask">
-      <view class="taskTitle">你最高可获得<label>{{active.UserMaxAmount}}</label><text>元</text>,已获得<label>{{active.Amount}}</label><text>元</text></view>
+      <view class="taskTitle">你最高可获得<label>{{active.UserMaxAmount}}</label><text>元</text>，已获得<label>{{active.Amount}}</label><text>元</text></view>
       <view class="lineNum"><label class="fl">0元</label><label class="fr">{{active.UserMaxAmount}}元</label></view>
       <!-- 活动进行中 -->
       <view class="proLine" wx:if="{{house.StateTerm==2}}">
-        <progress percent="{{active.Amount/active.UserMaxAmount*100}}" border-radius="10" backgroundColor='#c3f3f1' activeColor="#3dcac3" stroke-width="8"/>
-        <view class="tipNum" style="left:{{active.Amount/active.UserMaxAmount*100-7}}%">
+        <progress percent="{{active.Amount/active.UserMaxAmount*100}}" border-radius="10" backgroundColor='#c3f3f1' activeColor="#3dcac3" stroke-width="10"/>
+        <view class="tipNum" style="left:{{active.Amount/active.UserMaxAmount*100-6.5}}%">
           <label>{{active.Amount}}元</label>
           <view class="point"></view>
         </view>
@@ -51,13 +85,14 @@
         </view>
       </view>      
       <view class="msgTip">
-        单次有效点击<text>{{house.EveryTimeAmount}}元</text>,还需要<text>{{active.NeedUserClick}}</text>位好友助力
+        <label style="display:block;margin-bottom:10rpx;" wx:if="{{house.StartClickNumber>0}}">起始点击数<text>{{house.StartClickNumber}}</text>次，起始奖金<text>{{house.StartClickAmount}}</text>元</label>
+        单次有效点击<text>{{house.EveryTimeAmount}}</text>元，还需要<text>{{active.NeedUserClick}}</text>位好友助力
       </view>
       <view class="time">
         <view class="timeT">- 活动倒计时 - </view>
         <!-- 倒计时 -->
         <view class='xjDate' wx:if="{{bzHouse.djs}}">
-        <text>{{filter.dTime(bzHouse.djs)[1]}}</text>:<text>{{filter.dTime(bzHouse.djs)[2]}}</text>:<text>{{filter.dTime(bzHouse.djs)[3]}}</text>
+        <text>{{filter.dTime(bzHouse.djs)[1]}}</text>时<text class="rect">{{filter.dTime(bzHouse.djs)[2]}}</text>分<text class="rect">{{filter.dTime(bzHouse.djs)[3]}}</text>秒
         </view>  
         <view class='xjDate' wx:else><label style="color:#999">距离结束：</label><text>0</text>时<text>0</text>分<text>0</text>秒</view>      
       </view>
@@ -69,9 +104,15 @@
       <view class="uClick">已获得{{house.RotateHelpUserClickList.length}}次有效点击<text class="goF" bindtap="goFriend" data-id="1" wx:if="{{house.RotateHelpUserClickList.length>0}}">查看全部 ></text></view>
       <view class="outer utx uclick">
       <block wx:for="{{house.RotateHelpUserClickList}}" wx:key="{{index}}" wx:if="{{house.RotateHelpUserClickList.length>0}}">   
-        <image src="{{item.HeadImg}}" class="tx" wx:if="{{index<5}}" style="display:inline-block"></image>
+        <image src="{{item.HeadImg}}" class="tx" wx:if="{{index<5}}" style="display:inline-block;float:left"></image>
       </block>
-        <text wx:if="{{house.RotateHelpUserClickList.length<1}}">暂无有效点击~</text>
+        <!-- <text wx:if="{{house.RotateHelpUserClickList.length<1}}">暂无有效点击~</text> -->
+
+  <view wx:if="{{house.RotateHelpUserClickList.length<1}}" style="text-align:center;padding-top:90rpx;background:url(https://hfugweb.centaline.com.cn/img/smallR/rotate/none.png) center top no-repeat;background-size:200rpx;color:#999">
+    <text style="font-size:22rpx">暂无有效点击~</text>
+  </view> 
+
+
       </view>
     </view>
   </view>
@@ -98,7 +139,12 @@
           <label>3</label>
           <text>{{house.RotateStartUserAmountList[2].StartNickName}}</text>
         </view> 
-        <text wx:if="{{house.RotateStartUserAmountList.length==0}}">暂无排名~</text>               
+        <!-- <text wx:if="{{house.RotateStartUserAmountList.length==0}}">暂无排名~</text>                -->
+  <view wx:if="{{house.RotateStartUserAmountList.length==0}}" style="text-align:center;padding-top:90rpx;background:url(https://hfugweb.centaline.com.cn/img/smallR/rotate/none.png) center top no-repeat;background-size:200rpx;color:#999">
+    <text style="font-size:22rpx">暂无排名~</text>
+  </view> 
+
+
       </view>
     </view>    
   </view>
@@ -159,20 +205,20 @@
     <image src="/img/noQ.png"></image>
     <text>下次早点来哦，活动已结束了~</text>
   </view>
-  <button class="go">去看看其他活动</button>
+  <button class="go" catchtap="goIndex">去看看其他活动</button>
 </view>
 
 
 <!-- 弹窗 -->
-<view class="show" wx:if="{{house.TotalAmountEnd==false}}">
-  <view class="bj"></view>
+<view class="show" wx:if="{{house.TotalAmountEnd==false&&showF}}">
+  <view class="bj" catchtap="closeShow"></view>
   <view class="showMsg" style="background:#fff;height:400rpx;padding-top:80rpx;font-weight:bold;font-size:36rpx;">
     <view style="margin-bottom:40rpx;">你来晚啦</view>
     该活动总奖金已被瓜分完了~
   </view>
 </view>
-
-  <view class="gohome" style='background: #fff url(http://hfugweb.centaline.com.cn/img/smallR/img/gh.png) center 20% no-repeat;background-size: 44rpx;' bindtap='goIndex' wx:if="{{isShare}}">首页</view> 
+<!--  wx:if="{{isShare&&house.State!=2}}" -->
+  <view class="fixPhone gohome" bindtap='goIndex' wx:if="{{isShare&&house.State!=2}}"><text class="iconfont icon-zhuye"></text></view> 
 
 </view>
 <!-- 抽奖 -->
@@ -202,12 +248,12 @@
   </view>
   <view class="bonus" wx:if="{{isHas&&secondCj==false}}">
     <view class="h3">恭喜您</view>
-    <view>抽取：最高可获得<text class="red">{{money[luckPosition].Amount}}</text>元奖金资格</view>
+    <view>获得<text class="red">{{money[luckPosition].Amount}}</text>元（最高）奖金资格</view>
     <button catchtap="setMoney" data-num="{{money[luckPosition].Amount}}">确定</button>
   </view>
   <view class="bonus" wx:if="{{secondCj}}">
     <view class="h3">恭喜您</view>
-    <view>抽取：最高可获得<text class="red">{{house.UserMaxAmount}}</text>元奖金资格</view>
+    <view>获得<text class="red">{{house.UserMaxAmount}}</text>元（最高）奖金资格</view>
     <button catchtap="setMoney" data-num="{{house.UserMaxAmount}}">确定</button>
   </view>  
 </view>
@@ -228,6 +274,6 @@
         <label>使用您的公开信息（头像、昵称等）</label>      
       </view>
     </view>
-    <button class="show_btn" open-type="getUserInfo" bindgetuserinfo	="getUserInfo">进入活动</button>
+    <button class="show_btn" open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover">进入活动</button>
   </view>
 </view>

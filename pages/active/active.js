@@ -23,6 +23,10 @@ Page({
     shareSecondId: 0,
     shareTitle:"",
     animationData: {},
+    animationData1: {},
+    animationData2: {},
+    animationData3: {},
+    animationData4: {},
     timer: "",
     bzHouse: { EndTime:""},
     house:"",
@@ -30,7 +34,7 @@ Page({
     datetime: {},
     isActive:true,
     isShare:false,
-
+    showF:true,
     color: [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
     //奖品金额
     money: [],
@@ -53,31 +57,38 @@ Page({
    */
   onLoad: function (e) {
     console.log(e);
-    if(e.Id){
-      if(e.Id.indexOf(",")<0){
+    if (e.scene) {
+      let scene = decodeURIComponent(e.scene);
+      if (scene.indexOf(",") < 0) {
         this.setData({
-          activeId: e.Id
+          isShare: true,
+          activeId: scene
         })
-      }else{
-        var arr=e.Id.split(",");
+      } else {
+        var arr = scene.split(",");
         this.setData({
-          isShare:true,
+          isShare: true,
           activeId: arr[0],
           oneId: arr[1],
           secondId: arr[2],
-        })        
-      }
+        })
+      }  
     }
-    // if (e.OneStartUserId) {
-    //   this.setData({
-    //     oneId: e.OneStartUserId
-    //   })
-    // } 
-    // if (e.StartUserId) {
-    //   this.setData({
-    //     secondId: e.StartUserId
-    //   })
-    // }       
+    if(e.Id){
+          if(e.Id.indexOf(",")<0){
+            this.setData({
+              activeId: e.Id
+            })
+          }else{
+            var arr=e.Id.split(",");
+            this.setData({
+              isShare:true,
+              activeId: arr[0],
+              oneId: arr[1],
+              secondId: arr[2],
+            })        
+          }
+    }      
       this.getCode();
   },
 
@@ -171,6 +182,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
+    console.log('/pages/active/active?Id=' + this.data.activeId + "," + this.data.shareOneId + "," + this.data.shareSecondId)
     return {
       title: this.data.shareTitle,
       path: '/pages/active/active?Id=' + this.data.activeId +","+ this.data.shareOneId + "," + this.data.shareSecondId
@@ -182,62 +194,126 @@ Page({
       url: '../index/index',
     })
   },
-  animation(){
-    // 显示遮罩层 
+  am(){
     var animation = wx.createAnimation({
       duration: 800,
       timingFunction: "linear",
       delay: 0
     })
-    // this.animation = animation
-
-    var that=this;
-    setInterval(function () {   
-        setTimeout(function(){
-          animation.translateY(0).step()
-          animation.opacity(1).step()
-          that.setData({
-            animationData: animation.export(),
-          })
-          setTimeout(function () {
-            animation.translateY(-30).step()
-            animation.opacity(0).step()
-            that.setData({
-              animationData: animation.export()
-            })
-          }.bind(this), 1000)
-        },1000)       
-    }, 3000)
-
-  },
-  animation1() {
-    // 显示遮罩层 
-    var animation = wx.createAnimation({
-      duration: 800,
-      timingFunction: "linear",
-      delay: 0
-    })
-    // this.animation = animation
-
     var that = this;
-    setInterval(function () {
       setTimeout(function () {
-        animation.translateX(-220).step()
+        animation.translateX(0)
         animation.opacity(1).step()
         that.setData({
-          animationData1: animation.export(),
+          animationData: animation.export(),
         })
         setTimeout(function () {
-          animation.translateX(0).step()
+          animation.translateX(-200)
           animation.opacity(0).step()
           that.setData({
-            animationData1: animation.export()
+            animationData: animation.export()
           })
-        }.bind(this), 1000)
+        }, 2000)
+      }, 1000)
+  },
+  am1() {
+    // 显示遮罩层 
+    var animation = wx.createAnimation({
+      duration: 800,
+      timingFunction: "linear",
+      delay: 0
+    })
+    var that = this;
+    setTimeout(function () {
+      animation.translateX(0)
+      animation.opacity(1).step()
+      that.setData({
+        animationData1: animation.export(),
+      })
+      setTimeout(function () {     
+        animation.translateX(-200)
+        animation.opacity(0).step()
+        that.setData({
+          animationData1: animation.export()
+        })
       }, 2000)
-    }, 3000)
+    }, 1000)    
+  },
+  am2() {
+    // 显示遮罩层 
+    var animation = wx.createAnimation({
+      duration: 800,
+      timingFunction: "linear",
+      delay: 0
+    })
+    // this.animation = animation
+    var that = this;
+    setTimeout(function () {
+      animation.translateX(0)
+      animation.opacity(1).step()
+      that.setData({
+        animationData2: animation.export(),
+      })
+      setTimeout(function () {
+        animation.translateX(-200)
+        animation.opacity(0).step()
+        that.setData({
+          animationData2: animation.export()
+        })
+      }, 2000)
+    }, 1000) 
 
-  },  
+  },
+  am3() {
+    // 显示遮罩层 
+    var animation = wx.createAnimation({
+      duration: 800,
+      timingFunction: "linear",
+      delay: 0
+    })
+    // this.animation = animation
+    var that = this;
+    setTimeout(function () {
+      animation.translateX(0)
+      animation.opacity(1).step()
+      that.setData({
+        animationData3: animation.export(),
+      })
+      setTimeout(function () {
+        animation.translateX(-200)
+        animation.opacity(0).step()
+        that.setData({
+          animationData3: animation.export()
+        })
+      }, 2000)
+    }, 1000) 
+
+  },
+  am4() {
+    // 显示遮罩层 
+    var animation = wx.createAnimation({
+      duration: 800,
+      timingFunction: "linear",
+      delay: 0
+    })
+    // this.animation = animation
+    var that = this;
+    setTimeout(function () {
+      animation.translateX(0)
+      animation.opacity(1).step()
+      that.setData({
+        animationData4: animation.export(),
+      })
+      setTimeout(function () {
+        animation.translateX(-200)
+        animation.opacity(0).step()
+        that.setData({
+          animationData4: animation.export()
+        })
+      }, 2000)
+    }, 1000) 
+
+  },       
   goHb(){
     wx.navigateTo({
       url: '/pages/acHb/acHb?Id='+ this.data.activeId + "&OneStartUserId=" + this.data.shareOneId + "&StartUserId=" + this.data.shareSecondId,
@@ -338,7 +414,7 @@ Page({
     }, intime);
 
     //模拟网络请求时间  设为两秒
-    var stoptime = 2000;
+    var stoptime = 1000;
     setTimeout(function () {
       e.stop(e.data.luckPosition);
     }, stoptime)
@@ -397,7 +473,7 @@ Page({
       })
       //如果旋转时间过短或者当前位置不等于中奖位置则递归执行
       //直到旋转至中奖位置
-      if (time < 400 || index != which) {
+      if (time < 300 || index != which) {
         //越来越慢
         splittime++;
         time += splittime;
@@ -487,6 +563,7 @@ Page({
     var telObj = e.detail.encryptedData;
     var that = this;
     console.log(that.data.wxcode);
+    console.log(e);
     //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
     if (e.detail.errMsg == 'getUserInfo:fail auth deny') { //用户点击拒绝
       wx.showToast({
@@ -520,7 +597,8 @@ Page({
               that.setData({
                 utoken: res.data.data.Token,
                 uid: res.data.data.UserId,
-                role: res.data.data.RoleType,                
+                role: res.data.data.RoleType,
+                mobile: res.data.data.Mobile,                
                 show: false
               })
               // this.loadAnimation();
@@ -598,7 +676,57 @@ Page({
     wx.navigateTo({
       url: '../applyJjr/applyJjr',
     })
-  },    
+  },  
+  action(){
+    var that=this;
+    that.am();
+    setTimeout(function () {
+      that.am1();
+      setTimeout(function () {
+        that.am2();
+        setTimeout(function () {
+          that.am3();
+          setTimeout(function () {
+            that.am4();
+          }, 3000)
+        }, 3000)
+      }, 3000)
+    }, 3000)    
+  }, 
+  action1() {
+    var that = this;
+    that.am();
+    setTimeout(function () {
+      that.am1();
+      setTimeout(function () {
+        that.am2();
+        setTimeout(function () {
+          that.am3();
+        }, 3000)
+      }, 3000)
+    }, 3000)
+  }, 
+  action2() {
+    var that = this;
+    that.am();
+    setTimeout(function () {
+      that.am1();
+      setTimeout(function () {
+        that.am2();
+      }, 3000)
+    }, 3000)
+  }, 
+  action3(){
+    var that = this;
+    that.am();
+    setTimeout(function () {
+      that.am1();
+    }, 3000)   
+  }, 
+  action4() {
+    var that = this;
+    that.am();
+  },          
   // 获取详情
   getCj(){
     wx.showLoading({
@@ -631,9 +759,48 @@ Page({
             hasData:true,
           })
           console.log(res.data.data.RotatePhone);
-          if (res.data.data.RotateStartUserAmountList.length > 0){
-            that.animation();
-            that.animation1();
+          console.log(that.data.mobile);
+          console.log(res.data.data.RotateStartUserAmountList.length);
+          if (res.data.data.RotateStartUserAmountList.length > 4){
+            that.action();
+            setInterval(function(){
+              that.action();
+            },15000)
+          } else if (res.data.data.RotateStartUserAmountList.length > 3){
+            that.am();
+            setTimeout(function () {
+              that.am1();
+              setTimeout(function () {
+                that.am2();
+                setTimeout(function () {
+                  that.am3();
+                }, 3000)
+              }, 3000)
+            }, 3000)  
+            setInterval(function () {
+              that.action1();               
+            }, 12000)                         
+          } else if (res.data.data.RotateStartUserAmountList.length > 2) {
+            that.am();
+            setTimeout(function () {
+              that.am1();
+              setTimeout(function () {
+                that.am2();
+              }, 3000)
+            }, 3000)
+            setInterval(function () {
+              that.action2();
+            }, 9000)                        
+          } else if (res.data.data.RotateStartUserAmountList.length > 1) {
+            that.action3();           
+            setInterval(function(){
+              that.action3();
+            },6000)      
+          } else if (res.data.data.RotateStartUserAmountList.length > 0) {
+            that.action4();
+            setInterval(function () {
+              that.action4();
+            }, 3000)            
           }
           // 设计定时器
           that.setData({
@@ -669,7 +836,10 @@ Page({
                 luckPosition: idx
               })
               // 抽奖
-              that.clickLuck()
+
+              setTimeout(function(){
+                that.clickLuck()
+              },500)
             }            
           }
         }else if(res.data.code==1101){
@@ -683,6 +853,12 @@ Page({
           }) 
         }
         wx.hideLoading() 
+      },
+      fail:error=>{
+        wx.showToast({
+          title: '网络异常,请稍后再进~',
+          icon: 'none'
+        })         
       }
     })
   },
@@ -713,6 +889,11 @@ Page({
           })          
         }
       }     
+    })
+  },
+  closeShow(){
+    this.setData({
+      showF:false
     })
   }
 

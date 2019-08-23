@@ -8,11 +8,11 @@ Component({
       type: String,
       value: ''
     },
-    phone: { // 价格
+    phone: { // 电话
       type: String,
       value: ''
     },
-    tx: { // 价格
+    tx: { // 头像
       type: String,
       value: ''
     },    
@@ -33,6 +33,7 @@ Component({
     productCode: "",
     showpost: false,
     imgHeight: 0,
+    save:false
   },
 
   ready: function() {
@@ -70,8 +71,9 @@ Component({
                   
               })
             } else {
+              wx.hideLoading();
               wx.showToast({
-                title: '产品图片下载失败！',
+                title: '背景图片下载失败！',
                 icon: 'none',
                 duration: 2000,
                 success: function() {
@@ -106,16 +108,20 @@ Component({
               var codeSrc = res.tempFilePath;
               that.getQrCode(productSrc, codeSrc, imgInfo);
             } else {
+              wx.hideLoading();
               wx.showToast({
-                title: '头像下载失败！',
+                title: '头像获取失败',
                 icon: 'none',
                 duration: 2000,
                 success: function () {
                   var codeSrc = "";
-                  that.getQrCode(productSrc, codeSrc, imgInfo);
+                  that.getQrCode(productSrc, "/img/tx3.png", imgInfo);
                 }
               })
             }
+          },
+          fail:res=>{
+            that.getQrCode(productSrc, "/img/tx3.png", imgInfo);
           }
         })
       } else {
@@ -147,16 +153,20 @@ Component({
               console.log(codeSrc)
               that.sharePosteCanvas(productSrc,tx, codeSrc, imgInfo);
             } else {
+              wx.hideLoading();
               wx.showToast({
-                title: '二维码下载失败！',
+                title: '二维码获取失败',
                 icon: 'none',
                 duration: 2000,
                 success: function() {
                   var codeSrc = "";
-                  that.sharePosteCanvas(productSrc, tx,  codeSrc, imgInfo);
+                  that.sharePosteCanvas(productSrc, tx,  "/img/ewm.jpg", imgInfo);
                 }
               })
             }
+          },
+          fail: res => {
+            that.getQrCode(productSrc, "/img/ewm.jpg", imgInfo);
           }
         })
       } else {
@@ -200,7 +210,7 @@ Component({
           ctx.setFillStyle('#fff');
           ctx.setTextAlign('left');
         }
-        // 背景画完之后才能画其他
+
         //  绘制二维码
         if (codeSrc) {
           ctx.drawImage(codeSrc, width - width / 4 - 10, imgheght + 10, width / 4, width / 4)
@@ -249,6 +259,9 @@ Component({
       }).exec()
       setTimeout(function() {
         ctx.draw();
+        that.setData({
+          save:true
+        })
         wx.hideLoading();
       }, 1000)
 

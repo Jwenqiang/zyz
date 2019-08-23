@@ -138,11 +138,12 @@ Page({
       }
     })
   },
-  goActive(e) {
+  goFriend(e) {
     var that = this;
     var id = e.currentTarget.dataset.id;
+    var uid = e.currentTarget.dataset.uid;
     wx.navigateTo({
-      url: '../active/active?Id=' + id,
+      url: '../mclick/mclick?id=' + id +"&uid="+uid,
     })
   }
 })
