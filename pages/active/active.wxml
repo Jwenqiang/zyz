@@ -119,7 +119,7 @@
   <view class="partFive" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part5.png') center no-repeat;background-size:100%">
     <view class="title"><image src="/img/icon-title.png"></image> 奖金榜单 <image src="/img/icon-title.png"></image></view>
     <view class="friends">
-      <view class="uClick">奖金排行版<text class="goF" bindtap="goMoney" data-id="1">查看全部 ></text></view>
+      <view class="uClick">奖金排行榜<text class="goF" bindtap="goMoney" data-id="1">查看全部 ></text></view>
       <view class="outer utx">
         <view class="pm" wx:if="{{house.RotateStartUserAmountList.length>1}}">
           <image src="/img/pm2.png" class="hg"></image>
