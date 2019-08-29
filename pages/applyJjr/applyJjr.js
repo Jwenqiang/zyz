@@ -162,8 +162,8 @@ Page({
                 icon: 'success',
                 duration: 2000
               }) 
+              that.getUser();
               setTimeout(function(){
-                that.getUser();
                 wx.reLaunch({
                   url: '../my/my',
                 })
@@ -215,9 +215,28 @@ Page({
             mobile: res.data.data.Mobile,
             role: res.data.data.RoleType
           })
-          wx.hideLoading()
-        }   
-  } 
+        } else if (res.data.Message =="已拒绝为此请求授权。"){
+          wx.showModal({
+            title: "登录信息已失效",
+            content: '非常抱歉！您的登录状态已失效，请重新登录',
+            showCancel: false,
+            success: function (r) {
+              if (r.confirm) {
+                wx.clearStorage();
+                wx.reLaunch({
+                  url: '../my/my',
+                })
+              }
+            }
+          });
+        }else{
+          wx.showToast({
+            title: "服务器错误，请稍后再试",
+            icon: "none"
+          })            
+        }
+        wx.hideLoading()   
+      } 
   })
   }, 
   getData() {
@@ -232,7 +251,6 @@ Page({
             msg: res.data.data.BrokerStoreSalePower
           })
         }
-
       }
     })
   }  

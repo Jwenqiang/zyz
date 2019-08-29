@@ -1,22 +1,27 @@
 <!--index.wxml-->
 <wxs module="filter" src="../fun.wxs"></wxs>
-<view class="page">
+<view class="page" wx:if="{{show}}">
   <view class='top' bindtap="goRole">
     <image src='{{imgUrls.ImageUrl}}' mode='aspectFill'></image>
   </view>
   <view class="content">
     <view class="h1 conT">热门活动</view>
     <view class="section" wx:for="{{bzHouse}}" wx:key="index"  bindtap="goActive" data-id="{{item.Id}}">
-      <view class="outer secT">
-          <label class="secNum"><block wx:if="{{item.RotateStartUserAmountList.length>0}}">{{item.RotateStartUserAmountList.length}}</block><block wx:else>0</block>人已参与！</label>
-        <!-- 倒计时 -->
-          <view class='xjDate' wx:if="{{item.djs}}"><label>距离结束：</label><text>{{filter.dTime(item.djs)[1]}}</text>时<text class="rect">{{filter.dTime(item.djs)[2]}}</text>分<text class="rect">{{filter.dTime(item.djs)[3]}}</text>秒
-          </view>
-          <view class='xjDate' wx:else><label>距离结束：</label><text>0</text>时<text>0</text>分<text>0</text>秒</view>          
-      </view>
       <view class="secMsg">
         <view class="secImg">
           <image src="{{item.MainImg}}" mode="aspectFill"></image>
+          <view class="opBj"></view> 
+
+          <view class="outer secT">
+              <label class="secNum"><block wx:if="{{item.JoinNumberDefine>0}}">{{item.JoinNumberDefine}}</block><block wx:elif="{{item.RotateStartUserAmountList.length>0}}">{{item.RotateStartUserAmountList.length}}</block><block wx:else>0</block>人已参与！</label>
+            <!-- 倒计时 -->
+              <view class='xjDate soonDate' wx:if="{{item.djs&&item.StateTerm==1}}"><label>距离开始：</label><text>{{filter.dTime(item.djs)[1]}}</text>时<text class="rect">{{filter.dTime(item.djs)[2]}}</text>分<text class="rect">{{filter.dTime(item.djs)[3]}}</text>秒
+              </view>        
+              <view class='xjDate' wx:elif="{{item.djs&&item.StateTerm!=1}}"><label>距离结束：</label><text>{{filter.dTime(item.djs)[1]}}</text>时<text class="rect">{{filter.dTime(item.djs)[2]}}</text>分<text class="rect">{{filter.dTime(item.djs)[3]}}</text>秒
+              </view>
+              <view class='xjDate' wx:else><label>距离结束：</label><text>0</text>时<text>0</text>分<text>0</text>秒</view>          
+          </view>
+
         </view>
         <view class="secB">
           <view class='schTitle'>
@@ -25,19 +30,20 @@
           <view class="secTip">{{item.SecondTitle}}</view>  
           <view class="outer secP">
             <view class="spl">
-              <view class="price">总奖金<text class="mainNum">{{item.TotalAmount}}</text><label style="font-weight:400;color:#ff4631">元</label></view>
-              <progress percent="{{(item.TotalAmountAlready/item.TotalAmount)*100}}" border-radius="10" color='#ff9087' stroke-width="4"/><text style="color:#999;font-size:24rpx" wx:if="{{item.TotalAmountAlready<item.TotalAmount}}">已抢{{item.TotalAmountAlready}}元</text><text style="color:#999;font-size:24rpx" wx:else>已抢光</text>
+              <view class="price">总奖金<text class="mainNum">{{item.TotalAmountDefine}}</text><label style="font-weight:400;color:#ff4631">元</label></view>
+              <progress percent="{{(item.TotalAmountAlready/item.TotalAmountDefine)*100}}" border-radius="10" background-color="#ffdbd9" active-color='#ff9087' stroke-width="4"/><text style="color:#999;font-size:24rpx" wx:if="{{item.TotalAmountAlready<item.TotalAmountDefine}}">已抢{{item.TotalAmountAlready}}元</text><text style="color:#999;font-size:24rpx" wx:else>已抢光</text>
             </view>
             <view class="spr">
-              <button wx:if="{{item.StateTerm==1}}" class="over">活动未开始</button>
+              <button wx:if="{{item.StateTerm==1}}" class="soon">活动未开始</button>
               <button wx:elif="{{item.StateTerm==2}}">立即转一转</button>
               <button class="over" wx:else>活动已结束</button>
             </view>
           </view>
         </view>    
-      </view>         
+      </view>       
     </view> 
-    <view style='text-align:center;width:100%;line-height:120rpx;color:#ccc;font-size:22rpx;' wx:if="{{no&&bzHouse.length>0}}">
+
+    <view style='text-align:center;width:100%;line-height:180rpx;color:#ccc;font-size:22rpx;' wx:if="{{no&&bzHouse.length>0}}">
       到底了~
     </view>    
   </view>

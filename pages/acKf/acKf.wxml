@@ -1,6 +1,6 @@
 <view class="container">
   <view class='kfT'>
-    <image src='../../img/tx2.png'></image>
+    <image src='../../img/tx1.jpg'></image>
     <view style='color:#666;margin-bottom:20rpx;'>您好！</view>
     <view style='color:#666;margin-bottom:20rpx;'>我是客服小美，很高兴为您服务！</view>
     <button open-type='contact'>在线咨询</button>

@@ -13,6 +13,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    timer:"",
     hasData:false,
     wxcode:"",
     isOld:false, 
@@ -22,6 +23,7 @@ Page({
     shareOneId: 0,
     shareSecondId: 0,
     shareTitle:"",
+    act:"",
     animationData: {},
     animationData1: {},
     animationData2: {},
@@ -49,7 +51,8 @@ Page({
     uid: "",
     role: "",
     mobile:"",
-    secondCj:false
+    secondCj:false,
+    oneAction:0
   },
 
   /**
@@ -89,7 +92,7 @@ Page({
             })        
           }
     }      
-      this.getCode();
+      this.getCode(); 
   },
 
   /**
@@ -103,28 +106,29 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var that=this;
+    var that = this;
     wx.getStorage({
       key: 'userInfo',
       success: function (res) {
-        if (res.data.HeadImg != '' && res.data.HeadImg != null && res.data.NickName != '' && res.data.NickName != null)         {
+        if (res.data.HeadImg != '' && res.data.HeadImg != null && res.data.NickName != '' && res.data.NickName != null) {
           that.setData({
             utoken: res.data.Token,
             uid: res.data.UserId,
             role: res.data.RoleType,
             mobile: res.data.Mobile,
-            show: false
+            show: false,
+            oneAction: that.data.oneAction+1
           })
           setTimeout(function () {
             that.getCj();
-          }, 10)          
+          }, 10)
           if (res.data.RoleType == 5 || res.data.RoleType == 4) {//是经纪人
             that.setData({
               shareOneId: res.data.UserId,
               shareSecondId: res.data.UserId,
             })
           } else {//不是经纪人
-            if (that.data.oneId>0) {
+            if (that.data.oneId > 0) {
               that.setData({
                 shareOneId: that.data.oneId,
                 shareSecondId: res.data.UserId,
@@ -136,9 +140,9 @@ Page({
               })
             }
           }
-        }else{
+        } else {
           that.setData({
-            show:true
+            show: true
           })
         }
       },
@@ -147,14 +151,16 @@ Page({
           show: true
         })
       }
-    }) 
+    })
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    console.log("hid");
+    clearInterval(this.data.act);
+    clearInterval(this.data.timer);
   },
 
   /**
@@ -168,6 +174,62 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    clearInterval(this.data.act);
+    clearInterval(this.data.timer);    
+    var that = this;
+    wx.stopPullDownRefresh();
+    //显示动画
+    wx.showNavigationBarLoading();
+    wx.getStorage({
+      key: 'userInfo',
+      success: function (res) {
+        if (res.data.HeadImg != '' && res.data.HeadImg != null && res.data.NickName != '' && res.data.NickName != null) {
+          that.setData({
+            utoken: res.data.Token,
+            uid: res.data.UserId,
+            role: res.data.RoleType,
+            mobile: res.data.Mobile,
+            show: false,
+            oneAction:1
+          })
+          setTimeout(function () {
+            that.getCj();
+          }, 10)
+          if (res.data.RoleType == 5 || res.data.RoleType == 4) {//是经纪人
+            that.setData({
+              shareOneId: res.data.UserId,
+              shareSecondId: res.data.UserId,
+            })
+          } else {//不是经纪人
+            if (that.data.oneId > 0) {
+              that.setData({
+                shareOneId: that.data.oneId,
+                shareSecondId: res.data.UserId,
+              })
+            } else {
+              that.setData({
+                shareOneId: res.data.UserId,
+                shareSecondId: res.data.UserId,
+              })
+            }
+          }
+        } else {
+          that.setData({
+            show: true
+          })
+        }
+      },
+      fail(e) {
+        that.setData({
+          show: true
+        })
+      }
+    })
+
+    setTimeout(function () {
+      //隐藏动画
+      wx.hideNavigationBarLoading()
+    }, 500)    
 
   },
 
@@ -758,49 +820,59 @@ Page({
             bzHouse: { EndTime: res.data.data.EndTime},
             hasData:true,
           })
-          console.log(res.data.data.RotatePhone);
-          console.log(that.data.mobile);
-          console.log(res.data.data.RotateStartUserAmountList.length);
-          if (res.data.data.RotateStartUserAmountList.length > 4){
-            that.action();
-            setInterval(function(){
+          console.log(that.data.house.RotateStartUserAmountList.length);
+          if (that.data.house.RotateStartUserAmountList.length > 4){
+            
+            if (that.data.oneAction == 1){
               that.action();
-            },15000)
-          } else if (res.data.data.RotateStartUserAmountList.length > 3){
-            that.am();
-            setTimeout(function () {
-              that.am1();
-              setTimeout(function () {
-                that.am2();
-                setTimeout(function () {
-                  that.am3();
-                }, 3000)
-              }, 3000)
-            }, 3000)  
-            setInterval(function () {
-              that.action1();               
-            }, 12000)                         
-          } else if (res.data.data.RotateStartUserAmountList.length > 2) {
-            that.am();
-            setTimeout(function () {
-              that.am1();
-              setTimeout(function () {
-                that.am2();
-              }, 3000)
-            }, 3000)
-            setInterval(function () {
+            }
+                
+            that.setData({
+              act: setInterval(function () {
+                that.action();
+              }, 15000)
+            })            
+          } else if (that.data.house.RotateStartUserAmountList.length > 3){
+            if (that.data.oneAction == 1) {
+              that.action1();
+            }
+            that.setData({
+              act: setInterval(function () {
+                        that.action1();
+                      }, 12000) 
+            })
+                        
+          } else if (that.data.house.RotateStartUserAmountList.length > 2) {
+            console.log(3);
+            if (that.data.oneAction == 1) {
               that.action2();
-            }, 9000)                        
-          } else if (res.data.data.RotateStartUserAmountList.length > 1) {
-            that.action3();           
-            setInterval(function(){
+            }
+            that.setData({
+              act: setInterval(function () {
+                that.action2();
+              }, 9000)
+            })            
+                                    
+          } else if (that.data.house.RotateStartUserAmountList.length > 1) {
+            if (that.data.oneAction == 1) {
               that.action3();
-            },6000)      
-          } else if (res.data.data.RotateStartUserAmountList.length > 0) {
-            that.action4();
-            setInterval(function () {
+            } 
+            that.setData({
+              act: setInterval(function () {
+                that.action3();
+              }, 6000) 
+            })                     
+                 
+          } else if (that.data.house.RotateStartUserAmountList.length > 0) {
+            if (that.data.oneAction == 1) {
               that.action4();
-            }, 3000)            
+            }
+            that.setData({
+              act: setInterval(function () {
+                that.action4();
+              }, 3000) 
+            })            
+                       
           }
           // 设计定时器
           that.setData({

@@ -7,6 +7,7 @@
 </view>
 <cover-view class='close-poste' wx:if="{{save}}">
   <!-- <image src='/img/dele.png' catchtap='closePoste'></image> -->
-  <button catchtap='saveShareImg'>保存到相册</button>
+  <button catchtap='saveShareImg' hidden="{{open}}">保存到相册</button>
+  <button class="open" hidden="{{open==false}}" bindtap="openSetting"> 修改授权 </button >
 </cover-view>
 

@@ -1,4 +1,5 @@
 /**index.wxss**/
+page,.page{background: #f6f7f9}
 button::after{
   border: none;
   content: none;
@@ -9,27 +10,31 @@ button::after{
 .content{padding: 40rpx;padding-bottom: 50px}
 .conT{margin-bottom: 40rpx}
 .section{
-  margin-bottom: 80rpx;
+  margin-bottom: 40rpx;
 }
 .secMsg{
 box-shadow: 0 0 24rpx #ededed;
 border-radius: 10rpx;
-overflow: hidden  
+overflow: hidden;
+background: #fff  
 }
-.secT{margin-bottom: 40rpx;color: #666}
+.secT{position: absolute;left: 0;bottom:20rpx;width: 100%;z-index: 9;color: #fff;padding: 0 30rpx;box-sizing: border-box;font-size: 26rpx}
 .secNum{float: left;display: block;height: 40rpx;width: 240rpx}
+.opBj{width: 100%;position: absolute;left: 0;bottom: 0;height: 80rpx;background: #000;opacity: 0.8;z-index: 8}
 .xjDate {
   clear: both;
-  font-size: 28rpx;
-  color: #666;
+  font-size: 26rpx;
+  color: #fff;
   width: 430rpx;
   float: right;
   text-align: right;
   margin-top: -40rpx
 }
-
+/* .soonDate{
+  color: #45ce61;
+} */
 .xjDate text {
-  background: #000;
+  background: #fbac35;
   padding: 0 8rpx;
   color: #fff;
   margin: 0 6rpx;
@@ -40,6 +45,9 @@ overflow: hidden
   height: 36rpx;
   line-height: 36rpx;  
 }
+/* .soonDate text{
+  background: #45ce61;
+} */
 .xjDate text.rect{
   width: 45rpx;
   height: 36rpx;
@@ -49,6 +57,7 @@ overflow: hidden
 .secImg{
   width: 100%;
   height: 420rpx;
+  position: relative
 }
 .schTitle {
   padding-top: 20rpx;
@@ -102,3 +111,4 @@ margin-right: 20rpx
   padding: 0
 }
 .spr button.over{background: #ccc;}
+.spr button.soon{background: #5285ff;}

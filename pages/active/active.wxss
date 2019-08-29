@@ -1,4 +1,6 @@
 /* pages/active/active.wxss */
+page,.page{background: #df430b}
+.page{padding-bottom: 200rpx}
 button::after{
   border: none;
   content: none;
@@ -17,6 +19,7 @@ button::after{
 }
 
 .partOne .h1 {
+  font-size: 44rpx;
   margin-bottom: 40rpx;
   color: #fff;
   line-height: 1.6;

@@ -1,6 +1,5 @@
 {
-  "usingComponents": {
-    
-  },
-  "navigationBarTitleText": "活动详情"
+  "usingComponents": {},
+  "navigationBarTitleText": "活动详情",
+  "enablePullDownRefresh": true
 }

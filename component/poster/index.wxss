@@ -181,7 +181,8 @@ page{padding-bottom: 120rpx;height: 100%}
   border-radius: 50%;
 }
 /* .close-poste{height: 80rpx;position: fixed;width: 100%;bottom: -200rpx;text-align: center;z-index: 9999} */
-.close-poste button{width: 670rpx;height: 80rpx;background: #ff6666;border: none;line-height: 80rpx;color: #fff}
+.close-poste button{width: 670rpx; height: 80rpx;background: #ff6666;border: none;line-height: 80rpx;color: #fff;}
+/* .close-poste button:nth-of-type(2){margin-left: 50rpx} */
 .showImages{
   position: absolute;
   top: 0;

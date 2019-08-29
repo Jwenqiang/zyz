@@ -21,6 +21,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中'
+    });    
     var that = this;
     wx.getStorage({
       key: 'userInfo',
@@ -133,8 +136,27 @@ Page({
               list: that.data.list.concat(res.data.data.PageList.DataList)
             })
           } 
-
+        } else if (res.data.Message == "已拒绝为此请求授权。") {
+          wx.showModal({
+            title: "登录信息已失效",
+            content: '非常抱歉！您的登录状态已失效，请重新登录',
+            showCancel: false,
+            success: function (r) {
+              if (r.confirm) {
+                wx.clearStorage();
+                wx.reLaunch({
+                  url: '../my/my',
+                })
+              }
+            }
+          });
+        } else {
+          wx.showToast({
+            title: "服务器错误，请稍后再试",
+            icon: "none"
+          })
         }
+        wx.hideLoading();
       }
     })
   },

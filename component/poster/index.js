@@ -33,18 +33,19 @@ Component({
     productCode: "",
     showpost: false,
     imgHeight: 0,
-    save:false
+    save:false,
+    open:false
   },
 
   ready: function() {
-    
+
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
-    //下载产品图片
+    //下载背景图片
     getAvaterInfo: function() {
       wx.showLoading({
         title: '生成中...',
@@ -307,37 +308,106 @@ Component({
           success: function(res) {
             wx.hideLoading();
             var tempFilePath = res.tempFilePath;
-            wx.saveImageToPhotosAlbum({
-              filePath: tempFilePath,
+            wx.getSetting({
               success(res) {
-                wx.showModal({
-                  content: '图片已保存到相册,发个朋友圈吧~',
-                  showCancel: false,
-                  confirmText: '好的',
-                  confirmColor: '#333',
-                  success: function(res) {
-                    // that.closePoste();
-                    // if (res.confirm) {}
-                  },
-                  fail: function(res) {
-                    console.log(res)
-                  }
-                })
-              },
-              fail: function(res) {
-                wx.showToast({
-                  title: "授权才能保存哦",
-                  icon: 'none',
-                  duration: 2000
-                })
+                if (!res.authSetting['scope.writePhotosAlbum']) {//未授权
+                  wx.authorize({
+                    scope: 'scope.writePhotosAlbum',
+                    success() {
+                      console.log(tempFilePath);
+                      wx.saveImageToPhotosAlbum({
+                        filePath: tempFilePath,
+                        success(res) {
+                          wx.showModal({
+                            content: '图片已保存到相册,发个朋友圈吧~',
+                            showCancel: false,
+                            confirmText: '好的',
+                            confirmColor: '#333',
+                            success: function (res) {
+                            }
+                          })
+                        },
+                        fail: function (res) {
+                          console.log(res);
+                          wx.showToast({
+                            title: "保存失败，请稍后再试",
+                            icon: 'none'
+                          })
+                        }
+                      })
+                    },
+                    fail: function (res) {
+                      console.log(res);
+                      wx.showToast({
+                        title: "授权才能保存哦",
+                        icon: 'none'
+                      })
+                      that.setData({
+                        open:true
+                      })
+
+                    }
+
+                  })
+                }else{
+                      wx.saveImageToPhotosAlbum({
+                        filePath: tempFilePath,
+                        success(res) {
+                          wx.showModal({
+                            content: '图片已保存到相册,发个朋友圈吧~',
+                            showCancel: false,
+                            confirmText: '好的',
+                            confirmColor: '#333',
+                            success: function (res) {
+                              // that.closePoste();
+                              // if (res.confirm) {}
+                            },
+                            fail: function (res) {
+                              wx.showToast({
+                                title: "保存失败，请稍后再试",
+                                icon: 'none'
+                              })
+                            }
+                          })
+                        },
+                        fail: function (res) {
+                          console.log(res);
+                          wx.showToast({
+                            title: "保存失败，请稍后再试",
+                            icon: 'none'
+                          })
+                        }
+                      })
+
+                }
               }
             })
+
+
+
           },
           fail: function(err) {
-            console.log(err)
+            console.log(err);
+            wx.showToast({
+              title: "网络异常，请稍后再试",
+              icon: 'none'
+            })            
           }
         }, that);
-      }, 1000);
+      }, 100);
+    },
+    // 修改小程序授权
+    openSetting(){
+      console.log("授权");
+      var that=this;
+      wx.openSetting({
+        success(res) {
+          console.log(res);
+          that.setData({
+            open: false
+          })      
+        }
+      })
     },
     //关闭海报
     closePoste: function() {
@@ -360,7 +430,7 @@ Component({
             success(res2) {
               var ratio = res.width / res.height;
               console.log(res.height);
-              var imgHeight = (res2.windowWidth * 0.85 / ratio);
+              var imgHeight = (res2.windowWidth * 0.85 / ratio) + 130;
               console.log(imgHeight);
               that.setData({
                 imgHeight: imgHeight

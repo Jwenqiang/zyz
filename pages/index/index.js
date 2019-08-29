@@ -3,6 +3,7 @@
 const app = getApp()
 Page({
   data: {
+    show:false,
     imgUrls:"",
     timer:"",
     bzHouse: [],
@@ -25,6 +26,7 @@ Page({
       console.log(results); // 获得一个Array: ['P1', 'P2',"P3"]
       // 设计定时器
       that.setData({
+        show:true,
         timer: setInterval(function () {
           that.djsList();
         }, 1000)
@@ -59,7 +61,24 @@ Page({
       pval: "",
       no: false      
     })
-    that.getData();
+    var p1 = this.getBanner();
+    var p2 = this.getData();
+    var that = this;
+    // 同步执行
+    Promise.all([p1, p2]).then(function (results) {
+      console.log(results); // 获得一个Array: ['P1', 'P2',"P3"]
+      // 设计定时器
+      that.setData({
+        show: true,
+        timer: setInterval(function () {
+          that.djsList();
+        }, 1000)
+      })
+      setTimeout(function () { wx.hideLoading(); }, 300)
+    })
+      .catch(function (error) {
+        console.log(error)
+      })
     setTimeout(function () {
       //隐藏动画
       wx.hideNavigationBarLoading()
@@ -89,11 +108,24 @@ Page({
       })
     }
   },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },  
   djsList: function () {
     // 倒计时时间转换为时间戳
     var dates = [];
     for (var i in this.data.bzHouse) {
-      if (this.data.bzHouse[i].EndTime != "") {
+      if (this.data.bzHouse[i].StateTerm==1){
+        var end_time = new Date((this.data.bzHouse[i].StartTime).replace(/-/g, '/')).getTime();//月份是实际月份-1  
+        // console.log(end_time);
+        var current_time = new Date().getTime();
+        var sys_second = (end_time - new Date().getTime());
+        dates.push({ dat: sys_second });
+      }
+      else if(this.data.bzHouse[i].EndTime != "") {
         var end_time = new Date((this.data.bzHouse[i].EndTime).replace(/-/g, '/')).getTime();//月份是实际月份-1  
         // console.log(end_time);
         var current_time = new Date().getTime();

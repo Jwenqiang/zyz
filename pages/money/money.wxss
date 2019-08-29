@@ -72,7 +72,15 @@ page {
 .listTop label:first-child{width: 150rpx;}
 .userList{padding: 40rpx;height: 200rpx;box-sizing: border-box;line-height: 120rpx;border-bottom: 1px solid #fbeeec;font-weight: bold}
 .userList label{width: 126rpx;display: block;float: left;height: 100%;text-align: center}
-.userList .label{width: 306rpx;float: left;height: 100%;line-height: 120rpx;position: relative;white-space: nowrap;text-overflow: ellipsis}
+.userList .label{width: 306rpx;float: left;height: 100%;line-height: 120rpx;position: relative;}
+.userList .label text{
+  display: inline-block;
+  width: 170rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  float: right  
+}
 .label image.tx{width: 100rpx;height: 100rpx;vertical-align: middle;margin-right: 20rpx;border-radius: 50%}
 .num{color: #f24744;font-size: 36rpx}
 .black{color: #666}

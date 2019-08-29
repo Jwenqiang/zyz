@@ -14,7 +14,7 @@ Page({
     userName:"",
     isLogin:false,
     mobile:"",
-    isJjr:1,
+    isJjr:"",
     money:"",
     role:1,
     hasNum:false
@@ -52,17 +52,19 @@ Page({
           isLogin: true,
           utoken: res.data.Token,
           userTx: res.data.HeadImg,
-          userName: res.data.NickName
+          userName: res.data.NickName,
+          isJjr: res.data.RoleType
         })
         if (res.data.Mobile != '' && res.data.Mobile != null) {
           that.setData({
             utoken: res.data.Token,
             hasNum: true,
             mobile: res.data.Mobile,
-            isJjr: res.data.RoleType,
             check: res.data.MobileDisplayBl,
           })
-          console.log(that.data.isJjr);
+          setTimeout(function () {
+            that.getUser();
+          }, 100)
         }
       },
     })
@@ -163,6 +165,25 @@ Page({
           wx.setStorageSync("userInfo", u);
           that.setData({
             check: false
+          })
+        } else if (res.data.Message == "已拒绝为此请求授权。") {
+          wx.showModal({
+            title: "登录信息已失效",
+            content: '非常抱歉！您的登录状态已失效，请重新登录',
+            showCancel: false,
+            success: function (r) {
+              if (r.confirm) {
+                wx.clearStorage();
+                wx.reLaunch({
+                  url: '../my/my',
+                })
+              }
+            }
+          });
+        } else {
+          wx.showToast({
+            title: "服务器错误，请稍后再试",
+            icon: "none"
           })
         }
       }
@@ -295,8 +316,27 @@ Page({
             money: res.data.data.RotateStartUserAmountTotal,
             hasNum:true 
           })
-          wx.hideLoading()
+        } else if (res.data.Message == "已拒绝为此请求授权。") {
+          wx.showModal({
+            title: "登录信息已失效",
+            content: '非常抱歉！您的登录状态已失效，请重新登录',
+            showCancel: false,
+            success: function (r) {
+              if (r.confirm) {
+                wx.clearStorage();
+                wx.reLaunch({
+                  url: '../my/my',
+                })
+              }
+            }
+          });
+        } else {
+          wx.showToast({
+            title: "服务器错误，请稍后再试",
+            icon: "none"
+          })
         }
+        wx.hideLoading()
       }
     })
   }, 

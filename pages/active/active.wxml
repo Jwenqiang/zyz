@@ -64,7 +64,7 @@
 
 
   </view>
-  <view class="partThird" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part3.png') center no-repeat;background-size:100%" wx:if="{{active!=null}}">
+  <view class="partThird" wx:if="{{active!=null}}">
     <view class="title"><image src="/img/icon-title.png"></image> 我的任务 <image src="/img/icon-title.png"></image></view>
     <view class="myTask">
       <view class="taskTitle">你最高可获得<label>{{active.UserMaxAmount}}</label><text>元</text>，已获得<label>{{active.Amount}}</label><text>元</text></view>
@@ -78,7 +78,7 @@
         </view>
       </view>
       <view class="proLine" wx:else>
-        <progress percent="{{active.Amount/active.UserMaxAmount*100}}" border-radius="10" backgroundColor='#ededed' activeColor="#999" stroke-width="8"/>
+        <progress percent="{{active.Amount/active.UserMaxAmount*100}}" border-radius="10" backgroundColor='#ededed' activeColor="#999" stroke-width="8" style="border:none"/>
         <view class="tipNum" style="left:{{active.Amount/active.UserMaxAmount*100-7}}%;background:#999">
           <label>{{active.Amount}}元</label>
           <view class="point" style="border-color: transparent transparent #999 transparent;"></view>
@@ -98,7 +98,7 @@
       </view>
     </view>  
   </view>
-  <view class="partFour" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part4.png') center no-repeat;background-size:100%">
+  <view class="partFour">
     <view class="title"><image src="/img/icon-title.png"></image> 有效点击 <image src="/img/icon-title.png"></image></view>
     <view class="friends">
       <view class="uClick">已获得{{house.RotateHelpUserClickList.length}}次有效点击<text class="goF" bindtap="goFriend" data-id="1" wx:if="{{house.RotateHelpUserClickList.length>0}}">查看全部 ></text></view>
@@ -116,7 +116,7 @@
       </view>
     </view>
   </view>
-  <view class="partFive" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part5.png') center no-repeat;background-size:100%">
+  <view class="partFive">
     <view class="title"><image src="/img/icon-title.png"></image> 奖金榜单 <image src="/img/icon-title.png"></image></view>
     <view class="friends">
       <view class="uClick">奖金排行榜<text class="goF" bindtap="goMoney" data-id="1">查看全部 ></text></view>
@@ -148,7 +148,7 @@
       </view>
     </view>    
   </view>
-  <view class="partSix" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part6.png') center no-repeat;background-size:100%">
+  <view class="partSix">
     <view class="title"><image src="/img/icon-title.png"></image> 活动规则 <image src="/img/icon-title.png"></image></view>
     <view class="role">
       <view class="uClick">分享活动邀好友点击,你即可获得奖金！</view>
@@ -186,10 +186,10 @@
           <button open-type="share">分享好友</button>
         </block>
         <block wx:if="{{house.StateTerm==1}}">
-          <button style="background:#ddd;color:#333">活动未开始</button>
+          <button style="background: #5285ff;color:#fff;font-size:28rpx;width:200rpx;">活动未开始</button>
         </block>
         <block wx:if="{{house.StateTerm==3}}">
-          <button style="background:#ddd;color:#333">活动已结束</button>
+          <button style="background:#ddd;color:#333;font-size:28rpx;width:200rpx;">活动已结束</button>
         </block>        
           <!-- 领取完成后 -->
         <!-- <block wx:if="">  
