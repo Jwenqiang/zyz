@@ -29,6 +29,15 @@ module.exports.toHide = toHide;
       <text>{{phone.toHide(mobile)}}</text>
     </view>   
     <view class='hr10'></view>
+    <view class='li'>
+      <label>微信二维码</label>
+      <view class='outer uName' bindtap='goEwm'>
+        <text class='iconfont icon-right' style='float:right;font-weight:400;font-size:24rpx;margin-left:10rpx;color:#ccc'></text>
+        <text style='font-weight:400;color:#ccc' wx:if="{{wxEwm==''||wxEwm==null}}">上传微信二维码，客户主动加微信</text>      
+        <text style='font-weight:400;color:#ccc' wx:else>已上传</text>      
+      </view>
+    </view> 
+    <view class='hr10'></view>   
     <view class='li' wx:if="{{company!=''&&company!=null}}">
       <label>所在公司</label>
       <text>{{company}}</text>   

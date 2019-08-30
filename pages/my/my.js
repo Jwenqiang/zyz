@@ -52,6 +52,7 @@ Page({
           isLogin: true,
           utoken: res.data.Token,
           userTx: res.data.HeadImg,
+          uid: res.data.UserId,
           userName: res.data.NickName,
           isJjr: res.data.RoleType
         })

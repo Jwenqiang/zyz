@@ -218,8 +218,8 @@
   </view>
 </view>
 <!--  wx:if="{{isShare&&house.State!=2}}" -->
-  <view class="fixPhone gohome" bindtap='goIndex' wx:if="{{isShare&&house.State!=2}}"><text class="iconfont icon-zhuye"></text></view> 
-
+  <view class="fixPhone gohome {{(ewm!=null&&ewm!='')?'up':''}}" bindtap='goIndex' wx:if="{{isShare&&house.State!=2}}"><text class="iconfont icon-zhuye"></text></view> 
+  <view class="fixPhone gohome" bindtap='showEwm' wx:if="{{ewm!=null&&ewm!=''}}"><text class="iconfont icon-weixin"></text></view>
 </view>
 <!-- 抽奖 -->
 <view class="cj" wx:if="{{isOld==true}}">
@@ -277,3 +277,13 @@
     <button class="show_btn" open-type="getUserInfo" bindgetuserinfo="getUserInfo" hover-class="hover">进入活动</button>
   </view>
 </view>
+
+   <!--弹窗  -->
+   <view class='show' wx:if="{{hasEwm}}">
+      <view class='bj' bindtap='showEwm'></view>
+      <view class='showMsg' animation="{{animationEwm}}">
+        <text class='iconfont icon-guanbi' bindtap='showEwm'></text>
+        <image src='{{ewm}}' mode='aspectFit' bindtap='mBig'></image>
+        <text class='msgTip'>tip:点击图片放大长按可保存</text>
+      </view>
+   </view>

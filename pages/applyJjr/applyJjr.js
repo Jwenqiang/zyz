@@ -16,7 +16,8 @@ Page({
     name: "",
     gs:"",
     md: "",
-    gw: ""
+    gw: "",
+    fmPic:""
   },
 
   /**
@@ -34,7 +35,8 @@ Page({
           userTx: res.data.HeadImg,
           userName: res.data.NickName,
           mobile:res.data.Mobile,
-          role: res.data.RoleType
+          role: res.data.RoleType,
+          fmPic: res.data.WxQRcode
         })
         that.getUser();
       },
@@ -126,6 +128,7 @@ Page({
   },
   rz(){
     var that=this;
+    console.log(that.data.fmPic);
     if (that.data.name==''){
       wx.showToast({
         title: '请填写姓名',
@@ -150,24 +153,27 @@ Page({
           FullName: that.data.name,
           CompanyDes: that.data.gs,
           StoreDes: that.data.md,
-          StationDes: that.data.gw
+          StationDes: that.data.gw,
+          WxQRcode: that.data.fmPic
         },
         success:res=>{
           console.log(res);
           if(res.data.code==1001){
             setTimeout(function(){
-              wx.hideLoading();
-              wx.showToast({
-                title: '认证成功',
-                icon: 'success',
-                duration: 2000
-              }) 
-              that.getUser();
+              setTimeout(function () {
+                wx.hideLoading();
+                wx.showToast({
+                  title: '认证成功'
+                }) 
+                
+              }, 1000)
+             
               setTimeout(function(){
+                that.getUser();
                 wx.reLaunch({
                   url: '../my/my',
                 })
-              },300)
+              },2500)
             },500)
            
           }else{
@@ -196,6 +202,7 @@ Page({
       success(res) {
         console.log(res);
         if (res.data.code == 1001) {
+          wx.hideLoading();
           that.setData({
             name: res.data.data.FullName,
             gs: res.data.data.CompanyDes,
@@ -213,7 +220,8 @@ Page({
             userTx: res.data.data.HeadImg,
             userName: res.data.data.NickName,
             mobile: res.data.data.Mobile,
-            role: res.data.data.RoleType
+            role: res.data.data.RoleType,
+            fmPic: res.data.data.WxQRcode
           })
         } else if (res.data.Message =="已拒绝为此请求授权。"){
           wx.showModal({
@@ -253,5 +261,82 @@ Page({
         }
       }
     })
-  }  
+  },
+  selectPic(e) {
+    var that = this;
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success(res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+        const tempFilePaths = res.tempFilePaths[0];
+        that.setData({
+          fmPic: tempFilePaths,
+        })
+        setTimeout(function(){
+          that.saveMsg();
+        },10)
+      }
+    })
+  },
+  removeImage(e) {
+    var that = this;
+    console.log(that.data.fmPic);
+    that.setData({
+      fmPic:""
+    })
+  },
+
+  handleImagePreview(e) {
+    console.log(e);
+    const images = this.data.fmPic
+    wx.previewImage({
+      current: images,
+      urls: [images],
+    })
+  },
+  saveMsg(e) {
+    var that = this;
+    wx.showToast({
+      title: '上传中...',
+      icon: 'loading',
+      mask: true,
+      duration: 10000
+    })
+    wx.getFileSystemManager().readFile({
+      filePath: that.data.fmPic, //选择图片返回的相对路径
+      encoding: 'base64', //编码格式
+      success: r => { //成功的回调
+
+        var baseUrl = 'data:image/jpg;base64,' + r.data;
+        wx.request({
+          url: 'https://spapi.centaline.com.cn/api/System/PostImgByBase64',
+          method: "post",
+          data: {
+            ImgBase64: baseUrl
+          },
+          success: r => {
+            console.log(r);
+            if (r.data.code == 1001) {
+              var newImg = r.data.message;
+              that.setData({
+                fmPic: newImg
+              })
+              wx.hideToast();
+
+            } else {
+              wx.hideToast();
+              wx.showModal({
+                title: '错误提示',
+                content: '上传图片失败,请稍后再试~',
+                showCancel: false,
+                success: function (res) { }
+              })
+            }
+          }
+        })
+      }
+    })
+  }     
 })

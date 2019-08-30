@@ -7,6 +7,8 @@ Page({
   data: {
     name:"",
     uimg:"",
+    uid:"",
+    wxEwm:"",
     mobile:"",
     utoken:"",
     role:"",
@@ -20,22 +22,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
-    var that=this;
-    wx.getStorage({
-      key: 'userInfo',
-      success: function(res) {
-        that.setData({
-          utoken: res.data.Token,
-          role: res.data.RoleType,
-          uimg: res.data.HeadImg,
-          name: res.data.NickName,
-          mobile: res.data.Mobile,
-          company: res.data.CompanyDes,
-          store: res.data.StoreDes,
-          job: res.data.StationDes          
-        })
-      },
-    })
+
   
   },
 
@@ -50,7 +37,28 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function (e) {
-
+    var that = this;
+    wx.getStorage({
+      key: 'userInfo',
+      success: function (res) {
+        that.setData({
+          utoken: res.data.Token,
+          role: res.data.RoleType,
+          uid: res.data.UserId,
+          uimg: res.data.HeadImg,
+          name: res.data.NickName,
+          wxEwm: res.data.WxQRcode,
+          mobile: res.data.Mobile,
+          company: res.data.CompanyDes,
+          store: res.data.StoreDes,
+          job: res.data.StationDes
+        })
+      },
+    })   
+    setTimeout(function(){
+      that.getUser()
+    },100) 
+   
   },
 
   /**
@@ -238,6 +246,56 @@ Page({
       }
     })   
   },
+  getUser() {
+    var that = this;
+    wx.request({
+      url: 'https://spapi.centaline.com.cn/api/Users/GetUser',
+      data: { UserId: that.data.uid },
+      header: {
+        'token': that.data.utoken
+      },
+      success(res) {
+        console.log(res);
+        if (res.data.code == 1001) {
+          wx.setStorage({
+            key: 'userInfo',
+            data: res.data.data,
+          })
+          that.setData({
+            utoken: res.data.data.Token,
+            role: res.data.data.RoleType,
+            uimg: res.data.data.HeadImg,
+            name: res.data.data.NickName,
+            wxEwm: res.data.data.WxQRcode,
+            mobile: res.data.data.Mobile,
+            company: res.data.data.CompanyDes,
+            store: res.data.data.StoreDes,
+            job: res.data.data.StationDes              
+          })
+        } else if (res.data.Message == "已拒绝为此请求授权。") {
+          wx.showModal({
+            title: "登录信息已失效",
+            content: '非常抱歉！您的登录状态已失效，请重新登录',
+            showCancel: false,
+            success: function (r) {
+              if (r.confirm) {
+                wx.clearStorage();
+                wx.reLaunch({
+                  url: '../my/my',
+                })
+              }
+            }
+          });
+        } else {
+          wx.showToast({
+            title: "服务器错误，请稍后再试",
+            icon: "none"
+          })
+        }
+        wx.hideLoading()
+      }
+    })
+  },   
   restHz(val){
     wx.setStorage({
       key: 'userInfo',
@@ -247,5 +305,9 @@ Page({
       }
     })
   },
- 
+  goEwm(e) {
+    wx.navigateTo({
+      url: '../myEwm/myEwm',
+    })
+  }, 
 })

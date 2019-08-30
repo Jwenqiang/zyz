@@ -14,6 +14,7 @@ Page({
    */
   data: {
     timer:"",
+    ewm:"",
     hasData:false,
     wxcode:"",
     isOld:false, 
@@ -52,7 +53,8 @@ Page({
     role: "",
     mobile:"",
     secondCj:false,
-    oneAction:0
+    oneAction:0,
+    hasEwm:false
   },
 
   /**
@@ -815,6 +817,7 @@ Page({
         if(res.data.code==1001){
           that.setData({
             house:res.data.data,
+            ewm: res.data.data.WxQRcode,
             shareTitle: res.data.data.ShareTitle,
             active: res.data.data.RotateUserAmount,
             bzHouse: { EndTime: res.data.data.EndTime},
@@ -967,7 +970,37 @@ Page({
     this.setData({
       showF:false
     })
-  }
-
+  },
+  //显示二维码 
+  mBig(e) {
+    wx.previewImage({
+      current: this.data.ewm,
+      urls: [this.data.ewm]
+    })
+  },
+  showEwm(e) {
+    this.data.hasEwm = !this.data.hasEwm;
+    var that = this;
+    // 显示遮罩层 
+    var animation = wx.createAnimation({
+      duration: 800,
+      timingFunction: "linear",
+      delay: 0
+    })
+    // this.animation = animation
+    // animation.translateY(300).step()
+    animation.opacity(0.5).step()
+    this.setData({
+      animationEwm: animation.export(),
+      hasEwm: that.data.hasEwm
+    })
+    // setTimeout(function () {
+    // animation.translateY(0).step()
+    animation.opacity(1).step()
+    this.setData({
+      animationEwm: animation.export()
+    })
+    // }.bind(this), 200)     
+  },
 
 })
