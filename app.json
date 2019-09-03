@@ -34,6 +34,7 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "转一转",
     "navigationBarTextStyle": "black",
+    "navigationStyle": "custom",
     "onReachBottomDistance": 0
   },
   "permission": {

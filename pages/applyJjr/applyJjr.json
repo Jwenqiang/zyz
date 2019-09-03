@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "navbar": "../../component/navbar/index"
+  },
   "navigationBarTitleText": "经纪人特权"
 }

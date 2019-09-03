@@ -1,4 +1,5 @@
 // pages/applyJjr/applyJjr.js
+const app = getApp()
 Page({
 
   /**
@@ -17,13 +18,17 @@ Page({
     gs:"",
     md: "",
     gw: "",
-    fmPic:""
+    fmPic:"",
+    navH: "132rpx"
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      navH: app.globalData.navHeight
+    })    
     var that=this;
     that.getData();
     wx.getStorage({

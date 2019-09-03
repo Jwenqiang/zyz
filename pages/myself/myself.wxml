@@ -5,6 +5,8 @@ var toHide = function(array) {
 }
 module.exports.toHide = toHide;
 </wxs>
+<navbar page-name="个人资料"></navbar>
+<view class="htop" style='height:{{navH}}px'></view>
 <view class="container">
 <!-- 经纪人权限 -->
   <view class='am-content' wx:if="{{role==5||role==4}}">

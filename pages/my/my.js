@@ -1,4 +1,5 @@
 // pages/my/my.js
+const app = getApp()
 Page({
 
   /**
@@ -17,14 +18,18 @@ Page({
     isJjr:"",
     money:"",
     role:1,
-    hasNum:false
+    hasNum:false,
+    navH: "132rpx",
+    showHome:false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      navH: app.globalData.navHeight
+    })    
   },
 
   /**

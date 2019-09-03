@@ -1,3 +1,5 @@
+<navbar page-name="我的二维码"></navbar>
+<view class="htop" style='height:{{navH}}px'></view>
 <view class='page'>
   <view class='tip'>
     <text>为方便客户联系您</text>

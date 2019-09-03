@@ -1,3 +1,5 @@
+<navbar page-name="我的客服"></navbar>
+<view class="htop" style='height:{{navH}}px'></view>
 <view class="container">
   <view class='kfT'>
     <image src='../../img/tx1.jpg'></image>

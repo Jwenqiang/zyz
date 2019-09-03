@@ -1,5 +1,7 @@
 <!--index.wxml-->
 <wxs module="filter" src="../fun.wxs"></wxs>
+<navbar page-name="优购转一转" show-home="{{showHome}}"></navbar>
+<view class="htop" style='height:{{navH}}px'></view>
 <view class="page" wx:if="{{show}}">
   <view class='top' bindtap="goRole">
     <image src='{{imgUrls.ImageUrl}}' mode='aspectFill'></image>

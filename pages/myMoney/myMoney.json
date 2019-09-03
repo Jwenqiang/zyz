@@ -1,6 +1,6 @@
 {
-  "navigationBarBackgroundColor": "#f74f75",
   "navigationBarTitleText": "奖金列表",
-  "navigationBarTextStyle": "white",
-  "usingComponents": {}
+  "usingComponents": {
+    "navbar": "../../component/navbar/index"
+  }
 }

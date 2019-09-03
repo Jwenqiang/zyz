@@ -1,5 +1,8 @@
 <wxs module="filter" src="../fun.wxs"></wxs>
 <!-- 活动页 -->
+<navbar page-name="活动详情"></navbar>
+<view class="htop" style='height:{{navH}}px'></view>
+
 <view wx:if="{{isOld==false&&hasData}}" class="hd {{show?'hidden':''}}">
 <view class="page" wx:if="{{house.State!=2}}">
   <view class="partOne" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part1.png') center no-repeat;background-size:100%">
@@ -218,7 +221,7 @@
   </view>
 </view>
 <!--  wx:if="{{isShare&&house.State!=2}}" -->
-  <view class="fixPhone gohome {{(ewm!=null&&ewm!='')?'up':''}}" bindtap='goIndex' wx:if="{{isShare&&house.State!=2}}"><text class="iconfont icon-zhuye"></text></view> 
+  <!-- <view class="fixPhone gohome {{(ewm!=null&&ewm!='')?'up':''}}" bindtap='goIndex' wx:if="{{isShare&&house.State!=2}}"><text class="iconfont icon-zhuye"></text></view>  -->
   <view class="fixPhone gohome" bindtap='showEwm' wx:if="{{ewm!=null&&ewm!=''}}"><text class="iconfont icon-weixin"></text></view>
 </view>
 <!-- 抽奖 -->
@@ -257,9 +260,8 @@
     <button catchtap="setMoney" data-num="{{house.UserMaxAmount}}">确定</button>
   </view>  
 </view>
-
-
 </view>
+
 
 <!-- 弹窗 -->
 <view class="show" wx:if="{{show}}">
@@ -287,3 +289,6 @@
         <text class='msgTip'>tip:点击图片放大长按可保存</text>
       </view>
    </view>
+
+
+

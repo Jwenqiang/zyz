@@ -1,4 +1,5 @@
 // pages/friends/friends.js
+const app = getApp()
 Page({
 
   /**
@@ -11,13 +12,17 @@ Page({
     ptotal: 0,
     pidx: 2,
     pval: "",
-    no: false,    
+    no: false,  
+    navH: "132rpx"  
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
+    this.setData({
+      navH: app.globalData.navHeight
+    })        
     wx.showLoading({
       title: '加载中'
     })     

@@ -1,6 +1,6 @@
 //app.js
 App({
-  // onLaunch: function () {
+  onLaunch: function () {
   //   // 登录
   //   wx.login({
   //     success: res => {
@@ -29,8 +29,18 @@ App({
   //       }
   //     }
   //   })
-  // },
-  // globalData: {
-  //   userInfo: null
-  // }
+  wx.getSystemInfo({
+    success: res => {
+      //导航高度
+      this.globalData.navHeight = res.statusBarHeight + 46;
+    }, fail(err) {
+      console.log(err);
+    }
+  })
+
+},
+  globalData: {
+    navHeight: "",
+    userInfo: null
+  }
 })

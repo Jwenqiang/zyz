@@ -54,7 +54,9 @@ Page({
     mobile:"",
     secondCj:false,
     oneAction:0,
-    hasEwm:false
+    hasEwm:false,
+    channel:2,
+    navH: "132rpx"
   },
 
   /**
@@ -62,6 +64,9 @@ Page({
    */
   onLoad: function (e) {
     console.log(e);
+    this.setData({
+      navH: app.globalData.navHeight
+    })      
     if (e.scene) {
       let scene = decodeURIComponent(e.scene);
       if (scene.indexOf(",") < 0) {
@@ -71,11 +76,13 @@ Page({
         })
       } else {
         var arr = scene.split(",");
+        console.log(arr[3]);
         this.setData({
           isShare: true,
           activeId: arr[0],
           oneId: arr[1],
           secondId: arr[2],
+          channel: arr[3]
         })
       }  
     }
@@ -249,7 +256,7 @@ Page({
     console.log('/pages/active/active?Id=' + this.data.activeId + "," + this.data.shareOneId + "," + this.data.shareSecondId)
     return {
       title: this.data.shareTitle,
-      path: '/pages/active/active?Id=' + this.data.activeId +","+ this.data.shareOneId + "," + this.data.shareSecondId
+      path: '/pages/active/active?Id=' + this.data.activeId +","+ this.data.shareOneId + "," + this.data.shareSecondId+",channel=2"
     }
 
   },
@@ -626,8 +633,6 @@ Page({
     var ivObj = e.detail.iv
     var telObj = e.detail.encryptedData;
     var that = this;
-    console.log(that.data.wxcode);
-    console.log(e);
     //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
     if (e.detail.errMsg == 'getUserInfo:fail auth deny') { //用户点击拒绝
       wx.showToast({
@@ -689,7 +694,6 @@ Page({
     var ivObj = e.detail.iv
     var telObj = e.detail.encryptedData;
     var that = this;
-    console.log(ivObj);
 
     //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
     if (e.detail.errMsg == 'getPhoneNumber:fail user deny') { //用户点击拒绝
@@ -807,15 +811,18 @@ Page({
       data:{
         Id:that.data.activeId,
         OneStartUserId: that.data.oneId,
-        StartUserId: that.data.secondId
+        StartUserId: that.data.secondId,
+        Channel: that.data.channel
       },
       header:{
         'token': that.data.utoken
       },
       success:res=>{
         console.log(res);
+        console.log(that.data.channel+"channel的值");
         if(res.data.code==1001){
           that.setData({
+            ready:true,
             house:res.data.data,
             ewm: res.data.data.WxQRcode,
             shareTitle: res.data.data.ShareTitle,
@@ -823,7 +830,6 @@ Page({
             bzHouse: { EndTime: res.data.data.EndTime},
             hasData:true,
           })
-          console.log(that.data.house.RotateStartUserAmountList.length);
           if (that.data.house.RotateStartUserAmountList.length > 4){
             
             if (that.data.oneAction == 1){
@@ -846,7 +852,6 @@ Page({
             })
                         
           } else if (that.data.house.RotateStartUserAmountList.length > 2) {
-            console.log(3);
             if (that.data.oneAction == 1) {
               that.action2();
             }
@@ -987,20 +992,15 @@ Page({
       timingFunction: "linear",
       delay: 0
     })
-    // this.animation = animation
-    // animation.translateY(300).step()
     animation.opacity(0.5).step()
     this.setData({
       animationEwm: animation.export(),
       hasEwm: that.data.hasEwm
     })
-    // setTimeout(function () {
-    // animation.translateY(0).step()
     animation.opacity(1).step()
     this.setData({
       animationEwm: animation.export()
-    })
-    // }.bind(this), 200)     
+    })  
   },
 
 })

@@ -1,4 +1,5 @@
 // pages/acHb/acHb.js
+const app = getApp()
 Page({
 
   /**
@@ -16,12 +17,16 @@ Page({
     activeId: 5,
     oneId: 0,
     secondId: 0,
+    navH: "132rpx"
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
+    this.setData({
+      navH: app.globalData.navHeight
+    })      
     if (e.Id) {
       this.setData({
         activeId: e.Id
@@ -163,7 +168,7 @@ Page({
       url: 'https://spapi.centaline.com.cn/api/Rotate/GetWxQRcode',
       method:"post",
       data:{
-        scene: 'Id=' + that.data.activeId + "," + that.data.oneId + "," + that.data.secondId,
+        scene: 'Id=' + that.data.activeId + "," + that.data.oneId + "," + that.data.secondId +",channel=3",
         page: 'pages/active/active'
       },
       success:res=>{

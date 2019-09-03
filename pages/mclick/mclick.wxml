@@ -1,3 +1,5 @@
+<navbar page-name="优购转一转"></navbar>
+<view class="htop" style='height:{{navH}}px'></view>
 <view class="page">
   <view class="outer list" wx:for="{{clickList}}" wx:key="{{index}}" wx:if="{{clickList.length>0}}">
     <image src="{{item.HeadImg}}"></image>

@@ -12,8 +12,13 @@ Page({
     pidx: 2,
     pval: "",
     no: false,
+    navH:"132px",
+    showHome:false
   },
   onLoad: function () {
+    this.setData({
+      navH: app.globalData.navHeight
+    })       
     wx.showLoading({
       title: '加载中'
     })       
@@ -35,7 +40,7 @@ Page({
     })
       .catch(function (error) {
         console.log(error)
-      })
+      })     
   },
   onShow(){
     // 底部tabbar
@@ -52,9 +57,12 @@ Page({
    */
   onPullDownRefresh: function () {
     var that = this;
+    wx.showLoading({
+      title: '加载中'
+    })       
     wx.stopPullDownRefresh();
     //显示动画
-    wx.showNavigationBarLoading();
+    // wx.showNavigationBarLoading();
     that.setData({
       ptotal: 0,
       pidx: 2,

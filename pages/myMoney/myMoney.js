@@ -1,4 +1,5 @@
 // pages/myMoney/myMoney.js
+const app = getApp()
 Page({
 
   /**
@@ -14,13 +15,17 @@ Page({
     load:false,
     totalMoney:0,
     payMoney:0,
-    noMoney:0   
+    noMoney:0,
+    navH: "132rpx"   
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      navH: app.globalData.navHeight
+    })      
     wx.showLoading({
       title: '加载中'
     });    
