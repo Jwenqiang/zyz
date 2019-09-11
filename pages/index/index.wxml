@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <wxs module="filter" src="../fun.wxs"></wxs>
-<navbar page-name="优购转一转" show-home="{{showHome}}"></navbar>
+<navbar page-name="好房U购转一转" show-home="{{showHome}}"></navbar>
 <view class="htop" style='height:{{navH}}px'></view>
 <view class="page" wx:if="{{show}}">
   <view class='top' bindtap="goRole">
@@ -33,7 +33,7 @@
           <view class="outer secP">
             <view class="spl">
               <view class="price">总奖金<text class="mainNum">{{item.TotalAmountDefine}}</text><label style="font-weight:400;color:#ff4631">元</label></view>
-              <progress percent="{{(item.TotalAmountAlready/item.TotalAmountDefine)*100}}" border-radius="10" background-color="#ffdbd9" active-color='#ff9087' stroke-width="4"/><text style="color:#999;font-size:24rpx" wx:if="{{item.TotalAmountAlready<item.TotalAmountDefine}}">已抢{{item.TotalAmountAlready}}元</text><text style="color:#999;font-size:24rpx" wx:else>已抢光</text>
+              <progress percent="{{((item.TotalAmountAlready+item.TotalAmountApart)/item.TotalAmountDefine)*100}}" border-radius="10" background-color="#ffdbd9" active-color='#ff9087' stroke-width="4"/><text style="color:#999;font-size:24rpx" wx:if="{{item.TotalAmountAlready+item.TotalAmountApart<item.TotalAmountDefine}}">已抢{{item.TotalAmountAlready+item.TotalAmountApart}}元</text><text style="color:#999;font-size:24rpx" wx:else>已抢光</text>
             </view>
             <view class="spr">
               <button wx:if="{{item.StateTerm==1}}" class="soon">活动未开始</button>

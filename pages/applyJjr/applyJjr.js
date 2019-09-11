@@ -175,6 +175,7 @@ Page({
              
               setTimeout(function(){
                 that.getUser();
+                wx.hideLoading();
                 wx.reLaunch({
                   url: '../my/my',
                 })

@@ -120,6 +120,7 @@ Page({
       header: {
         "token": that.data.utoken
       },
+      data: { PageIndex: num},
       success: res => {
         console.log(res);
         if(res.data.code==1001){

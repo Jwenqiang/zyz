@@ -346,4 +346,9 @@ Page({
       }
     })
   }, 
+  goYy(){
+    wx.navigateTo({
+      url: '../myYy/myYy',
+    })
+  }
 })

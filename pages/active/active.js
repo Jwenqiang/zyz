@@ -54,7 +54,13 @@ Page({
     mobile:"",
     secondCj:false,
     oneAction:0,
-    hasEwm:false,
+    animationEwm:"",
+    animationBm:"",
+    hasEwm: false,
+    hasBm:false,
+    bmName: "",
+    bmPhone: "",
+    bmNum:"",
     channel:2,
     navH: "132rpx"
   },
@@ -125,6 +131,7 @@ Page({
             uid: res.data.UserId,
             role: res.data.RoleType,
             mobile: res.data.Mobile,
+            bmPhone: res.data.Mobile,
             show: false,
             oneAction: that.data.oneAction+1
           })
@@ -1002,5 +1009,106 @@ Page({
       animationEwm: animation.export()
     })  
   },
-
+  showBm(e) {
+    this.data.hasBm = !this.data.hasBm;
+    var that = this;
+    // 显示遮罩层 
+    var animation = wx.createAnimation({
+      duration: 500,
+      timingFunction: "ease-out",
+      delay: 0
+    })
+    animation.translateY(-400).step()
+    this.setData({
+      animationBm: animation.export(),
+      hasBm: that.data.hasBm
+    })
+    animation.translateY(0).step()
+    this.setData({
+      animationBm: animation.export()
+    })
+  },
+  setMsg(e) {
+    console.log(e);
+    var that = this;
+    var type = e.currentTarget.dataset.t;
+    var msg = e.detail.value;
+    if (type == "name") {
+      that.setData({
+        bmName: msg
+      })
+    } else if (type == "dh") {
+      that.setData({
+        bmPhone: msg
+      })
+    } else if (type == "rs") {
+      that.setData({
+        bmNum: msg
+      })
+    }
+  },
+  bm(){
+    var that=this;
+    if(that.bmName==""){
+      wx.showToast({
+        title: "请填写姓名~",
+        icon: "none"
+      }) 
+    } else if (that.bmPhone == "") {
+      wx.showToast({
+        title: "请填写姓名~",
+        icon: "none"
+      })
+    } else if (that.bmNum == "") {
+      wx.showToast({
+        title: "请填写人数~",
+        icon: "none"
+      })
+    }else{
+      wx.showLoading({
+        title: '提交中',
+      })
+      wx.request({
+        url: 'https://spapi.centaline.com.cn/api/Rotate/AddRotateEnroll',
+        method:"post",
+        data:{
+          RotateId:that.data.activeId,
+          FullName: that.data.bmName,
+          Mobile: that.data.bmPhone,
+          Number:that.data.bmNum,
+          OneStartUserId: that.data.oneId,
+          StartUserId: that.data.secondId
+        },
+        header:{
+          "token":that.data.utoken
+        },
+        success:res=>{
+          console.log(res);
+          if(res.data.code==1001){
+            setTimeout(function(){
+              wx.hideLoading();
+              wx.showModal({
+                title: '恭喜您报名成功~',
+                content: '稍后会有相应的工作人员为您确认，请留意电话~',
+                showCancel: false,
+                success: function (r) {
+                  if (r.confirm) {
+                    that.setData({
+                      hasBm: false
+                    })                    
+                  }
+                }
+              })
+            },500)
+          }else{
+            wx.hideLoading();
+            wx.showToast({
+              title: "报名失败，请稍后再试",
+              icon: "none"
+            })            
+          }
+        }
+      })
+    }
+  }
 })

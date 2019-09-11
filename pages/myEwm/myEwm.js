@@ -209,10 +209,10 @@ Page({
                         title: '保存成功',
                       })
                       setTimeout(function () {
-                        wx.reLaunch({
-                          url: '../my/my',
+                        wx.navigateBack({
+                          delta: 1
                         })
-                      }, 500)                        
+                      }, 1000)                        
                     }else{
                       wx.showToast({
                         title: '登录信息已失效',

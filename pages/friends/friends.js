@@ -1,5 +1,5 @@
 // pages/friends/friends.js
-
+const app = getApp()
 Page({
 
   /**

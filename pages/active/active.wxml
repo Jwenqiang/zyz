@@ -221,7 +221,7 @@
   </view>
 </view>
 <!--  wx:if="{{isShare&&house.State!=2}}" -->
-  <!-- <view class="fixPhone gohome {{(ewm!=null&&ewm!='')?'up':''}}" bindtap='goIndex' wx:if="{{isShare&&house.State!=2}}"><text class="iconfont icon-zhuye"></text></view>  -->
+  <view class="fixPhone gohome {{(ewm!=null&&ewm!='')?'up':''}}" bindtap='showBm'><text class="iconfont icon-yuyue" style="margin-left:4rpx"></text></view> 
   <view class="fixPhone gohome" bindtap='showEwm' wx:if="{{ewm!=null&&ewm!=''}}"><text class="iconfont icon-weixin"></text></view>
 </view>
 <!-- 抽奖 -->
@@ -287,6 +287,28 @@
         <text class='iconfont icon-guanbi' bindtap='showEwm'></text>
         <image src='{{ewm}}' mode='aspectFit' bindtap='mBig'></image>
         <text class='msgTip'>tip:点击图片放大长按可保存</text>
+      </view>
+   </view>
+
+      <!--弹窗  -->
+   <view class='show' wx:if="{{hasBm}}">
+      <view class='bj' bindtap='showBm'></view>
+      <view class='showMsg showBm' animation="{{animationBm}}">
+        <text class='iconfont icon-guanbi' bindtap='showBm'></text>
+        <view class="h2" style="margin-bottom:20rpx">预约看房</view>
+        <view class='outer hInp'>
+          <label class="red" style="float:left">*</label><text>姓名</text>
+            <input type='text' placeholder='请填写您的姓名' style='float:right' bindblur='setMsg' data-t="name" placeholder-class="inputTip" value="{{bmName}}"></input>
+        </view>
+        <view class='outer hInp'>
+          <label class="red" style="float:left">*</label><text>电话</text>
+            <input type='number' style='float:right' placeholder='请填写您的联系方式' value='{{bmPhone}}' placeholder-class="inputTip" data-t="dh" bindblur='setMsg'></input>
+        </view>  
+        <view class='outer hInp'>
+          <label class="red" style="float:left">*</label><text>人数</text>
+            <input type='number'  placeholder='请填写参与人数' style='float:right'  bindblur='setMsg' data-t="rs" placeholder-class="inputTip" value="{{bmNum}}"></input>
+        </view> 
+        <button class="sub" hover-class="shover" catchtap="bm">立即报名</button>        
       </view>
    </view>
 

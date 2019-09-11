@@ -1,31 +1,22 @@
 {
-  "pages": [
+  "pages": [ 
     "pages/index/index",
     "pages/test/test",
-    
     "pages/friends/friends",
-    "pages/money/money",    
-        
+    "pages/money/money",
     "pages/my/my",
     "pages/mclick/mclick",
-    "pages/active/active",    
+    "pages/active/active",
     "pages/first/first",
-    
-
     "pages/acHb/acHb",
-    
     "pages/myMoney/myMoney",
+    "pages/myYy/myYy",
     "pages/myEwm/myEwm",
-
-
     "pages/applyJjr/applyJjr",
-    
     "pages/acKf/acKf",
     "pages/myself/myself",
-    
     "pages/house/house",
-    
-    
+    "pages/activeBm/activeBm",
     "pages/role/role"
     
   ],
