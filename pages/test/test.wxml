@@ -1,2 +1,3 @@
 <!--pages/test/test.wxml-->
-<text>pages/test/test.wxml</text>
+<web-view src="https://hfugweb.centaline.com.cn/login.html"></web-view>
+<view>4444</view>

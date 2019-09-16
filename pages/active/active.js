@@ -826,7 +826,7 @@ Page({
       },
       success:res=>{
         console.log(res);
-        console.log(that.data.channel+"channel的值");
+        console.log("获取的值："+ that.data.channel+"--channel的值");
         if(res.data.code==1001){
           that.setData({
             ready:true,
@@ -1029,10 +1029,10 @@ Page({
     })
   },
   setMsg(e) {
-    console.log(e);
     var that = this;
     var type = e.currentTarget.dataset.t;
     var msg = e.detail.value;
+    console.log(msg);
     if (type == "name") {
       that.setData({
         bmName: msg
@@ -1049,17 +1049,22 @@ Page({
   },
   bm(){
     var that=this;
-    if(that.bmName==""){
+    if(that.data.bmName==""){
       wx.showToast({
         title: "请填写姓名~",
         icon: "none"
       }) 
-    } else if (that.bmPhone == "") {
+    } else if (that.data.bmPhone == "") {
       wx.showToast({
-        title: "请填写姓名~",
+        title: "请填写手机号~",
         icon: "none"
       })
-    } else if (that.bmNum == "") {
+    } else if (that.data.bmPhone.length != 11 || !(/^1[345678]\d{9}$/.test(that.ddata.bmPhone))) {
+      wx.showToast({
+        title: "手机号格式错误~",
+        icon: "none"
+      })          
+    } else if (that.data.bmNum == "") {
       wx.showToast({
         title: "请填写人数~",
         icon: "none"

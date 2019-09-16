@@ -168,7 +168,7 @@ Page({
       url: 'https://spapi.centaline.com.cn/api/Rotate/GetWxQRcode',
       method:"post",
       data:{
-        scene: 'Id=' + that.data.activeId + "," + that.data.oneId + "," + that.data.secondId +",channel=3",
+        scene: 'Id=' + that.data.activeId + "," + that.data.oneId + "," + that.data.secondId +",3",
         page: 'pages/active/active'
       },
       success:res=>{

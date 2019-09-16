@@ -302,7 +302,7 @@
         </view>
         <view class='outer hInp'>
           <label class="red" style="float:left">*</label><text>电话</text>
-            <input type='number' style='float:right' placeholder='请填写您的联系方式' value='{{bmPhone}}' placeholder-class="inputTip" data-t="dh" bindblur='setMsg'></input>
+            <input type='number' style='float:right' placeholder='请填写您的手机号码' value='{{bmPhone}}' placeholder-class="inputTip" data-t="dh" bindblur='setMsg'></input>
         </view>  
         <view class='outer hInp'>
           <label class="red" style="float:left">*</label><text>人数</text>

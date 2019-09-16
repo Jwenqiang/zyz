@@ -13,6 +13,7 @@ Page({
    */
   onLoad: function (options) {
     // this.getData();
+    console.log(wx.getMenuButtonBoundingClientRect())
   },
 
   /**
