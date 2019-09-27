@@ -7,13 +7,13 @@ Page({
    */
   data: {
     clickList:[],
-    id:"",
-    uid:"",
+    navH: "132rpx",
+    activeId:"",
+    userId:"",
     ptotal: 0,
     pidx: 2,
     pval: "",
-    no: false,  
-    navH: "132rpx"  
+    no: false,    
   },
 
   /**
@@ -22,24 +22,24 @@ Page({
   onLoad: function (e) {
     this.setData({
       navH: app.globalData.navHeight
-    })        
-    wx.showLoading({
-      title: '加载中'
-    })     
-    var that = this;
-    if(e.id){
+    })    
+    var that=this;    
+    if(e.activeId){
       that.setData({
-        id:e.id
+        activeId: e.activeId
       })
-    }
-    if(e.uid){
+    } 
+    if (e.userId) {
       that.setData({
-        uid: e.uid
-      })      
-    }
-    setTimeout(function(){
+        userId: e.userId
+      })
+    } 
+    wx.showLoading({
+      title: '',
+    })
+    setTimeout(function () {
       that.getData();
-    },100)
+    }, 100)   
   },
 
   /**
@@ -53,6 +53,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+
   },
 
   /**
@@ -115,13 +116,13 @@ Page({
     wx.request({
       url: 'https://spapi.centaline.com.cn/api/Rotate/GetRotateUserClickList',
       method:"post",
-      data:{
-        RotateId:that.data.id,
-        StartUserId: that.data.uid,
-        PageIndex:num,
-        PageSize:20
+      data: {
+        RotateId: Number(that.data.activeId),
+        StartUserId: Number(that.data.userId),
+        PageSize: 20,
+        PageIndex: num,
       },
-      success:res=>{
+      success(res) {
         console.log(res);
         if (res.data.code == 1001) {
           that.setData({
@@ -137,10 +138,11 @@ Page({
             that.setData({
               clickList: that.data.clickList.concat(res.data.data.DataList)
             })
-          }
+          }            
+
           wx.hideLoading();
-        }        
-      }
+        }
+      }      
     })
   }
 })

@@ -21,14 +21,14 @@
         <!-- 第一名 -->
         <block wx:if="{{index==0}}">
         <image src="/img/pm1.png" class="hg"></image>
-        <image src="{{item.StartHeadImg}}" class="tx bk"></image>
+        <image src="{{item.StartHeadImg}}" mode='aspectFill' class="tx bk"></image>
         </block>
         <block wx:elif="{{index==1||index==2}}">
         <image src="/img/pm2.png" class="hg"></image>
-        <image src="{{item.StartHeadImg}}" class="tx bk2"></image>
+        <image src="{{item.StartHeadImg}}" mode='aspectFill' class="tx bk2"></image>
         </block>
         <block wx:else>
-        <image src="{{item.StartHeadImg}}" class="tx"></image>
+        <image src="{{item.StartHeadImg}}" mode='aspectFill' class="tx"></image>
         </block>                
           <text>{{item.StartNickName}}</text>
         </view>

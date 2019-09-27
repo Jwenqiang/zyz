@@ -70,6 +70,7 @@ Page({
    */
   onLoad: function (e) {
     console.log(e);
+    wx.hideShareMenu();
     this.setData({
       navH: app.globalData.navHeight
     })      
@@ -134,6 +135,9 @@ Page({
             bmPhone: res.data.Mobile,
             show: false,
             oneAction: that.data.oneAction+1
+          })
+          wx.showShareMenu({
+            withShareTicket: true
           })
           setTimeout(function () {
             that.getCj();
@@ -208,6 +212,9 @@ Page({
             show: false,
             oneAction:1
           })
+          wx.showShareMenu({
+            withShareTicket: true
+          })
           setTimeout(function () {
             that.getCj();
           }, 10)
@@ -233,12 +240,14 @@ Page({
           that.setData({
             show: true
           })
+          wx.hideShareMenu();
         }
       },
       fail(e) {
         that.setData({
           show: true
         })
+        wx.hideShareMenu();
       }
     })
 
@@ -677,6 +686,9 @@ Page({
                 mobile: res.data.data.Mobile,                
                 show: false
               })
+              wx.showShareMenu({
+                withShareTicket: true
+              })
               // this.loadAnimation();
               setTimeout(function(){
                 that.getCj();
@@ -826,7 +838,6 @@ Page({
       },
       success:res=>{
         console.log(res);
-        console.log("获取的值："+ that.data.channel+"--channel的值");
         if(res.data.code==1001){
           that.setData({
             ready:true,
@@ -1059,7 +1070,7 @@ Page({
         title: "请填写手机号~",
         icon: "none"
       })
-    } else if (that.data.bmPhone.length != 11 || !(/^1[345678]\d{9}$/.test(that.ddata.bmPhone))) {
+    } else if (that.data.bmPhone.length != 11 || !(/^1[345678]\d{9}$/.test(that.data.bmPhone))) {
       wx.showToast({
         title: "手机号格式错误~",
         icon: "none"

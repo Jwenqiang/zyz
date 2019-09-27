@@ -269,6 +269,7 @@
   <view class="showMsg" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/sq.png') center no-repeat;background-size:100%">
     <view class="title">转一转</view>
     <text class="show_tip">- 买房卖房、赚钱拓客样样不误 -</text>
+    <text class="show_tip" style="display:block;margin-top:10rpx">- 进入活动分享给好友瓜分现金 -</text>
     <view class="show_rect">
       <view class="sbj"></view>
       <view class="show_info">

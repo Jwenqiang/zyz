@@ -2,7 +2,7 @@
 <view class="htop" style='height:{{navH}}px'></view>
 <view class="page">
   <view class="outer list" wx:for="{{clickList}}" wx:key="{{index}}" wx:if="{{clickList.length>0}}">
-    <image src="{{item.HeadImg}}"></image>
+    <image src="{{item.HeadImg}}" mode='aspectFill'></image>
     <view class="listR">
       <label>{{item.NickName}}</label>
       <text>{{item.AddTime}}</text>
