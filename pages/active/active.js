@@ -62,7 +62,8 @@ Page({
     bmPhone: "",
     bmNum:"",
     channel:2,
-    navH: "132rpx"
+    navH: "132rpx",
+    hasFun:false
   },
 
   /**
@@ -117,7 +118,6 @@ Page({
   onReady: function () {
     
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -909,6 +909,7 @@ Page({
           wx.setStorageSync("activeData", res.data.data);
           wx.setStorageSync("clickList", res.data.data.RotateHelpUserClickList);
           wx.setStorageSync("moneyList", res.data.data.RotateStartUserAmountList);
+          wx.setStorageSync("funsList", res.data.data.RotateStartUserAmountFansList);
           if (res.data.data.UserMaxAmountBl){
             that.setData({
               isOld:true
@@ -1039,6 +1040,26 @@ Page({
       animationBm: animation.export()
     })
   },
+  showFun(e) {
+    this.data.hasFun = !this.data.hasFun;
+    var that = this;
+    // 显示遮罩层 
+    var animation = wx.createAnimation({
+      duration: 500,
+      timingFunction: "ease-out",
+      delay: 0
+    })
+    animation.opacity(0).step();
+    this.setData({
+      animationBm: animation.export(),
+      hasFun: that.data.hasFun
+    })
+    animation.opacity(1).step();
+    this.setData({
+      animationBm: animation.export()
+    })
+  },
+
   setMsg(e) {
     var that = this;
     var type = e.currentTarget.dataset.t;

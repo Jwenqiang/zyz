@@ -22,7 +22,6 @@ Page({
     wx.showLoading({
       title: '加载中'
     })       
-
     var p1 = this.getBanner();
     var p2 = this.getData();
     var that = this;
@@ -43,6 +42,7 @@ Page({
       })     
   },
   onShow(){
+
     // 底部tabbar
     if (typeof this.getTabBar === 'function' &&
       this.getTabBar()) {

@@ -1,16 +1,17 @@
 {
   "pages": [
-    "pages/index/index",     
+    
+    "pages/index/index",
+    "pages/active/active",
+   
     "pages/money/money",
 
-    "pages/test/test",
     "pages/uFriends/friends",
     "pages/friends/friends",
     
     "pages/my/my",
     "pages/mclick/mclick",
-    "pages/active/active",
-    "pages/first/first",
+    
     "pages/acHb/acHb",
     "pages/myMoney/myMoney",
     "pages/myYy/myYy",

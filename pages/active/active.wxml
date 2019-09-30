@@ -5,11 +5,21 @@
 
 <view wx:if="{{isOld==false&&hasData}}" class="hd {{show?'hidden':''}}">
 <view class="page" wx:if="{{house.State!=2}}">
-  <view class="partOne" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part1.png') center no-repeat;background-size:100%">
+  <view class="partOne" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part1.png') left top no-repeat;background-size:100%">
     <view class="h1">{{house.Title}}</view>
     <view class="h4">{{house.SecondTitle}}</view>
   </view>
-  <view class="partTwo" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part2.png') center no-repeat;background-size:100%">
+  <view class="funsTip" wx:if="{{house.OtherAmountReward>0}}" bindtap="showFun">
+    <image src="/img/lineB.png" class="lineB"></image>
+    <image src="/img/king.png" class="king"></image>
+    <label class="funsSm">?</label>
+    <view class="fText">
+      <label>粉丝王</label>额外奖励<text>{{house.OtherAmountReward}}</text>元
+    </view>
+    
+  </view>  
+  <!-- style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part2.png') center no-repeat;background-size:100%" -->
+  <view class="partTwo {{house.OtherAmountReward>0?'':'mt80'}}">
     <view class="acMsg">
       <image src="{{house.DetailImg}}"></image>
     </view>
@@ -119,6 +129,7 @@
       </view>
     </view>
   </view>
+
   <view class="partFive">
     <view class="title"><image src="/img/icon-title.png"></image> 奖金榜单 <image src="/img/icon-title.png"></image></view>
     <view class="friends">
@@ -143,14 +154,50 @@
           <text>{{house.RotateStartUserAmountList[2].StartNickName}}</text>
         </view> 
         <!-- <text wx:if="{{house.RotateStartUserAmountList.length==0}}">暂无排名~</text>                -->
-  <view wx:if="{{house.RotateStartUserAmountList.length==0}}" style="text-align:center;padding-top:90rpx;background:url(https://hfugweb.centaline.com.cn/img/smallR/rotate/none.png) center top no-repeat;background-size:200rpx;color:#999">
-    <text style="font-size:22rpx">暂无排名~</text>
-  </view> 
+        <view wx:if="{{house.RotateStartUserAmountList.length==0}}" style="text-align:center;padding-top:90rpx;background:url(https://hfugweb.centaline.com.cn/img/smallR/rotate/none.png) center top no-repeat;background-size:200rpx;color:#999">
+          <text style="font-size:22rpx">暂无排名~</text>
+        </view> 
 
 
       </view>
     </view>    
   </view>
+
+
+  <view class="partFive" wx:if="{{house.OtherAmountReward>0}}">
+    <view class="title"><image src="/img/icon-title.png"></image> 粉丝榜单 <image src="/img/icon-title.png"></image></view>
+    <view class="friends">
+      <view class="uClick">粉丝排行榜<text class="goF" bindtap="goMoney" data-id="2">查看全部 ></text></view>
+      <view class="outer utx">     
+        <view class="pm" wx:if="{{house.RotateStartUserAmountFansList.length>1}}">
+          <!-- <image src="/img/pm2.png" class="hg"></image> -->
+          <image src="{{house.RotateStartUserAmountFansList[1].StartHeadImg}}" class="tx"></image>
+          <!-- <label>2</label> -->
+          <text>{{house.RotateStartUserAmountFansList[1].StartNickName}}</text>
+        </view>
+        <view class="pm no1" wx:if="{{house.RotateStartUserAmountFansList.length>0}}">
+          <image src="/img/pm1.png" class="hg hg1"></image>
+          <image src="{{house.RotateStartUserAmountFansList[0].StartHeadImg}}" class="tx"></image>
+          <label class="funsKing" wx:if="{{house.RotateStartUserAmountFansList[0].Settlement}}">
+            <image src="/img/funsKing.png"></image>
+          </label>
+          <text>{{house.RotateStartUserAmountFansList[0].StartNickName}}</text>
+        </view>         
+        <view class="pm" wx:if="{{house.RotateStartUserAmountFansList.length>2}}">
+          <!-- <image src="/img/pm2.png" class="hg"></image> -->
+          <image src="{{house.RotateStartUserAmountFansList[2].StartHeadImg}}" class="tx"></image>
+          <!-- <label>3</label> -->
+          <text>{{house.RotateStartUserAmountFansList[2].StartNickName}}</text>
+        </view> 
+        <view wx:if="{{house.RotateStartUserAmountFansList.length==0}}" style="text-align:center;padding-top:90rpx;background:url(https://hfugweb.centaline.com.cn/img/smallR/rotate/none.png) center top no-repeat;background-size:200rpx;color:#999">
+          <text style="font-size:22rpx">暂无排名~</text>
+        </view> 
+
+
+      </view>
+    </view>    
+  </view>
+
   <view class="partSix">
     <view class="title"><image src="/img/icon-title.png"></image> 活动规则 <image src="/img/icon-title.png"></image></view>
     <view class="role">
@@ -213,11 +260,11 @@
 
 
 <!-- 弹窗 -->
-<view class="show" wx:if="{{house.TotalAmountEnd==false&&showF}}">
+<view class="show" wx:if="{{house.TotalAmountNewEnd==1&&showF}}">
   <view class="bj" catchtap="closeShow"></view>
   <view class="showMsg" style="background:#fff;height:400rpx;padding-top:80rpx;font-weight:bold;font-size:36rpx;">
     <view style="margin-bottom:40rpx;">你来晚啦</view>
-    该活动总奖金已被瓜分完了~
+    {{house.TotalAmountNewEndStr}}
   </view>
 </view>
 <!--  wx:if="{{isShare&&house.State!=2}}" -->
@@ -313,5 +360,17 @@
       </view>
    </view>
 
+
+      <!--弹窗  -->
+   <view class='show' wx:if="{{hasFun}}">
+      <view class='bj' bindtap='showFun'></view>
+      <view class='showMsg showBm sFuns' animation="{{animationBm}}">
+        <!-- <text class='iconfont icon-guanbi' bindtap='showFun'></text> -->
+        <view class="h2" style="margin-bottom:20rpx;color:#feb00f">粉丝王说明</view>
+        <view class="funMsg">
+          <rich-text nodes="{{house.OtherAmountRewardRemarks}}"></rich-text>
+        </view>
+      </view>
+   </view>
 
 

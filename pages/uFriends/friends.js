@@ -35,7 +35,7 @@ Page({
       })
     } 
     wx.showLoading({
-      title: '',
+      title: '加载中',
     })
     setTimeout(function () {
       that.getData();
@@ -106,7 +106,9 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return {
+      path: '/pages/index/index'
+    } 
   },
   getData(num){
     var that=this;

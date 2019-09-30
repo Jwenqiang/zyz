@@ -15,7 +15,7 @@ button::after{
 .partOne {
   padding: 80rpx 40rpx;
   color: #fff;
-  height: 385rpx;
+  height: 458rpx;
 }
 
 .partOne .h1 {
@@ -39,7 +39,13 @@ button::after{
   padding-top: 0;
   position: relative;
 }
-
+.funsTip{color: #fff;position: relative;margin-top: -140rpx;margin-bottom: 40rpx;text-align: center;}
+.funsTip image.lineB{width: 481rpx;height: 67rpx;}
+.funsTip image.king{width: 44rpx;height: 35rpx;position: absolute;top: -10rpx;left: 230rpx}
+.funsSm{width: 44rpx;height: 44rpx;line-height: 44rpx;text-align: center;display: inline-block;color: #fff; background: #feb00f; border-radius: 50%;font-weight: bold;font-size: 28rpx;position: absolute;top: -18rpx;right: 96rpx;}
+.fText{position: absolute;width: 100%;top: 12rpx;text-align: left; font-size: 32rpx;padding-left: 200rpx;box-sizing: border-box}
+.fText label{font-weight: bold;margin-right: 12rpx;font-size: 34rpx;}
+.fText text{font-weight: bold;font-size: 40rpx;margin: 0 4rpx;color: #ffeb3b}
 .floatArea {
   position: absolute;
   height: 60rpx;
@@ -290,7 +296,7 @@ progress{border:  1px solid #b2e0de;border-radius: 20rpx}
 .utx {
   width: 100%;
   height: 100rpx;
-  margin-top: 20rpx;
+  margin-top: 60rpx;
   line-height: 100rpx;
 }
 
@@ -372,7 +378,7 @@ image.hg1 {
   top: 96rpx;
   background: #fdb027;
 }
-
+.no1 label.funsKing,.no1 label.funsKing image{width: 129rpx;height: 44rpx;border-radius: none;left: 5rpx;background: none;}
 .pm text {
   width: 100%;
   font-size: 24rpx;
@@ -670,3 +676,7 @@ font-size: 50rpx
 .hInp text.iconfont{width: 40rpx;display: inline-block;float: right;color: #999;font-weight: 400;font-size: 24rpx;text-align: right}
 button.sub{height: 80rpx;width: 100%;margin-top: 80rpx;line-height: 80rpx;font-size: 28rpx;background: #f63e37;color: #fff}
 .shover{background: #ff0000 !important}
+/* 说明 */
+.sFuns{padding-top: 40rpx;border-radius: 10rpx;}
+.sFuns .h2{padding-bottom: 10rpx;border-bottom: 1px solid #dedede}
+.funMsg{width: 488rpx;height: 500rpx;overflow: hidden; overflow-y:auto;text-align: left }
