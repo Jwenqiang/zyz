@@ -63,7 +63,23 @@ Page({
     bmNum:"",
     channel:2,
     navH: "132rpx",
-    hasFun:false
+    hasFun:false,
+
+    showHouseInfo:false,
+    showModalStatus: false,
+    animationH: {},
+    houseId:"",
+    showPage: false,
+    isX: false,
+    jjr: false,
+    hid: "",
+    houseInfo: "",
+    current: 0,
+    circular: false,
+    selectName: "",
+    isPay: false,
+    isShow: false,
+
   },
 
   /**
@@ -141,6 +157,7 @@ Page({
           })
           setTimeout(function () {
             that.getCj();
+            console.log(that.data.oneAction);
           }, 10)
           if (res.data.RoleType == 5 || res.data.RoleType == 4) {//是经纪人
             that.setData({
@@ -842,12 +859,23 @@ Page({
           that.setData({
             ready:true,
             house:res.data.data,
+            houseInfo: res.data.data.ShootEstate,
             ewm: res.data.data.WxQRcode,
             shareTitle: res.data.data.ShareTitle,
             active: res.data.data.RotateUserAmount,
             bzHouse: { EndTime: res.data.data.EndTime},
             hasData:true,
           })
+          if (res.data.data.LinkType==2){
+            that.setData({
+              houseId: res.data.data.ShootEstate.Id,
+            })
+            if (res.data.data.ShootEstate.BrokerCompanyId > 0) {
+              that.setData({
+                jjr: true
+              })
+            }            
+          }
           if (that.data.house.RotateStartUserAmountList.length > 4){
             
             if (that.data.oneAction == 1){
@@ -1147,5 +1175,102 @@ Page({
         }
       })
     }
-  }
+  },
+  swiperChange: function (e) {
+    if (e.detail.source == 'touch') {
+      this.setData({
+        current: e.detail.current
+      })
+    }
+  },   
+  showHouse(){
+    var that=this;
+    that.data.showHouseInfo = !that.data.showHouseInfo
+    that.setData({
+      showHouseInfo:that.data.showHouseInfo
+    })
+  },
+  goSp(){
+    var that=this;
+    wx.navigateToMiniProgram({
+      appId: 'wxf9e311b46d205f1c',
+      path: 'pages/houseInfo/houseInfo?id='+that.data.houseId,
+      extraData: {
+        foo: 'bar'
+      },
+      envVersion: 'develop',
+      success(res) {
+        // 打开成功
+      }
+    })   
+  },
+  showImg(e) {
+    this.data.isShow = !this.data.isShow;
+    this.data.isHide = !this.data.isHide;
+    var that = this;
+    // 显示遮罩层 
+    var animation = wx.createAnimation({
+      duration: 800,
+      timingFunction: "linear",
+      delay: 0
+    })
+    animation.opacity(0.5).step()
+    this.setData({
+      animationH: animation.export(),
+      isShow: that.data.isShow,
+      isHide: that.data.isHide
+    })
+    animation.opacity(1).step()
+    this.setData({
+      animationH: animation.export()
+    })
+    // }.bind(this), 200)     
+  },  
+  mBig(e) {
+    var u=e.currentTarget.dataset.u
+    wx.previewImage({
+      current: u,
+      urls: [u]
+    })
+  }, 
+  openConfirm: function (e) {
+    console.log(e);
+    if (e.currentTarget.dataset.tel != '' && e.currentTarget.dataset.tel != null) {
+      wx.showModal({
+        title: String(e.currentTarget.dataset.tel),
+        content: '点确认拨打上面的电话号码，并根据提示输入分机号',
+        confirmText: "确认",
+        cancelText: "取消",
+        success: function (res) {
+          console.log(res);
+          if (res.confirm) {
+            wx.makePhoneCall({
+              phoneNumber: e.currentTarget.dataset.tel,
+            })
+          } else {
+            console.log('用户点击辅助操作')
+          }
+        }
+      });
+    } else {
+      wx.showModal({
+        title: String(e.currentTarget.dataset.m),
+        content: '点确认拨打上面的手机号码',
+        confirmText: "确认",
+        cancelText: "取消",
+        success: function (res) {
+          console.log(res);
+          if (res.confirm) {
+            wx.makePhoneCall({
+              phoneNumber: e.currentTarget.dataset.m,
+            })
+          } else {
+            console.log('用户点击辅助操作')
+          }
+        }
+      });
+    }
+
+
+  },   
 })

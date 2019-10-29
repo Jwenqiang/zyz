@@ -20,9 +20,16 @@
   </view>  
   <!-- style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part2.png') center no-repeat;background-size:100%" -->
   <view class="partTwo {{house.OtherAmountReward>0?'':'mt80'}}">
-    <view class="acMsg">
+    <view class="acMsg" wx:if="{{house.LinkType==2}}" bindtap="showHouse">
       <image src="{{house.DetailImg}}"></image>
+      <view class="houseBtn">
+        <label></label>
+        <text>查看项目详情</text>
+      </view>
     </view>
+    <view class="acMsg" wx:else>
+      <image src="{{house.DetailImg}}"></image>
+    </view>    
 
     <view class="floatArea" animation="{{animationData}}" bindtap="goMoney"  wx:if="{{house.RotateStartUserAmountList[0].Amount>0}}">
       <view class="user">
@@ -333,8 +340,8 @@
       <view class='bj' bindtap='showEwm'></view>
       <view class='showMsg' animation="{{animationEwm}}">
         <text class='iconfont icon-guanbi' bindtap='showEwm'></text>
-        <image src='{{ewm}}' mode='aspectFit' bindtap='mBig'></image>
-        <text class='msgTip'>tip:点击图片放大长按可保存</text>
+        <image src='{{ewm}}' mode='aspectFit' bindtap='mBig' class="myEwm"></image>
+        <text class='msgTipH'>tip:点击图片放大长按可保存</text>
       </view>
    </view>
 
@@ -373,4 +380,185 @@
       </view>
    </view>
 
+<!-- 显示房源 -->
+<view class="show" wx:if="{{showHouseInfo}}">
+  <view class="bj" bindtap="showHouse"></view>
+  <view class="showMsg showHouse">
+    <text class='iconfont icon-guanbi' bindtap='showHouse'></text>
 
+
+    <view class="box">
+      <view class='swiperC'>
+        <swiper bindchange="swiperChange" interval="5000" duration="300" circular="true" class='houseBan'>
+          <block wx:for="{{houseInfo.ShootEstatePicWheelList}}" wx:key="index">
+            <swiper-item>
+              <image src="{{item.Url}}" class="slide-image" data-type="{{item.Type}}"  mode='aspectFill' bindtap="goSp"/>
+            </swiper-item>
+          </block>  
+        </swiper>
+        <view class="imageCount"><view class='bg'></view><text>{{current+1}}/{{houseInfo.ShootEstatePicWheelList.length}}</text> </view>
+      </view>
+    <!-- 未成交 -->
+    <view class="containerH noPay" wx:if="{{houseInfo.State==4}}">
+      <view class='houseT'>
+        <text class='house_title'>{{houseInfo.Name}}</text>
+      </view>
+      <view class='outer houseM'>
+        <view class='house_tag'>
+          <block wx:for="{{filter.dTime(houseInfo.ShootEstateTag)}}" wx:for-item="sitem" wx:key="index"><text>{{sitem}}</text></block>
+        </view>
+      </view>
+      <view class='outer houseContent'>
+        <view class='outer house_price'>
+          <view class='house_tp'>
+            <view class='htPrice'>{{houseInfo.BuySalePrice}}<text>万</text></view>
+            <view class='htag'>抢购价</view>
+          </view>
+          <view class='house_tp' style='width:26%'>
+            <view class='hnPrice'>{{houseInfo.OriginalSalePrice}}万</view>
+            <view class='htag'>原价</view>
+          </view>    
+          <view class='house_tp' style='width:26%'>
+            <view class='houseMsg'>{{houseInfo.CountF}}室<block wx:if="{{houseInfo.CountT>0}}">{{houseInfo.CountT}}厅</block></view>
+            <view class='htag'>房型</view>
+          </view> 
+          <view class='house_tp' style='width:18%'>
+            <view class='houseMsg'>{{houseInfo.ProductionAcreage}}㎡</view>
+            <view class='htag'>面积</view>
+          </view>                 
+        </view>
+        <view class='housePeople' wx:if="{{houseInfo.ShootEstateLookUserList!=''}}">
+          <block wx:for="{{houseInfo.ShootEstateLookUserList}}" wx:key="index" wx:for-item="itemImg">
+            <image src='{{itemImg.HeadImg}}' wx:if="{{index<3&&itemImg.HeadImg!=''&&itemImg.HeadImg!=null}}" mode='aspectFill'></image>
+            <image src='../../img/tx.png' wx:if="{{index<3&&(itemImg.HeadImg==''||itemImg.HeadImg==null)}}"></image>
+          </block>  
+          <text>...</text>
+        </view>
+        <view class='orderH'>
+          <label style='margin-right:10rpx'><text>{{houseInfo.Hot}}</text>人围观</label><label><text>{{houseInfo.ReserveCount}}</text>人预约看房</label>
+        </view>  
+        <!-- <view  class='orderTime'><button bindtap='goSp' data-id="{{houseInfo.Id}}">预约看房</button></view>  -->
+      </view>  
+    </view>
+    <!-- 已成交 -->
+    <view class="containerH hasPay outer"  wx:if="{{houseInfo.State==6}}" style='background: #fff url(http://hfugweb.centaline.com.cn/img/smallR/img/ycj.png) 74% 40rpx no-repeat;background-size:146rpx; '>
+      <view class='houseT'>
+        <text class='house_title'>{{houseInfo.VillageName}} {{houseInfo.CountF}}室<block wx:if="{{houseInfo.CountT>0}}">{{houseInfo.CountT}}</block>厅 {{houseInfo.ProductionAcreage}}㎡</text>
+      </view>
+      <view class='outer houseM'>
+        <view class='house_tag'>
+        <text decode="{{true}}" style='background:none'> 签约日期:</text><text style='background:none;color:#000;font-weight:bold;'>{{houseInfo.DealDate}}</text>
+        </view>
+        <view class='house_tag'>
+          <text decode="{{true}}" style='background:none'>原&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价:</text><text style='background:none;color:#000;font-weight:bold;'>{{houseInfo.OriginalSalePrice}}万</text>
+        </view>    
+      </view>
+      <view class='outer houseContent' style='margin-bottom:0;'>
+        <view class='outer house_price'>
+          <view class='house_tp' style='width:49%'>
+            <view class='htPrice'>{{houseInfo.DealAmount}}<text>万</text></view>
+            <view class='htag'>成交价</view>
+          </view>
+          <view style='width:1rpx;height:60rpx;background:#ddd;float:left;margin-top:10px;'></view>
+          <view class='house_tp' style='width:49%;padding-left:4%;box-sizing: border-box;'>
+            <view class='htPrice'>{{houseInfo.DealAveragePrice}}<text>元/㎡</text></view>
+            <view class='htag'>成交均价</view>
+          </view>                   
+        </view>
+      </view>  
+    </view>
+
+    <block wx:if="{{jjr==true}}">
+    <view class='hr10'></view>
+    <!-- 经纪人权限增加 -->
+    <view class='hzfa' wx:if="{{role!=1}}">
+      <view style='font-weight:bold;color:#000;margin-bottom:30rpx'>合作方案</view>
+      <text style='font-size:24rpx' wx:if="{{houseInfo.CooperationScheme!=''}}">{{houseInfo.CooperationScheme}}</text>
+      <text style='font-size:24rpx' wx:else>暂无方案</text>
+    </view>
+    <!-- 结束 -->
+    </block>
+    <view class='hr10'></view>
+    <view class='containerH'>
+      <view class='outer houseInfo'>
+        <view><label>房源单价：</label><text>{{houseInfo.AveragePrice}}元/㎡</text></view>
+        <view><label>房源朝向：</label><text>{{houseInfo.Orientation}}</text></view>
+        <view><label>物业类型：</label>
+        <text>
+          <block wx:if="{{houseInfo.PropertyType==1}}">住宅</block>
+          <block wx:if="{{houseInfo.PropertyType==2}}">公寓</block>
+          <block wx:if="{{houseInfo.PropertyType==3}}">别墅</block>
+          <block wx:if="{{houseInfo.PropertyType==4}}">商铺</block>
+          <block wx:if="{{houseInfo.PropertyType==5}}">写字楼</block>
+          <block wx:if="{{houseInfo.PropertyType==6}}">洋房</block>
+          <block wx:if="{{houseInfo.PropertyType==7}}">商住楼</block>
+          <block wx:if="{{houseInfo.PropertyType==8}}">综合体</block>
+          <block wx:if="{{houseInfo.PropertyType==9}}">统建房</block>
+          <block wx:if="{{houseInfo.PropertyType==10}}">福利房</block>
+          <block wx:if="{{houseInfo.PropertyType==11}}">军产房</block>
+        </text>
+        </view>
+        <view><label>房源户型：</label><text>{{houseInfo.CountF}}室<block>{{houseInfo.CountT}}厅</block><block>{{houseInfo.CountW}}卫</block></text></view>
+        <view><label>建成年代：</label><text wx:if="{{houseInfo.BuildYears>0}}">{{houseInfo.BuildYears}}</text><text wx:else>暂无信息</text></view>
+        <view><label>装修情况：</label>
+          <text wx:if="{{houseInfo.ShootEstateRenovation==1}}">毛坯</text>
+          <text wx:if="{{houseInfo.ShootEstateRenovation==2}}">简装</text>
+          <text wx:if="{{houseInfo.ShootEstateRenovation==3}}">精装</text>
+          <text wx:if="{{houseInfo.ShootEstateRenovation==4}}">豪装</text>
+        </view>
+        <view><label>产权年限：</label><text wx:if="{{houseInfo.PropertyYears!=null&&houseInfo.PropertyYears!=''}}">{{houseInfo.PropertyYears}}</text><text wx:else>暂无信息</text></view>
+        <view><label>配套学区：</label><text wx:if="{{houseInfo.MatchingSchool!=''&&houseInfo.MatchingSchool!=null}}">{{houseInfo.MatchingSchool}}</text><text wx:else>暂无信息</text></view>
+        <view style='width:100%'><label>所属小区：</label><text>{{houseInfo.VillageName}}</text></view>
+        <view style='width:100%'><label>所在位置：</label><text>{{houseInfo.Address}}</text></view>
+      </view>
+      <view class='housePl' style='background: url(http://hfugweb.centaline.com.cn/img/smallR/img/hsp.png) 10px top no-repeat;background-size:71rpx;'>
+        <text style='font-size:46rpx;font-weight:bold;margin-bottom:20rpx;color:#333'>笋评</text>
+        <text>{{houseInfo.ShootEvaluate}}</text>
+      </view>
+    <view class='hr110'></view>
+    <view class="houseFoot">
+    <view class='readM'>
+        <button bindtap='goSp'>查看全部房源信息</button>
+    </view>
+    <view class="footBarH {{isX?'pd-b60 height160':''}}" wx:if="{{jjr==false}}">
+      <image src='{{houseInfo.ShootEstateSale.HeadImg}}' wx:if="{{houseInfo.ShootEstateSale.HeadImg!=''&&houseInfo.ShootEstateSale.HeadImg!=null}}"  mode='aspectFill'></image>
+      <image src='../../img/tx3.png' wx:else></image>
+      <view class='fbName'>
+        <text>{{houseInfo.ShootEstateSale.FullName}}</text>
+        <text>高级顾问</text>
+      </view>
+      <view class='fbtn'>
+        <button class="{{(houseInfo.ShootEstateSale.WxQRcode==''||houseInfo.ShootEstateSale.WxQRcode==null)?'only':''}}" data-tel="{{houseInfo.ShootEstateSale.TelePhone}}" data-m="{{houseInfo.ShootEstateSale.Mobile}}"  catchtap="openConfirm">电话咨询</button>  
+        <button bindtap='showImg' wx:if="{{houseInfo.ShootEstateSale.WxQRcode!=''&&houseInfo.ShootEstateSale.WxQRcode!=null}}">添加微信</button>
+      </view>
+    </view>
+    <view class="footBarH {{isX?'pd-b60 height160':''}}" wx:if="{{jjr==true}}">
+      <image src='{{houseInfo.BrokerStoreSale.HeadImg}}' wx:if="{{houseInfo.BrokerStoreSale.HeadImg!=''&&houseInfo.BrokerStoreSale.HeadImg!=null}}"  mode='aspectFill'></image>
+      <image src='../../img/tx3.png' wx:else></image>
+      <view class='fbName'>
+        <text>{{houseInfo.BrokerStoreSale.FullName}}</text>
+        <text>经纪人</text>
+      </view>
+      <view class='fbtn'>
+        <button class="{{(houseInfo.BrokerStoreSale.WxQRcode==''||houseInfo.BrokerStoreSale.WxQRcode==null)?'only':''}}" data-tel="{{houseInfo.BrokerStoreSale.TelePhone}}" data-m="{{houseInfo.BrokerStoreSale.Mobile}}"  catchtap="openConfirm">电话咨询</button>
+        <button bindtap='showImg' wx:if="{{houseInfo.BrokerStoreSale.WxQRcode!=''&&houseInfo.BrokerStoreSale.WxQRcode!=null}}">添加微信</button>
+      </view>
+    </view>
+    </view>
+      <!--弹窗  -->
+      <view class='show showWx' wx:if="{{isShow}}">
+          <view class='bj' bindtap='showImg'></view>
+          <view class='showMsg wxMsg' animation="{{animationH}}">
+            <text class='iconfont icon-guanbi' bindtap='showImg'></text>
+            <image src='{{houseInfo.BrokerStoreSale.WxQRcode}}' mode='aspectFit' bindtap='mBig' data-u="{{houseInfo.BrokerStoreSale.WxQRcode}}" wx:if="{{jjr}}"></image>
+            <image src='{{houseInfo.ShootEstateSale.WxQRcode}}' mode='aspectFit' bindtap='mBig' data-u="{{houseInfo.ShootEstateSale.WxQRcode}}" wx:else></image>            
+            <text class='msgTip'>tip:点击图片放大长按可保存</text>
+          </view>
+      </view>
+    
+    
+    </view>
+    </view>
+
+  </view>
+</view>

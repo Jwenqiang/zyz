@@ -319,7 +319,7 @@ Component({
                         filePath: tempFilePath,
                         success(res) {
                           wx.showModal({
-                            content: '图片已保存到相册,发个朋友圈吧~',
+                            content: '图片已保存到相册~',
                             showCancel: false,
                             confirmText: '好的',
                             confirmColor: '#333',
@@ -354,7 +354,7 @@ Component({
                         filePath: tempFilePath,
                         success(res) {
                           wx.showModal({
-                            content: '图片已保存到相册,发个朋友圈吧~',
+                            content: '图片已保存到相册~',
                             showCancel: false,
                             confirmText: '好的',
                             confirmColor: '#333',

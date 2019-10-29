@@ -113,13 +113,16 @@ button::after{
   color: #ffc700;
   margin-left: 2rpx;
 }
-
+.acMsg{position: relative}
 .acMsg image {
   height: 700rpx;
-  border: 4px solid #f8a88e;
+  border: 8rpx solid #f8a88e;
   border-radius: 8px;
   box-sizing: border-box;
 }
+.houseBtn{width: 654rpx;height: 80rpx;position: absolute;bottom: 16rpx;left: 8rpx}
+.houseBtn label{display: block;width: 100%;height: 100%;background: #000;opacity: 0.5}
+.houseBtn text{display: block;width: 100%;height: 80rpx;line-height: 80rpx;text-align: center;position: absolute;left: 0;bottom: 0;color: #fff;font-weight: bold}
 
 .partThird {
   height: 690rpx;
@@ -665,9 +668,11 @@ font-size: 50rpx
 }
 .hover{background: #ccad44 !important}
 .showMsg .icon-guanbi{position: absolute;right: 10rpx;top: 10rpx;font-size: 40rpx;}
-.showMsg image{width: 400rpx;height: 400rpx;display: block;margin: 60rpx auto 40rpx}
+.showMsg image.myEwm{width: 400rpx;height: 400rpx;display: block;margin: 60rpx auto 40rpx}
 
 /* 报名 */
+.showHouse{border-radius: 12rpx}
+.showHouse .icon-guanbi{position: fixed;top: 200rpx;right: 44rpx}
 .showBm{padding-top: 60rpx}
 .hInp{border-bottom: 1px solid #f5f5f7;padding: 20rpx 40rpx;font-size: 28rpx;position: relative}
 .hInp label{display: block;float: left;line-height: 60rpx}
@@ -680,3 +685,252 @@ button.sub{height: 80rpx;width: 100%;margin-top: 80rpx;line-height: 80rpx;font-s
 .sFuns{padding-top: 40rpx;border-radius: 10rpx;}
 .sFuns .h2{padding-bottom: 10rpx;border-bottom: 1px solid #dedede}
 .funMsg{width: 488rpx;height: 500rpx;overflow: hidden; overflow-y:auto;text-align: left }
+
+/* 房源详情 */
+.showHouse{
+  width: 670rpx;
+  height: 1100rpx;
+  left: 40rpx;
+  overflow-y: auto;
+  top: 200rpx;
+}
+
+.box{padding-bottom: 60rpx;height: 100%}
+.containerH{height: auto}
+.houBan{width: 100%;height: 340rpx;}
+swiper, swiper-item{height: 340rpx;}
+.swiperC{position: relative;height: 340rpx;}
+.show image.slide-image{width: 100%;height: 340rpx;margin: 0}
+.topFix{position: absolute;width: 120rpx;height: 50rpx;line-height: 50rpx;text-align: center; background: #000;color: #fff;font-size: 22rpx;left: 0;bottom:20rpx;border-top-right-radius: 28rpx;border-bottom-right-radius: 28rpx;}
+.containerH{
+	display: block;
+  padding: 40rpx 0 0;
+  background: #fff;
+  text-align: left
+}
+.image{
+    width: 100%;
+    height: 100%;
+}
+.imageCount{
+  width: 120rpx;
+  height: 48rpx;
+  border-radius: 20px;
+  line-height: 48rpx;
+  color: #fff;
+  text-align: center;
+  font-size: 26rpx;
+  position: absolute;
+  left: 235rpx;
+  bottom: 20rpx;
+}
+.imageCount .bg{
+    width: 120rpx;
+    height: 48rpx;  
+    background-color: #000;
+    opacity: 0.6;
+    position: absolute;  
+    left: 0;
+    top: 0;  
+    border-radius: 20px;
+    z-index: 8;
+}
+.imageCount text{display: block;position: relative;z-index: 9}
+/* .name{
+	font-size: 58rpx;
+	color: #333;
+	font-weight: bold;
+	margin-left: 20rpx;
+	margin-top: 50rpx;
+    padding-bottom: 100rpx;
+} */
+.text{
+    font-size: 48rpx;
+    color: #333;
+    font-weight: bold;
+    margin-left: 120rpx;
+    margin-top: 40rpx;
+    margin-right: 20rpx;
+}
+.container swiper{
+   height: 200rpx;
+   padding-left: 20rpx;
+}
+
+.back{
+  width: 280rpx;
+  height: 200rpx;
+  border-radius: 10rpx;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* .houseT,.houseContent{padding: 20rpx} */
+.container{box-sizing: border-box;position: relative}
+.house_title{font-size: 36rpx;font-weight: bold;margin-bottom: 20rpx;box-sizing: border-box;color: #333;text-align: left}
+.house_time{font-size: 24rpx;margin: 20rpx 0;}
+.houseT text{display: block;}
+/* .houseM{position: relative;} */
+.houseM .house_tag{width: 600rpx;float: left;}
+.house_tp{display: block;width: 30%;float: left}
+.house_price{margin: 20rpx 0;}
+.house_price text{font-size: 26rpx;margin-right: 20rpx;}
+.house_price .blod{font-weight: bold;font-size: 28rpx;}
+.house_tag text{display: inline-block; font-size: 24rpx;padding:2rpx 8rpx;background: #edf3fb;margin-left: 10rpx;color: #999;border-radius: 6rpx; }
+.house_tag text:first-child{margin-left: 0}
+.housePeople{width: 280rpx;float: left;margin: 20rpx 0;clear: both;margin-top: 20rpx;}
+.housePeople image{width: 60rpx;height: 60rpx;float: left;margin-right: -5rpx;border-radius: 50%;border: 1px solid #ededed;}
+.housePeople text{display: block;border:1px solid #ededed;text-align: center;border-radius: 50%;width: 56rpx;height: 56rpx;float: left;background: #fff}
+.houseShare{width: 50rpx;height: 50rpx;display: block;}
+.houseShare::after{
+  border: none;
+}
+.hshare{
+  position: absolute;right: 40rpx;top: 40rpx;text-align: center;font-size: 20rpx;
+}
+.houseContent{margin: 20rpx 0 0rpx;box-sizing: border-box;}
+.htag{font-size: 24rpx;color: #999;}
+.house_tp view:first-child{height: 72rpx;line-height: 72rpx;}
+.htPrice{color: #fe483a;font-size: 60rpx;font-weight: bold}
+.hnPrice{text-decoration: line-through;color: #333;font-weight: bold;}
+
+.houseMsg{font-weight: bold;color: #333}
+.orderH{width: 300rpx;float: right;margin: 20rpx 0;text-align: right;font-size: 24rpx;color: #999;line-height: 60rpx;}
+.orderH text{color: #4fbcdc;font-weight: bold;}
+/* .xjDate{clear: both;margin-top: 40rpx;font-size: 24rpx;font-weight: bold;color: #999;width: 400rpx;float: left;}
+.xjDate text{
+  background:#333;
+  padding:2px 8rpx;
+  color: #fff;
+  margin: 0 10rpx;
+  border-radius: 3px;
+  font-weight:400;
+  font-size:24rpx;
+} */
+
+.orderTime{
+  margin-top: 30rpx;
+  display: block;
+  float: right;
+  width: 160rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 24rpx;
+}
+.orderTime button{
+  display: block;
+  float: right;
+  width: 160rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 24rpx;  
+  border:none;
+  font-weight: bold;
+  background: -webkit-linear-gradient(#fc7c75,#f63e37); /* Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#fc7c75,#f63e37); /* Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#fc7c75,#f63e37); /* Firefox 3.6 to 15 */
+  background: linear-gradient(#fc7c75,#f63e37); /* 标准语法 (必须在最后) */
+  color: #fff;
+  border-radius: 30rpx;
+  box-shadow: 2rpx 10rpx 20rpx #f8cecb;    
+}
+.zfy{box-sizing: border-box;font-size: 24rpx}
+.zfy image{width: 38rpx;height: 44rpx;margin: 0 20rpx;box-sizing: border-box;position: relative;top: 12rpx}
+.priceDt{padding: 0 40rpx;font-size: 28rpx;line-height: 80rpx;color: #999;}
+.priceDt .pbtn{width: 138rpx;height: 80rpx;float: left;text-align: center;color: #fff;font-size: 22rpx;font-weight: bold;margin-right: 10rpx;}
+.pBtn{display: block; width: 340rpx !important;white-space: nowrap;overflow: hidden;text-overflow: ellipsis; float: left}
+.msgTipH{padding: 20rpx 40rpx 40rpx;box-sizing: border-box}
+.hzfa{padding: 40rpx;font-size: 28rpx;box-sizing: border-box}
+.setPrice{height: 60rpx;line-height: 60rpx; font-size: 24rpx;width: 100%;border: 1px solid #ffc0c0;border-radius: 50rpx;padding-left: 40rpx;box-sizing: border-box}
+.setPrice text{display: inline-block;float: left;color: #999}
+.setPrice label{display: inline-block;width: 160rpx;height: 100%;text-align: center;float: right;border-left: 1px solid #ffc0c0;line-height:56rpx}
+.setPrice input{width: 70rpx;float: left;padding-left: 20rpx;height: 100%;font-weight: bolder;color: #ff6262}
+.sameHouse{padding: 40rpx;box-sizing: border-box;font-size: 28rpx}
+.sameTitle{font-weight: bold;color: #000;}
+.sameT{margin-bottom:40rpx;font-weight:bold;height: 50rpx;line-height: 50rpx}
+.sameT label{display: block;height: 60rpx;width: 200rpx;float: left}
+.sameMsg{padding: 40rpx 0;border-bottom: 1px solid #ededed;font-size: 24rpx}
+.houseInfo view{width: 50%;float: left;margin-bottom: 20rpx;}
+.houseInfo view label{color: #999;font-size: 24rpx;font-weight: bold}
+.houseInfo view text{font-weight: bold;font-size: 24rpx;}
+.houseInfo view:last-child{width: 100%}
+.housePl{clear: both;border-radius: 4px; padding: 30rpx 60rpx 60rpx 70rpx;width: 100%;margin-top: 40rpx;box-shadow: 0 0rpx 30rpx #f0f2f7;
+box-sizing: border-box}
+.housePl text{display: block;color: #999;font-weight: bold}
+.readM{width: 590rpx;margin-bottom: 30rpx}
+.readM button{width: 100%;height: 90rpx;line-height: 90rpx;margin: 0;background: #edf3fb;color: #6b94fd;font-size: 34rpx}
+.hhxL{width: 40%;float: left;height: 180rpx;overflow: hidden}
+.hhxR view{margin-bottom: 20rpx;}
+.hhxL label{color: #999}
+.hhxL text{font-weight: bold}
+.hhxR{width: 54%;height: 170rpx;overflow: hidden;float:right;box-sizing: border-box}
+.hhxL image{width: 100%;height: 200rpx;border-radius: 3px}
+.footBarH{width: 590rpx;height: 100rpx;background: #fff;padding: 20rpx 0 0;box-sizing: border-box;border-top: 1px solid #f5f5f7;z-index: 999;}
+.footBarH image{width: 80rpx;height: 80rpx;display: inline-block;float: left;border-radius: 50%}
+.footBarH .fbName{padding-left:20rpx;width: 150rpx;float: left;}
+.footBarH .fbName text{display: block;font-size: 20rpx;color: #999}
+.footBarH .fbName text:first-child{font-size: 28rpx;color: #333;font-weight: bold}
+.footBarH .fbtn{width: 300rpx;float: right;padding-top: 10rpx;}
+.footBarH .fbtn button{width: 130rpx;height: 64rpx;float: right;margin-left: 40rpx;font-size: 28rpx;line-height: 64rpx;background:#fe483a;padding: 0;border: 0;color: #fff;}
+.footBarH .fbtn button:last-child{margin: 0;background: #5580fe;}
+.footBarH .fbtn button:first-child{background: #fe483a;}
+.footBarH .fbtn button.only{width: 300rpx}
+.houseFoot{position: fixed;top: 1000rpx;left: 40rpx;background: #fff;width: 670rpx;padding: 40rpx;box-sizing: border-box}
+.sun{width: 60rpx;padding-right: 30rpx; float: left;font-size: 24rpx;border-right: 1px solid #ededed;height: 100%;margin-right: 20rpx;text-align: center}
+.sun label{width:56rpx;height:56rpx;display:block;background: #000;text-align: center;color: #fff;border-radius: 50%;line-height: 56rpx;font-size: 22rpx;margin: 0 auto}
+
+.showWx{position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 9995;transition: all 1s ease}
+.bj{width: 100%;height: 100%;background: #000;opacity: 0.5;z-index: 9996}
+.wxMsg{position: fixed;top: 20%;left: 80rpx;height: 600rpx;width: 590rpx;background: #fff;z-index: 9997;border-radius: 6px}
+.wxMsg image{width: 500rpx;}
+.showMsg .msgTip{display: block;width: 100%;position: absolute;bottom: 40rpx;left: 0;text-align: center;padding: 5rpx 0}
+.showSun{width: 670rpx;left: 40rpx;top: 500rpx; margin-left: 0;padding: 60rpx 40rpx;box-sizing: border-box;height: 440rpx;margin-top: -250rpx}
+.showTitle{text-align: center;margin-bottom: 40rpx;font-weight: bold;font-size: 38rpx}
+.showTitle text{font-size: 24rpx;color: #999;font-weight: 400}
+.showTip{color: #999;font-size: 22rpx}
+.wxMsg .icon-guanbi{position: absolute;right: 10rpx;top: 10rpx;font-size: 40rpx;}
+.showBtn,.showNum{height: 79rpx;margin-top: 40rpx;line-height: 79rpx;text-align: center}
+.showBtn label{display: inline-block;height: 100rpx;width: 240rpx;text-align: center;line-height: 100rpx;background: #ef5029;font-weight: bold;font-size: 40rpx;color: #fff;border-radius: 24rpx}
+.showBtn label:last-child{
+  background: #3a7cf6
+}
+.showBtn image{width: 50rpx;height: 37rpx;margin: 0 20rpx}
+.showNum{border-radius: 40rpx;overflow: hidden;width: 534rpx;margin: 40rpx auto 0}
+.msgBtn{position: relative}
+.showNum view{float: left;height: 100%;color: #fff;text-align: center;line-height: 1}
+.showNum label{display: block;font-size: 22rpx;margin: 10rpx 0;height: 22rpx}
+.showNum text{font-size: 32rpx;font-weight: bold}
+.showNum image{position: absolute;width: 23rpx;height: 23rpx;top: 0rpx;left: 10rpx;}
+
+
+
+
+.bottom {
+  width: 100%;
+  height: 120rpx;
+  line-height: 120rpx;
+  font-size: 38rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #000;
+  color: #d1b75e;
+  text-align: center;
+}
+/*弹框*/
+
+.maskLayer {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+  color: #333;
+  box-shadow: 0 0 50rpx rgba(0, 0, 0, 0.5);
+  border-top-right-radius: 30rpx;
+  border-top-left-radius: 30rpx;
+}
