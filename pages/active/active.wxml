@@ -20,11 +20,11 @@
   </view>  
   <!-- style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part2.png') center no-repeat;background-size:100%" -->
   <view class="partTwo {{house.OtherAmountReward>0?'':'mt80'}}">
-    <view class="acMsg" wx:if="{{house.LinkType==2}}" bindtap="showHouse">
+    <view class="acMsg" wx:if="{{house.LinkType==2||house.LinkType==3}}" bindtap="showHouse">
       <image src="{{house.DetailImg}}"></image>
       <view class="houseBtn">
         <label></label>
-        <text>查看项目详情</text>
+        <text>查看项目</text>
       </view>
     </view>
     <view class="acMsg" wx:else>
@@ -112,7 +112,8 @@
         <view class="timeT">- 活动倒计时 - </view>
         <!-- 倒计时 -->
         <view class='xjDate' wx:if="{{bzHouse.djs}}">
-        <text>{{filter.dTime(bzHouse.djs)[1]}}</text>时<text class="rect">{{filter.dTime(bzHouse.djs)[2]}}</text>分<text class="rect">{{filter.dTime(bzHouse.djs)[3]}}</text>秒
+        <!-- <text>{{filter.dTime(bzHouse.djs)[1]}}</text>时<text class="rect">{{filter.dTime(bzHouse.djs)[2]}}</text>分<text class="rect">{{filter.dTime(bzHouse.djs)[3]}}</text>秒 -->
+          <canvas wx:if="{{showSq==false}}" canvas-id="bzcanvas" style="border-radius:6rpx;width:144px;height:30px;margin:0 auto;background:#000"></canvas>       
         </view>  
         <view class='xjDate' wx:else><label style="color:#999">距离结束：</label><text>0</text>时<text>0</text>分<text>0</text>秒</view>      
       </view>
@@ -318,7 +319,7 @@
 
 
 <!-- 弹窗 -->
-<view class="show" wx:if="{{show}}">
+<view class="show" wx:if="{{showSq}}">
   <view class="bj" style="opacity:1"></view>
   <view class="showMsg" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/sq.png') center no-repeat;background-size:100%">
     <view class="title">转一转</view>
@@ -346,7 +347,7 @@
    </view>
 
       <!--弹窗  -->
-   <view class='show' wx:if="{{hasBm}}">
+   <view class='show' wx:if="{{hasBm}}" style="z-index:9996">
       <view class='bj' bindtap='showBm'></view>
       <view class='showMsg showBm' animation="{{animationBm}}">
         <text class='iconfont icon-guanbi' bindtap='showBm'></text>
@@ -386,8 +387,8 @@
   <view class="showMsg showHouse">
     <text class='iconfont icon-guanbi' bindtap='showHouse'></text>
 
-
-    <view class="box">
+    <!-- 笋盘房源 -->
+    <view class="box"  wx:if="{{house.LinkType==2}}">
       <view class='swiperC'>
         <swiper bindchange="swiperChange" interval="5000" duration="300" circular="true" class='houseBan'>
           <block wx:for="{{houseInfo.ShootEstatePicWheelList}}" wx:key="index">
@@ -559,6 +560,121 @@
     
     </view>
     </view>
+    <!-- 笋盘房源结束 -->
 
+    <!-- 好房U购房源 -->
+    <view class="ugHouse" wx:if="{{house.LinkType==3}}">
+      <view class='swiperC'>
+        <swiper bindchange="swiperChange" interval="5000" duration="300" circular="true" class='houseBan'>
+          <block wx:for="{{uhouse.Estate.EstatePhotosAllList}}" wx:key="index">
+            <swiper-item>
+              <image src="{{item.FilePath}}" class="slide-image" mode='aspectFill' bindtap="bigBan" data-u="{{item.FilePath}}"/>
+            </swiper-item>
+          </block>  
+        </swiper>
+        <view class="imageCount"><view class='bg'></view><text>{{current+1}}/{{uhouse.Estate.EstatePhotosAllList.length}}</text> </view>
+      </view>
+      <view class="containerH containerU">
+        <view class='houseT houseU outer'>
+          <view class="uhouseL">
+              <text class='house_title'>{{uhouse.ProjectName}}</text>
+          </view>
+          <view class="uhouseR">
+            <label>{{filter.apply(uhouse.PropertyUsage)}}</label>
+            <text class="fr">总套数:{{uhouse.SurplusNumber}}</text>
+          </view>
+        </view> 
+        <view class="outer uprice">
+          <view class="upL">均价：<label wx:if="{{uhouse.Aprice==0}}">待定</label><label wx:else>{{uhouse.Aprice}}</label>元/㎡</view>
+          <view class="upR"><label>{{uhouse.ProjectScore}}</label>评分</view>
+        </view> 
+        <view class="uaddr">
+          <view><text class="iconfont icon-shijian"></text>开盘：<text wx:if="{{uhouse.Estate.DateOpenS==null}}">待定</text><text wx:else>{{uhouse.Estate.DateOpenS}}</text> </view>
+          <view><text class="iconfont icon-location"></text>位置：{{uhouse.Estate.Address}}</view>          
+        </view>
+        <view class="line"></view>  
+        <view class="usection">
+          <view class="outer uht">楼盘户型（{{uhouse.Estate.PropertyRoomTypeList.length}}）</view>
+          <view class="uhx">
+    <swiper display-multiple-items="1.8" next-margin='20rpx'  class='ztSwiper'>
+      <block wx:for="{{uhouse.Estate.PropertyRoomTypeList}}" wx:key="index" class="block">
+        <swiper-item class="spzt" bindtap="goUban" data-hx="{{item.RoomTypeID}}" data-house="{{uhouse.Id}}">   
+          <image src="{{item.EstatePhotosList[0].FilePath}}" class="back" mode='aspectFit'/>
+          <text class='aStatus' wx:if="{{item.AvilStatus===1}}">在售</text>
+          <text class='aStatus' style="background: #ccc;" wx:else>售完</text>
+          <view class='ztName'>
+            {{item.CountF}}室{{item.CountT}}厅 {{item.Square}}㎡
+          </view>
+          <view class='sName'>参考总价：<label>{{item.Total/10000}}万</label></view>
+     
+        </swiper-item>               
+      </block>
+    </swiper>           
+          </view>
+        </view>  
+        <view class="line"></view>
+        <view class='umap' style='padding-bottom:40rpx;'>
+            <view class="adrTitle"  bindtap="goMap">
+                <view class="weui-cell" style='padding:0'>
+                    <view class="weui-cell__bd">
+                      <text style='font-size:36rpx;font-weight:bold;'>位置及周边</text>
+                    </view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size: 0">
+                        <view style="display: inline-block;vertical-align:middle; font-size: 17px;"></view>
+                    </view>
+                </view>
+            </view> 
+            <view style='margin:20rpx 0 40rpx;color:#666'>{{uhouse.RegionName}}{{uhouse.Estate.Address}}</view>
+            <view class='addrMap'>
+              <map id="myMap"
+          markers="{{markers}}"
+          style="width:100%;height:200px;"
+          longitude="{{lng}}"
+          latitude="{{lat}}" scale='17'  bindmarkertap='gotohere'></map>
+              <!-- <view class="uzb">
+                  <view>配套学位：<text>南山小学</text></view>
+                  <view>附近地铁：<text>后海地铁站，南山地铁站</text></view>  
+              </view> -->
+
+            </view>
+        </view>
+        <view class="line"></view>
+        <view class="uinfo">
+          <view class="outer uht uiht" bindtap="goDetail" data-houseid="{{uhouse.Id}}">楼盘资料<label>详情 ></label></view>
+          <view class="uli">
+            <label>开发商：</label>
+            <text wx:if="{{uhouse.Estate.CompanyDev==''}}">未知</text>
+            <text wx:else>{{uhouse.Estate.CompanyDev}}</text>
+          </view>
+          <view class="uli">
+            <label>开盘时间：</label>
+            <text wx:if="{{uhouse.Estate.DateOpenS==null}}">{{uhouse.Estate.DateOpenS}}</text>
+            <text wx:else>{{uhouse.Estate.DateOpenS}}</text>
+          </view>
+          <view class="uli">
+            <label>交房时间：</label>
+            <text wx:if="{{uhouse.Estate.DateCanLiveS==null}}">{{uhouse.Estate.DateCanLiveS}}</text>
+            <text wx:else>{{uhouse.Estate.DateCanLiveS}}</text>
+          </view>  
+          <view class="uli">
+            <label>产权年限：</label>
+            <text>{{uhouse.Estate.UseYears}}年</text>
+          </view>                               
+        </view>
+      </view>
+      <view class="footBarH footBarU">
+        <image src='{{uhouse.ProjectAdviserList[0].HeadImg}}' wx:if="{{uhouse.ProjectAdviserList[0].HeadImg!=''&&uhouse.ProjectAdviserList[0].HeadImg!=null}}"  mode='aspectFill'></image>
+        <image src='../../img/tx3.png' wx:else></image>
+        <view class='fbName'>
+          <text>{{uhouse.ProjectAdviserList[0].FullName}}</text>
+          <text>高级顾问</text>
+        </view>
+        <view class='fbtn'>
+          <button data-tel="{{uhouse.ProjectAdviserList[0].TelePhone}}" data-m="{{uhouse.ProjectAdviserList[0].Mobile}}"  catchtap="openConfirm">电话咨询</button>  
+          <button bindtap='showBm'>预约看房</button>
+        </view>
+      </view>
+    </view>
+    <!-- 好房U购房源结束 -->
   </view>
 </view>

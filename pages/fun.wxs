@@ -10,8 +10,21 @@ var filter = {
   }
 }
 
+var u = {
+  apply: function (e) {
+    if (e.indexOf(',') > 0) {
+      e = e.split(',')[0];
+    }
+    if (e.indexOf(';') > 0) {
+      e = e.split(';')[0];
+    }
+    return e;
+  },
+}
+
 module.exports = {
-  dTime: filter.dTime
+  dTime: filter.dTime,
+  apply: u.apply
 }
 
   // "tabBar": {

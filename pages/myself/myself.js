@@ -57,11 +57,13 @@ Page({
           store: res.data.StoreDes,
           job: res.data.StationDes
         })
+        console.log(1);
+        setTimeout(function () {
+          console.log(that.data.uid)
+          that.getUser()
+        }, 100)         
       },
     })   
-    setTimeout(function(){
-      that.getUser()
-    },100) 
    
   },
 
@@ -287,7 +289,7 @@ Page({
               if (r.confirm) {
                 wx.clearStorage();
                 wx.reLaunch({
-                  url: '../my/my',
+                  url: '/pages/my/my',
                 })
               }
             }

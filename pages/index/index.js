@@ -1,5 +1,7 @@
 //index.js
 //获取应用实例
+import { hexMD5 } from "../../utils/md5.js"//md5加密
+
 const app = getApp()
 Page({
   data: {
@@ -13,7 +15,8 @@ Page({
     pval: "",
     no: false,
     navH:"132px",
-    showHome:false
+    showHome:false,
+    openId:""
   },
   onLoad: function () {
     this.setData({
@@ -25,15 +28,24 @@ Page({
     var p1 = this.getBanner();
     var p2 = this.getData();
     var that = this;
+    wx.getStorage({
+      key: 'userInfo',
+      success: function(res) {
+        that.setData({
+          openId:res.data.OpenId
+        })
+      },
+    })
     // 同步执行
     Promise.all([p1, p2]).then(function (results) {
       console.log(results); // 获得一个Array: ['P1', 'P2',"P3"]
+      that.djsList();
       // 设计定时器
       that.setData({
         show:true,
-        timer: setInterval(function () {
-          that.djsList();
-        }, 1000)
+        // timer: setInterval(function () {
+        //   that.djsList();
+        // }, 1000)
       })
       setTimeout(function () { wx.hideLoading(); }, 300)
     })
@@ -75,12 +87,13 @@ Page({
     // 同步执行
     Promise.all([p1, p2]).then(function (results) {
       console.log(results); // 获得一个Array: ['P1', 'P2',"P3"]
+      that.djsList();
       // 设计定时器
       that.setData({
         show: true,
-        timer: setInterval(function () {
-          that.djsList();
-        }, 1000)
+        // timer: setInterval(function () {
+        //   that.djsList();
+        // }, 1000)
       })
       setTimeout(function () { wx.hideLoading(); }, 300)
     })
@@ -148,7 +161,7 @@ Page({
     let that = this;
     let len = that.data.datetime.length;//时间数据长度
 
-    // var timer = setInterval(function () {//时间函数
+    var timer = setInterval(function () {//时间函数
 
     for (var i = 0; i < len; i++) {
       var intDiff = that.data.datetime[i].dat;//获取数据中的时间戳
@@ -169,6 +182,13 @@ Page({
         that.setData({
           bzHouse: that.data.bzHouse
         })
+        const ctx = wx.createCanvasContext('bzcanvas'+i);
+        ctx.font = 'normal bold 15px sans-serif';
+        ctx.setFillStyle('#ff4631');
+        ctx.setTextAlign('left');
+        ctx.fillText(hour + ' 时 ' + minute + ' 分 ' + second + ' 秒', 2, 16);
+        ctx.draw()
+
 
       } else {
         // var str = "已结束！";
@@ -176,7 +196,7 @@ Page({
       }
     }
 
-    //  }, 1000)
+     }, 1000)
 
   },
   goActive(e){
@@ -249,4 +269,63 @@ Page({
       })
     })
   }, 
+  pay() {
+    var t = Date.parse(new Date()) / 1000;
+    console.log(t)
+    wx.request({
+      url: 'https://spapi.centaline.com.cn/api/Users/WxUsersPay ',
+      method:"post",
+      header:{
+        token:"1111111"
+      },
+      data:{
+        total_fee:10,
+        openid:this.data.openId,
+        timeStamp:t
+      },
+      success(res){
+        // var t = parseInt(new Date().getTime() / 1000);
+        // console.log(t)
+        console.log(res);
+        // var md5Data = hexMD5('appId =' + res.data.data.appId + '&nonceStr=' + res.data.data.nonce_str + ' & package=prepay_id = ' + res.data.data.prepay_id+'& signType=MD5 & timeStamp='+t+' & key='+qazwsxedcrfvtgbyhnujmikolp111111)
+    // wx.requestPayment(
+    //   {
+    //     'timeStamp': t,
+    //     'nonceStr': res.data.data.nonce_str,
+    //     'package': 'prepay_id ='+res.data.data.prepay_id,
+    //     'signType': 'MD5',
+    //     'paySign': md5Data,
+    //     'success': function (r) {
+    //       console.log(r);
+    //      },
+    //     'fail': function (res) { },
+    //     'complete': function (res) { }
+    //   })
+      wx.requestPayment(
+        {
+          'timeStamp': res.data.data.timeStamp,
+          'nonceStr': res.data.data.nonce_str,
+          'package': res.data.data.package,
+          'signType': res.data.data.signType,
+          'paySign': res.data.data.paySign,
+          'success': function (r) {
+            console.log(r)
+          },
+          'fail': function (res) { },
+          'complete': function (res) { }
+        })
+      }
+    })
+    // wx.requestPayment(
+    //   {
+    //     'timeStamp': '',
+    //     'nonceStr': '',
+    //     'package': '',
+    //     'signType': 'MD5',
+    //     'paySign': '',
+    //     'success': function (res) { },
+    //     'fail': function (res) { },
+    //     'complete': function (res) { }
+    //   })
+  },  
 })

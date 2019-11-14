@@ -1,17 +1,15 @@
 {
   "pages": [
-    
     "pages/index/index",
     "pages/active/active",
-   
+    "pages/uhBan/uhBan",
+    
+    
     "pages/money/money",
-
     "pages/uFriends/friends",
     "pages/friends/friends",
-    
     "pages/my/my",
     "pages/mclick/mclick",
-    
     "pages/acHb/acHb",
     "pages/myMoney/myMoney",
     "pages/myYy/myYy",
@@ -21,9 +19,9 @@
     "pages/myself/myself",
     "pages/house/house",
     "pages/activeBm/activeBm",
-    "pages/role/role"
-    
-  ], 
+    "pages/role/role",
+    "pages/uhDetail/uhDetail"
+  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
@@ -58,7 +56,7 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList":[
+  "navigateToMiniProgramAppIdList": [
     "wxf9e311b46d205f1c"
   ],
   "sitemapLocation": "sitemap.json"

@@ -1,4 +1,6 @@
-// pages/active/active.js
+// 引入SDK核心类
+var QQMapWX = require('../../qqmap-wx-jssdk.js');
+var qqmapsdk;
 //获取应用实例
 const app = getApp()
 
@@ -18,7 +20,7 @@ Page({
     hasData:false,
     wxcode:"",
     isOld:false, 
-    activeId:0, 
+    activeId:"", 
     oneId:0,
     secondId:0,
     shareOneId: 0,
@@ -47,7 +49,7 @@ Page({
     // clickLuck: 'clickLuck',
     luckPosition: 0,
     isHas: false,
-    show: true,
+    showSq: false,
     utoken: "",
     uid: "",
     role: "",
@@ -79,7 +81,12 @@ Page({
     selectName: "",
     isPay: false,
     isShow: false,
-
+    markers: "",
+    uhouse: "",
+    uhouseName:"",
+    bannerList:[],
+    lng:"",
+    lat:""
   },
 
   /**
@@ -125,7 +132,7 @@ Page({
             })        
           }
     }      
-      this.getCode(); 
+      this.getCode();     
   },
 
   /**
@@ -142,22 +149,31 @@ Page({
     wx.getStorage({
       key: 'userInfo',
       success: function (res) {
-        if (res.data.HeadImg != '' && res.data.HeadImg != null && res.data.NickName != '' && res.data.NickName != null) {
+        if (res.data.NickName != '' && res.data.NickName != null) {
           that.setData({
             utoken: res.data.Token,
             uid: res.data.UserId,
             role: res.data.RoleType,
             mobile: res.data.Mobile,
             bmPhone: res.data.Mobile,
-            show: false,
+            showSq: false,
             oneAction: that.data.oneAction+1
           })
           wx.showShareMenu({
             withShareTicket: true
           })
           setTimeout(function () {
-            that.getCj();
-            console.log(that.data.oneAction);
+            that.getCj().then(function(result){
+              // 设计定时器
+              that.djsList();
+              // that.setData({
+              //   timer: setInterval(function () {
+              //     that.djsList();
+              //   }, 1000)
+              // })                
+            }).catch(function (reason) {
+              console.log('失败：' + reason);
+            });
           }, 10)
           if (res.data.RoleType == 5 || res.data.RoleType == 4) {//是经纪人
             that.setData({
@@ -179,13 +195,13 @@ Page({
           }
         } else {
           that.setData({
-            show: true
+            showSq: true
           })
         }
       },
       fail(e) {
         that.setData({
-          show: true
+          showSq: true
         })
       }
     })
@@ -197,7 +213,7 @@ Page({
   onHide: function () {
     console.log("hid");
     clearInterval(this.data.act);
-    clearInterval(this.data.timer);
+    // clearInterval(this.data.timer);
   },
 
   /**
@@ -226,14 +242,24 @@ Page({
             uid: res.data.UserId,
             role: res.data.RoleType,
             mobile: res.data.Mobile,
-            show: false,
+            showSq: false,
             oneAction:1
           })
           wx.showShareMenu({
             withShareTicket: true
           })
           setTimeout(function () {
-            that.getCj();
+            that.getCj().then(function (result) {
+              // 设计定时器
+              that.djsList();
+              // that.setData({
+              //   timer: setInterval(function () {
+              //     that.djsList();
+              //   }, 1000)
+              // })
+            }).catch(function (reason) {
+              console.log('失败：' + reason);
+            });
           }, 10)
           if (res.data.RoleType == 5 || res.data.RoleType == 4) {//是经纪人
             that.setData({
@@ -255,14 +281,14 @@ Page({
           }
         } else {
           that.setData({
-            show: true
+            showSq: true
           })
           wx.hideShareMenu();
         }
       },
       fail(e) {
         that.setData({
-          show: true
+          showSq: true
         })
         wx.hideShareMenu();
       }
@@ -293,6 +319,44 @@ Page({
     }
 
   },
+
+  reverseLocation: function (lon,lat) {
+    var that = this;
+    // 实例化API核心类
+    var demo = new QQMapWX({
+      key: '3XABZ-EAL33-UKR3S-YHJBW-QFHYK-VGFP3' // 必填
+    });
+    // 调用接口
+    demo.reverseGeocoder({
+      location: {
+        latitude: lat,
+        longitude: lon
+      },
+      coord_type: 3,//baidu经纬度
+      success: function (res) {
+
+var mark = [{
+  id: "1",
+  latitude: res.result.location.lat,
+  longitude: res.result.location.lng,
+  iconPath: "../../img/mark.jpg",
+  title: that.data.uhouseName,
+  // 标签      
+  label: { content: that.data.uhouseName, bgColor: "#fa5e3c", padding: "5px", borderRadius: "3", anchorX: "20", anchorY: "-40", color: "#fff" },
+  width: 40,
+  height: 40
+}];
+that.setData({
+  markers:mark,
+  lng: res.result.location.lng,
+  lat: res.result.location.lat
+})
+
+      }
+    });
+  },
+
+
   goIndex(){
     wx.switchTab({
       url: '../index/index',
@@ -440,6 +504,7 @@ Page({
     })
     // 倒计时执行
     let that = this;
+    var timer = setInterval(function () {    
       var intDiff = that.data.datetime.dat;//获取数据中的时间戳
       if (intDiff > 0) {//转换时间
         that.data.datetime.dat -= 1000;
@@ -455,6 +520,12 @@ Page({
         that.data.datetime.difftime = str;//在数据中添加difftime参数名，把时间放进去
         that.data.bzHouse.djs = that.data.datetime.difftime;
 
+        const ctx = wx.createCanvasContext('bzcanvas');
+        ctx.font = 'normal bold 17px sans-serif';
+        ctx.setFillStyle('#fff');
+        ctx.setTextAlign('left');
+        ctx.fillText(hour + ' 时 ' + minute + ' 分 ' + second + ' 秒', 4, 21);
+        ctx.draw()
         that.setData({
           bzHouse: that.data.bzHouse
         })
@@ -462,6 +533,7 @@ Page({
         // var str = "已结束！";
         // clearInterval(that.data.timer);
       }
+    }, 1000)
 
   }, 
   goFriend(e){
@@ -652,13 +724,15 @@ Page({
   },
   getCode: function () {
     var that = this;
-    wx.login({
-      success(res) {
-        console.log(res);
-        that.setData({
-          wxcode: res.code
-        })
-      }
+    return new Promise(function (resolve) {
+      wx.login({
+        success(res) {
+          console.log(res);
+          that.setData({
+            wxcode: res.code
+          })
+        }
+      })
     })
   },
   //获取头像昵称
@@ -701,7 +775,7 @@ Page({
                 uid: res.data.data.UserId,
                 role: res.data.data.RoleType,
                 mobile: res.data.data.Mobile,                
-                show: false
+                showSq: false
               })
               wx.showShareMenu({
                 withShareTicket: true
@@ -716,6 +790,7 @@ Page({
                 title: "授权失败，请稍后再试",
                 icon: "none"
               })
+              that.getCode()
             }
             wx.hideLoading();
           }
@@ -769,6 +844,7 @@ Page({
                 title: "授权失败，请稍后再试",
                 icon: "none"
               })
+              that.getCode()
             }
             wx.hideLoading();
           }
@@ -841,6 +917,7 @@ Page({
     console.log(that.data.activeId);
     console.log(that.data.oneId);
     console.log(that.data.secondId);
+    return new Promise(function(resolve){
     wx.request({
       url: 'https://spapi.centaline.com.cn/api/Rotate/GetRotateById',
       method:"post",
@@ -859,13 +936,34 @@ Page({
           that.setData({
             ready:true,
             house:res.data.data,
-            houseInfo: res.data.data.ShootEstate,
             ewm: res.data.data.WxQRcode,
             shareTitle: res.data.data.ShareTitle,
             active: res.data.data.RotateUserAmount,
             bzHouse: { EndTime: res.data.data.EndTime},
             hasData:true,
           })
+          if (res.data.data.ShootEstate!=null){
+            that.setData({
+              houseInfo: res.data.data.ShootEstate,
+            })
+          }
+          if (res.data.data.Project!=null){
+            that.setData({
+              uhouse: res.data.data.Project,
+              uhouseName: res.data.data.Project.ProjectName,             
+            })
+            var arr = [];
+            var ban = res.data.data.Project.Estate.EstatePhotosAllList;
+            for (const i of ban) {
+              arr.push(i.FilePath)
+            } 
+            // 轮播列表
+            that.setData({
+              bannerList: arr
+            }) 
+            // 百度地图经纬度转腾讯地图
+            that.reverseLocation(res.data.data.Project.AddressXpoint, res.data.data.Project.AddressYpoint);                       
+          }
           if (res.data.data.LinkType==2){
             that.setData({
               houseId: res.data.data.ShootEstate.Id,
@@ -928,12 +1026,12 @@ Page({
             })            
                        
           }
-          // 设计定时器
-          that.setData({
-            timer: setInterval(function () {
-              that.djsList();
-            }, 1000)
-          })          
+          // // 设计定时器
+          // that.setData({
+          //   timer: setInterval(function () {
+          //     that.djsList();
+          //   }, 1000)
+          // })          
           wx.setStorageSync("activeData", res.data.data);
           wx.setStorageSync("clickList", res.data.data.RotateHelpUserClickList);
           wx.setStorageSync("moneyList", res.data.data.RotateStartUserAmountList);
@@ -971,14 +1069,20 @@ Page({
           }
         }else if(res.data.code==1101){
           that.setData({
-            show: true
+            showSq: true
           })
         }else{
           wx.showToast({
             title: '网络异常,请稍后~',
             icon: 'none'
           }) 
+          setTimeout(function(){
+            wx.navigateBack({
+              delta:1
+            })
+          },1000)          
         }
+        resolve();
         wx.hideLoading() 
       },
       fail:error=>{
@@ -987,6 +1091,8 @@ Page({
           icon: 'none'
         })         
       }
+    })
+      
     })
   },
   setMoney(e){
@@ -1272,5 +1378,38 @@ Page({
     }
 
 
-  },   
+  },  
+  //点击标注点进行导航 
+  gotohere: function (res) {
+   var that=this;
+    wx.openLocation({ // 打开微信内置地图，实现导航功能（在内置地图里面打开地图软件）
+      latitude: that.data.lat,//纬度
+      longitude: that.data.lng,//经度
+      name: that.data.uhouseName,
+      success: function (res) {
+      },
+      fail: function (res) {
+      }
+    })
+  },
+  goDetail(e){
+    var id = e.currentTarget.dataset.houseid;
+    wx.navigateTo({
+      url: '../uhDetail/uhDetail?id='+id,
+    })
+  },
+  goUban(e) {
+    var id=e.currentTarget.dataset.hx;
+    wx.navigateTo({
+      url: '../uhBan/uhBan?id='+id,
+    })
+  },
+  bigBan(e){
+    var that=this;
+    var u = e.currentTarget.dataset.u
+    wx.previewImage({
+      current: u,
+      urls: that.data.bannerList
+    })    
+  }    
 })

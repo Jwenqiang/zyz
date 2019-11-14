@@ -116,13 +116,13 @@ Component({
                 duration: 2000,
                 success: function () {
                   var codeSrc = "";
-                  that.getQrCode(productSrc, "/img/tx3.png", imgInfo);
+                  that.getQrCode(productSrc, "../../img/tx3.png", imgInfo);
                 }
               })
             }
           },
           fail:res=>{
-            that.getQrCode(productSrc, "/img/tx3.png", imgInfo);
+            that.getQrCode(productSrc, "../../img/tx3.png", imgInfo);
           }
         })
       } else {
@@ -150,8 +150,11 @@ Component({
             if (res.statusCode === 200) {
               var codeSrc = res.tempFilePath;
               console.log(productSrc)
-              console.log(tx)
               console.log(codeSrc)
+              if(tx==''){
+                tx="../../img/tx3.png"
+              }
+              console.log(tx)
               that.sharePosteCanvas(productSrc,tx, codeSrc, imgInfo);
             } else {
               wx.hideLoading();
@@ -161,13 +164,13 @@ Component({
                 duration: 2000,
                 success: function() {
                   var codeSrc = "";
-                  that.sharePosteCanvas(productSrc, tx,  "/img/ewm.jpg", imgInfo);
+                  that.sharePosteCanvas(productSrc, tx,  "../../img/ewm.jpg", imgInfo);
                 }
               })
             }
           },
           fail: res => {
-            that.getQrCode(productSrc, "/img/ewm.jpg", imgInfo);
+            that.getQrCode(productSrc, "../../img/ewm.jpg", imgInfo);
           }
         })
       } else {

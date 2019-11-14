@@ -13,8 +13,11 @@ image.mbj{width: 100%;height: 320rpx;position: absolute;left: 0;top: 0;z-index: 
 .name image.rz{width: 42rpx;height: 36rpx;margin-left: 10rpx}
 .name label{display: block;margin-bottom: 20rpx;font-size: 40rpx;font-weight: bold;}
 .name label.nick{display: inline-block;max-width: 200rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis}
-.edit{float: right;line-height: 120rpx}
-.edit .iconfont{font-size: 44rpx;position: relative; top: 6rpx}
+.edit,button.edit{float: right;line-height: 120rpx;font-size: 28rpx}
+.edit .iconfont,button.edit.iconfont{font-size: 44rpx;position: relative; top: 6rpx;color: #fff}
+button.edit{background: none;padding: 0;color: #fff}
+button.edit::after{border: 0}
+button.editP{line-height: 1;top: 0;float: none;text-align: left;color: #f8f5ce;}
 .topB{height: 84rpx;line-height: 84rpx;width: 100%;background: #f8f5ce;margin-top: 40rpx;border-radius: 10rpx;padding: 0 20rpx;box-sizing: border-box;color: #666}
 .topB image.rz{width: 42rpx;height: 36rpx;position: relative; top: 8rpx;margin-right: 20rpx}
 .mtip{font-weight: bold;color: #000}

@@ -17,11 +17,16 @@ module.exports.toHide = toHide;
           <label wx:if="{{userName==''||userName==null}}">转转用户</label>
           <label wx:else><text class="nick">{{userName}}</text><image src="/img/icon-rz.png" class="rz" wx:if="{{isJjr==5}}"></image></label>
           <text wx:if="{{hasNum}}">{{phone.toHide(mobile)}}</text>
+          <button class="edit editP" bindtap="getCode"  open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" wx:else>点击授权手机号</button>
         </view>
         <view class="edit" bindtap="goMyself" wx:if="{{hasNum}}">
           <text class='iconfont icon-bianji'></text>
           编辑资料
         </view>
+        <button class="edit" bindtap="getCode"  open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" wx:else>
+          <text class='iconfont icon-bianji'></text>
+          编辑资料
+        </button>        
       </view>
       <view class="outer topA" wx:else>
         <label class="tx"><image src="/img/tx3.png"></image></label>

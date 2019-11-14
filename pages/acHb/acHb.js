@@ -60,6 +60,9 @@ Page({
           tx: res.data.HeadImg,
           name: res.data.NickName,
         })
+        if (res.data.HeadImg==''){
+          tx:""
+        }
         that.getUser();
       },
     })  
