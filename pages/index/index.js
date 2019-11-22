@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 import { hexMD5 } from "../../utils/md5.js"//md5加密
-
+var clearT="";
 const app = getApp()
 Page({
   data: {
@@ -9,7 +9,7 @@ Page({
     imgUrls:"",
     timer:"",
     bzHouse: [],
-    datetime:{},
+    datetime:"",
     ptotal: 0,
     pidx: 2,
     pval: "",
@@ -39,14 +39,10 @@ Page({
     // 同步执行
     Promise.all([p1, p2]).then(function (results) {
       console.log(results); // 获得一个Array: ['P1', 'P2',"P3"]
-      that.djsList();
-      // 设计定时器
-      that.setData({
-        show:true,
-        // timer: setInterval(function () {
-        //   that.djsList();
-        // }, 1000)
-      })
+      // 设计定时器   
+      // clearT=setInterval(function () {
+      //   that.djsList();
+      // }, 1000); 
       setTimeout(function () { wx.hideLoading(); }, 300)
     })
       .catch(function (error) {
@@ -54,21 +50,36 @@ Page({
       })     
   },
   onShow(){
-
     // 底部tabbar
     if (typeof this.getTabBar === 'function' &&
       this.getTabBar()) {
       this.getTabBar().setData({
         selected: 0
       })
-    }  
-
+    } 
+    var that=this;
+    clearInterval(clearT);
+    clearT = setInterval(function () {
+      that.djsList();
+    }, 1000);      
   },
+  onHide: function () {
+    // 页面从前台变为后台时执行
+    console.log('hide');
+    console.log(clearT);
+    clearInterval(clearT);
+    console.log(clearT);
+  },
+  onUnload: function () {
+    // 页面销毁时执行
+    console.log('unload');
+  },  
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
     var that = this;
+    clearInterval(clearT);
     wx.showLoading({
       title: '加载中'
     })       
@@ -87,15 +98,8 @@ Page({
     // 同步执行
     Promise.all([p1, p2]).then(function (results) {
       console.log(results); // 获得一个Array: ['P1', 'P2',"P3"]
-      that.djsList();
-      // 设计定时器
-      that.setData({
-        show: true,
-        // timer: setInterval(function () {
-        //   that.djsList();
-        // }, 1000)
-      })
-      setTimeout(function () { wx.hideLoading(); }, 300)
+ 
+      setTimeout(function () { wx.hideLoading(); }, 100)
     })
       .catch(function (error) {
         console.log(error)
@@ -116,7 +120,6 @@ Page({
       });
 
       that.getData(that.data.pidx);
-
       that.setData({
         pidx: that.data.pidx + 1
       })
@@ -161,7 +164,7 @@ Page({
     let that = this;
     let len = that.data.datetime.length;//时间数据长度
 
-    var timer = setInterval(function () {//时间函数
+    // var timer = setInterval(function () {//时间函数
 
     for (var i = 0; i < len; i++) {
       var intDiff = that.data.datetime[i].dat;//获取数据中的时间戳
@@ -182,21 +185,19 @@ Page({
         that.setData({
           bzHouse: that.data.bzHouse
         })
-        const ctx = wx.createCanvasContext('bzcanvas'+i);
-        ctx.font = 'normal bold 15px sans-serif';
-        ctx.setFillStyle('#ff4631');
-        ctx.setTextAlign('left');
-        ctx.fillText(hour + ' 时 ' + minute + ' 分 ' + second + ' 秒', 2, 16);
-        ctx.draw()
-
-
+        // const ctx = wx.createCanvasContext('bzcanvas'+i);
+        // ctx.font = 'normal bold 15px sans-serif';
+        // ctx.setFillStyle('#ff4631');
+        // ctx.setTextAlign('left');
+        // ctx.fillText(hour + ' 时 ' + minute + ' 分 ' + second + ' 秒', 2, 16);
+        // ctx.draw()
       } else {
         // var str = "已结束！";
         // clearInterval(that.data.timer);
       }
     }
 
-     }, 1000)
+    //  }, 1000)
 
   },
   goActive(e){
@@ -327,5 +328,5 @@ Page({
     //     'fail': function (res) { },
     //     'complete': function (res) { }
     //   })
-  },  
+  },
 })

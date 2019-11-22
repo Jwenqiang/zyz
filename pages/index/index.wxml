@@ -2,7 +2,7 @@
 <wxs module="filter" src="../fun.wxs"></wxs>
 <navbar page-name="好房U购转一转" show-home="{{showHome}}"></navbar>
 <view class="htop" style='height:{{navH}}px'></view>
-<view class="page" wx:if="{{show}}">
+<view class="page">
   <view class='top' bindtap="goRole">
     <image src='{{imgUrls.ImageUrl}}' mode='aspectFill'></image>
   </view>
@@ -18,14 +18,14 @@
           <view class="outer secT">
               <label class="secNum"><block wx:if="{{item.JoinNumberDefine>0}}">{{item.JoinNumberDefine}}</block><block wx:elif="{{item.RotateStartUserAmountList.length>0}}">{{item.RotateStartUserAmountList.length}}</block><block wx:else>0</block>人已参与！</label>
             <!-- 倒计时 -->
-              <!-- <view class='xjDate soonDate' wx:if="{{item.djs&&item.StateTerm==1}}"><label>距离开始：</label><text>{{filter.dTime(item.djs)[1]}}</text>时<text class="rect">{{filter.dTime(item.djs)[2]}}</text>分<text class="rect">{{filter.dTime(item.djs)[3]}}</text>秒
+              <view class='xjDate soonDate' wx:if="{{item.djs&&item.StateTerm==1}}"><label>距离开始：</label><text>{{filter.dTime(item.djs)[1]}}</text>时<text class="rect">{{filter.dTime(item.djs)[2]}}</text>分<text class="rect">{{filter.dTime(item.djs)[3]}}</text>秒
               </view>        
               <view class='xjDate' wx:elif="{{item.djs&&item.StateTerm!=1}}"><label>距离结束：</label><text>{{filter.dTime(item.djs)[1]}}</text>时<text class="rect">{{filter.dTime(item.djs)[2]}}</text>分<text class="rect">{{filter.dTime(item.djs)[3]}}</text>秒
-              </view> -->
-              <view class='xjDate soonDate' wx:if="{{item.djs&&item.StateTerm==1}}"><label>距离开始：</label><canvas canvas-id="bzcanvas{{index}}" style="border-radius:6rpx;width:125px;height:20px;float:right"></canvas>
-              </view>        
-              <view class='xjDate' wx:elif="{{item.djs&&item.StateTerm!=1}}"><label>距离结束：</label><canvas canvas-id="bzcanvas{{index}}" style="border-radius:6rpx;width:125px;height:20px;float:right"></canvas>
               </view>
+              <!-- <view class='xjDate soonDate' wx:if="{{item.djs&&item.StateTerm==1}}"><label>距离开始：</label><canvas canvas-id="bzcanvas{{index}}" style="border-radius:6rpx;width:135px;height:20px;float:right"></canvas>
+              </view>        
+              <view class='xjDate' wx:elif="{{item.djs&&item.StateTerm!=1}}"><label>距离结束：</label><canvas canvas-id="bzcanvas{{index}}" style="border-radius:6rpx;width:135px;height:20px;float:right"></canvas>
+              </view> -->
 
 
               <view class='xjDate' wx:else><label>距离结束：</label><text>0</text>时<text>0</text>分<text>0</text>秒</view>          

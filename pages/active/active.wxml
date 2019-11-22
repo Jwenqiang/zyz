@@ -15,11 +15,10 @@
     <label class="funsSm">?</label>
     <view class="fText">
       <label>粉丝王</label>额外奖励<text>{{house.OtherAmountReward}}</text>元
-    </view>
-    
+    </view>  
   </view>  
-  <!-- style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part2.png') center no-repeat;background-size:100%" -->
-  <view class="partTwo {{house.OtherAmountReward>0?'':'mt80'}}">
+
+  <view class="partTwo {{house.OtherAmountReward>0?'':'mt80'}}" wx:if="{{house.LinkTypeChoice==1}}">
     <view class="acMsg" wx:if="{{house.LinkType==2||house.LinkType==3}}" bindtap="showHouse">
       <image src="{{house.DetailImg}}"></image>
       <view class="houseBtn">
@@ -81,9 +80,101 @@
       </view>
     </view> 
 
-
-
   </view>
+
+  <view class="partList"  wx:if="{{house.LinkTypeChoice==2}}">
+    <view class="ptTitle">
+      <view class="ptBj"><image src="../../img/a-qgbj.png" class="aqgbj"></image></view>
+      <view class="aqg" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/a-qg.png') left top no-repeat;background-size:100%">
+        <label>本月抢购({{house.RotateProjectList.length}})</label>
+      </view>
+      
+    </view>
+    
+    <view class="partTwo partT {{house.OtherAmountReward>0?'':'mt80'}}">
+      <view class="outer partTc">
+        <view class="tcList" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/a-rect.png') left top no-repeat;background-size:100%" wx:for="{{house.RotateProjectList}}" wx:key="{{item.Id}}" data-j="yes" data-p="{{item.Project}}" bindtap="showHouse" wx:if="{{index<4||listAll}}">
+          <view class="tcName">
+            {{item.Project.ProjectName}}<text class="iconfont icon-you" style="font-size:24rpx;margin-left:4rpx"></text>
+          </view>
+          <view class="tcNames">
+            {{item.Address}}<text class="iconfont icon-location"></text>
+          </view>
+          <view class="tcSale">
+            <block wx:if="{{item.DiscountType==1}}">
+              <image src="../../img/a-sale.png" class="asale"></image>
+              <text>{{item.DiscountContent}}万</text>
+            </block> 
+            <block wx:if="{{item.DiscountType==2}}"> 
+              <text>{{item.DiscountContent}}</text>   
+              <image src="../../img/a-sale1.png" class="asale asale1"></image>         
+            </block> 
+          </view>
+          <button class="tcBtn" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber1" catchtap="getCode" data-id="{{item.ProjectId}}" data-t="{{item.DiscountType}}" data-c="{{item.DiscountContent}}" wx:if="{{mobile==''||mobile==null}}">
+            立即领取
+          </button>
+          <button class="tcBtn" catchtap="getSale" wx:else>
+            立即领取
+          </button>          
+        </view>
+        <view class="amation" bindtap="tcShow" wx:if="{{listAll==false&&house.RotateProjectList.length>4}}">
+          <image src="../../img/ddown.png"></image>
+        </view>            
+      </view>
+
+      <view class="floatArea" animation="{{animationData}}" bindtap="goMoney"  wx:if="{{house.RotateStartUserAmountList[0].Amount>0}}">
+        <view class="user">
+          <image src="{{house.RotateStartUserAmountList[0].StartHeadImg}}"></image>
+          <view class="fl areaMsg">
+            <label class="name">{{house.RotateStartUserAmountList[0].StartNickName}}</label>
+            <label class="money">已得<text>{{house.RotateStartUserAmountList[0].Amount}}元</text></label>
+          </view>
+        </view>
+      </view>   
+
+      <view class="floatArea" animation="{{animationData1}}" wx:if="{{house.RotateStartUserAmountList[1].Amount>0}}">
+        <view class="user">
+          <image src="{{house.RotateStartUserAmountList[1].StartHeadImg}}"></image>
+          <view class="fl areaMsg">
+            <label class="name">{{house.RotateStartUserAmountList[1].StartNickName}}</label>
+            <label class="money">已得<text>{{house.RotateStartUserAmountList[1].Amount}}元</text></label>
+          </view>
+        </view>
+      </view> 
+
+      <view class="floatArea" animation="{{animationData2}}" wx:if="{{house.RotateStartUserAmountList[2].Amount>0}}">
+        <view class="user">
+          <image src="{{house.RotateStartUserAmountList[2].StartHeadImg}}"></image>
+          <view class="fl areaMsg">
+            <label class="name">{{house.RotateStartUserAmountList[2].StartNickName}}</label>
+            <label class="money">已得<text>{{house.RotateStartUserAmountList[2].Amount}}元</text></label>
+          </view>
+        </view>
+      </view> 
+
+      <view class="floatArea" animation="{{animationData3}}" wx:if="{{house.RotateStartUserAmountList[3].Amount>0}}">
+        <view class="user">
+          <image src="{{house.RotateStartUserAmountList[3].StartHeadImg}}"></image>
+          <view class="fl areaMsg">
+            <label class="name">{{house.RotateStartUserAmountList[3].StartNickName}}</label>
+            <label class="money">已得<text>{{house.RotateStartUserAmountList[3].Amount}}元</text></label>
+          </view>
+        </view>
+      </view> 
+
+      <view class="floatArea" animation="{{animationData4}}" wx:if="{{house.RotateStartUserAmountList[4].Amount>0}}">
+        <view class="user">
+          <image src="{{house.RotateStartUserAmountList[4].StartHeadImg}}"></image>
+          <view class="fl areaMsg">
+            <label class="name">{{house.RotateStartUserAmountList[4].StartNickName}}</label>
+            <label class="money">已得<text>{{house.RotateStartUserAmountList[4].Amount}}元</text></label>
+          </view>
+        </view>
+      </view> 
+
+    </view>
+  </view>
+
   <view class="partThird" wx:if="{{active!=null}}">
     <view class="title"><image src="/img/icon-title.png"></image> 我的任务 <image src="/img/icon-title.png"></image></view>
     <view class="myTask">
@@ -112,8 +203,8 @@
         <view class="timeT">- 活动倒计时 - </view>
         <!-- 倒计时 -->
         <view class='xjDate' wx:if="{{bzHouse.djs}}">
-        <!-- <text>{{filter.dTime(bzHouse.djs)[1]}}</text>时<text class="rect">{{filter.dTime(bzHouse.djs)[2]}}</text>分<text class="rect">{{filter.dTime(bzHouse.djs)[3]}}</text>秒 -->
-          <canvas wx:if="{{showSq==false}}" canvas-id="bzcanvas" style="border-radius:6rpx;width:144px;height:30px;margin:0 auto;background:#000"></canvas>       
+        <text>{{filter.dTime(bzHouse.djs)[1]}}</text>时<text class="rect">{{filter.dTime(bzHouse.djs)[2]}}</text>分<text class="rect">{{filter.dTime(bzHouse.djs)[3]}}</text>秒
+          <!-- <canvas wx:if="{{showSq==false}}" canvas-id="bzcanvas" style="border-radius:6rpx;width:144px;height:30px;margin:0 auto;background:#000"></canvas>        -->
         </view>  
         <view class='xjDate' wx:else><label style="color:#999">距离结束：</label><text>0</text>时<text>0</text>分<text>0</text>秒</view>      
       </view>
@@ -563,7 +654,7 @@
     <!-- 笋盘房源结束 -->
 
     <!-- 好房U购房源 -->
-    <view class="ugHouse" wx:if="{{house.LinkType==3}}">
+    <view class="ugHouse" wx:if="{{house.LinkType==3||isList}}">
       <view class='swiperC'>
         <swiper bindchange="swiperChange" interval="5000" duration="300" circular="true" class='houseBan'>
           <block wx:for="{{uhouse.Estate.EstatePhotosAllList}}" wx:key="index">
@@ -596,7 +687,23 @@
         <view class="usection">
           <view class="outer uht">楼盘户型（{{uhouse.Estate.PropertyRoomTypeList.length}}）</view>
           <view class="uhx">
-    <swiper display-multiple-items="1.8" next-margin='20rpx'  class='ztSwiper'>
+          <scroll-view class='ztSwiper' style="heigth:340rpx;white-space: nowrap;" scroll-x="true">
+          <!-- <view class="outer"> -->
+            <block wx:for="{{uhouse.Estate.PropertyRoomTypeList}}" wx:key="index" class="block">
+              <view class="spzt" bindtap="goUban" data-hx="{{item.RoomTypeID}}" data-house="{{uhouse.Id}}" style="height:340rpx;width:300rpx;display:inline-block">   
+                <image src="{{item.EstatePhotosList[0].FilePath}}" class="back" mode='aspectFit'/>
+                <text class='aStatus' wx:if="{{item.AvilStatus===1}}">在售</text>
+                <text class='aStatus' style="background: #ccc;" wx:else>售完</text>
+                <view class='ztName'>
+                  <text wx:if="{{item.CountF>0}}">{{item.CountF}}室</text><text wx:if="{{item.CountT>0}}">{{item.CountT}}厅</text> {{item.Square}}㎡
+                </view>
+                <view class='sName'>参考总价：<label>{{item.Total/10000}}万</label></view>
+          
+              </view>               
+            </block>  
+        <!-- </view>         -->
+          </scroll-view>
+    <!-- <swiper display-multiple-items="1.8" next-margin='20rpx'  class='ztSwiper'>
       <block wx:for="{{uhouse.Estate.PropertyRoomTypeList}}" wx:key="index" class="block">
         <swiper-item class="spzt" bindtap="goUban" data-hx="{{item.RoomTypeID}}" data-house="{{uhouse.Id}}">   
           <image src="{{item.EstatePhotosList[0].FilePath}}" class="back" mode='aspectFit'/>
@@ -609,7 +716,7 @@
      
         </swiper-item>               
       </block>
-    </swiper>           
+    </swiper>            -->
           </view>
         </view>  
         <view class="line"></view>
@@ -630,7 +737,7 @@
           markers="{{markers}}"
           style="width:100%;height:200px;"
           longitude="{{lng}}"
-          latitude="{{lat}}" scale='17'  bindmarkertap='gotohere'></map>
+          latitude="{{lat}}" scale='17' bindtap='gotohere'></map>
               <!-- <view class="uzb">
                   <view>配套学位：<text>南山小学</text></view>
                   <view>附近地铁：<text>后海地铁站，南山地铁站</text></view>  
@@ -648,7 +755,7 @@
           </view>
           <view class="uli">
             <label>开盘时间：</label>
-            <text wx:if="{{uhouse.Estate.DateOpenS==null}}">{{uhouse.Estate.DateOpenS}}</text>
+            <text wx:if="{{uhouse.Estate.DateOpenS==null}}">待定</text>
             <text wx:else>{{uhouse.Estate.DateOpenS}}</text>
           </view>
           <view class="uli">

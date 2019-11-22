@@ -3,7 +3,8 @@ var QQMapWX = require('../../qqmap-wx-jssdk.js');
 var qqmapsdk;
 //获取应用实例
 const app = getApp()
-
+var clearT = "";
+var act="";
 //计数器
 var interval = null;
 
@@ -26,17 +27,15 @@ Page({
     shareOneId: 0,
     shareSecondId: 0,
     shareTitle:"",
-    act:"",
     animationData: {},
     animationData1: {},
     animationData2: {},
     animationData3: {},
     animationData4: {},
-    timer: "",
     bzHouse: { EndTime:""},
     house:"",
     active:{},
-    datetime: {},
+    datetime: "",
     isActive:true,
     isShare:false,
     showF:true,
@@ -86,7 +85,9 @@ Page({
     uhouseName:"",
     bannerList:[],
     lng:"",
-    lat:""
+    lat:"",
+    isList:false,
+    listAll:false
   },
 
   /**
@@ -164,13 +165,7 @@ Page({
           })
           setTimeout(function () {
             that.getCj().then(function(result){
-              // 设计定时器
-              that.djsList();
-              // that.setData({
-              //   timer: setInterval(function () {
-              //     that.djsList();
-              //   }, 1000)
-              // })                
+
             }).catch(function (reason) {
               console.log('失败：' + reason);
             });
@@ -212,8 +207,11 @@ Page({
    */
   onHide: function () {
     console.log("hid");
-    clearInterval(this.data.act);
-    // clearInterval(this.data.timer);
+    console.log(act);
+    clearInterval(act);
+    clearInterval(clearT);
+    console.log(act);
+    console.log(clearT);
   },
 
   /**
@@ -227,8 +225,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    clearInterval(this.data.act);
-    clearInterval(this.data.timer);    
     var that = this;
     wx.stopPullDownRefresh();
     //显示动画
@@ -249,17 +245,7 @@ Page({
             withShareTicket: true
           })
           setTimeout(function () {
-            that.getCj().then(function (result) {
-              // 设计定时器
-              that.djsList();
-              // that.setData({
-              //   timer: setInterval(function () {
-              //     that.djsList();
-              //   }, 1000)
-              // })
-            }).catch(function (reason) {
-              console.log('失败：' + reason);
-            });
+            that.getCj();
           }, 10)
           if (res.data.RoleType == 5 || res.data.RoleType == 4) {//是经纪人
             that.setData({
@@ -504,7 +490,7 @@ that.setData({
     })
     // 倒计时执行
     let that = this;
-    var timer = setInterval(function () {    
+    // var timer = setInterval(function () {    
       var intDiff = that.data.datetime.dat;//获取数据中的时间戳
       if (intDiff > 0) {//转换时间
         that.data.datetime.dat -= 1000;
@@ -520,12 +506,12 @@ that.setData({
         that.data.datetime.difftime = str;//在数据中添加difftime参数名，把时间放进去
         that.data.bzHouse.djs = that.data.datetime.difftime;
 
-        const ctx = wx.createCanvasContext('bzcanvas');
-        ctx.font = 'normal bold 17px sans-serif';
-        ctx.setFillStyle('#fff');
-        ctx.setTextAlign('left');
-        ctx.fillText(hour + ' 时 ' + minute + ' 分 ' + second + ' 秒', 4, 21);
-        ctx.draw()
+        // const ctx = wx.createCanvasContext('bzcanvas');
+        // ctx.font = 'normal bold 17px sans-serif';
+        // ctx.setFillStyle('#fff');
+        // ctx.setTextAlign('left');
+        // ctx.fillText(hour + ' 时 ' + minute + ' 分 ' + second + ' 秒', 4, 21);
+        // ctx.draw()
         that.setData({
           bzHouse: that.data.bzHouse
         })
@@ -533,7 +519,7 @@ that.setData({
         // var str = "已结束！";
         // clearInterval(that.data.timer);
       }
-    }, 1000)
+    // }, 1000)
 
   }, 
   goFriend(e){
@@ -852,6 +838,134 @@ that.setData({
       }
     }
   },
+  //通过绑定手机号登录
+  getPhoneNumber1: function (e) {
+    console.log(e);
+    var projectId = e.currentTarget.dataset.id;
+    var discountType = e.currentTarget.dataset.t; 
+    var discountContent = e.currentTarget.dataset.c;
+    var ivObj = e.detail.iv
+    var telObj = e.detail.encryptedData;
+    var that = this;
+
+    //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny') { //用户点击拒绝
+      wx.showToast({
+        title: "同意后才能领取优惠哦",
+        icon: "none"
+      })
+    } else { //授权通过执行跳转 
+      if (that.data.wxcode != '') {
+        wx.showLoading({
+          title: '授权中',
+          mask: true
+        })
+        wx.request({
+          url: 'https://spapi.centaline.com.cn/api/Users/UserLogin', //接口地址
+          data: {
+            code: that.data.wxcode,
+            encryptedData: telObj,
+            iv: ivObj,
+            Type: 4,
+            AuthorizeType: 1
+          },
+          method: "post",
+          success: function (res) {
+            console.log(res);
+            if (res.data.code == 1001) {
+              wx.setStorage({   //存储数据并准备发送给下一页使用
+                key: "userInfo",
+                data: res.data.data,
+              })
+              that.setData({
+                mobile: res.data.data.Mobile
+              })
+              console.log(that.data.mobile);
+              wx.request({
+                url: 'https://spapi.centaline.com.cn/api/Rotate/AddRotateProjectDiscount',
+                method:"post",
+                data:{
+                  RotateId:that.data.activeId,
+                  ProjectId:projectId,
+                  DiscountType: discountType,
+                  DiscountContent: discountContent,
+                  Mobile: that.data.mobile
+                },
+                success:r=>{
+                  if(r.data.code==1001){
+                    wx.showModal({
+                      title: "恭喜您已领取成功",
+                      content: '您已领取了该活动优惠，我们会尽快联系您!',
+                      showCancel: false,
+                      confirmText: "知道了",
+                      success: function (r) {
+                        if (r.confirm) {
+
+                        }
+                      }
+                    });
+                  }else{
+                    wx.showToast({
+                      title: "网络异常，请稍后再试",
+                      icon: "none"
+                    })                    
+                  }
+                }
+              })
+
+            }
+            else {
+              wx.showToast({
+                title: "授权失败，请稍后再试",
+                icon: "none"
+              })
+              that.getCode()
+            }
+            wx.hideLoading();
+          }
+        })
+      }
+    }
+  },  
+  // 已授权手机号领取
+  getSale(e){
+    var that=this;
+    console.log(e);
+    var projectId = e.currentTarget.dataset.id;
+    var discountType = e.currentTarget.dataset.t;
+    var discountContent = e.currentTarget.dataset.c;  
+    wx.request({
+      url: 'https://spapi.centaline.com.cn/api/Rotate/AddRotateProjectDiscount',
+      method: "post",
+      data: {
+        RotateId: that.data.activeId,
+        ProjectId: projectId,
+        DiscountType: discountType,
+        DiscountContent: discountContent,
+        Mobile: that.data.mobile
+      },
+      success: r => {
+        if (r.data.code == 1001) {
+          wx.showModal({
+            title: "恭喜您已领取成功",
+            content: '您已领取了该活动优惠，我们会尽快联系您!',
+            showCancel: false,
+            confirmText: "知道了",
+            success: function (r) {
+              if (r.confirm) {
+
+              }
+            }
+          });
+        } else {
+          wx.showToast({
+            title: "网络异常，请稍后再试",
+            icon: "none"
+          })
+        }
+      }
+    })      
+  },
   goJjr(){
     wx.navigateTo({
       url: '../applyJjr/applyJjr',
@@ -949,20 +1063,19 @@ that.setData({
           }
           if (res.data.data.Project!=null){
             that.setData({
-              uhouse: res.data.data.Project,
-              uhouseName: res.data.data.Project.ProjectName,             
+              uhouse: res.data.data.Project,           
             })
-            var arr = [];
-            var ban = res.data.data.Project.Estate.EstatePhotosAllList;
-            for (const i of ban) {
-              arr.push(i.FilePath)
-            } 
-            // 轮播列表
-            that.setData({
-              bannerList: arr
-            }) 
-            // 百度地图经纬度转腾讯地图
-            that.reverseLocation(res.data.data.Project.AddressXpoint, res.data.data.Project.AddressYpoint);                       
+            // var arr = [];
+            // var ban = res.data.data.Project.Estate.EstatePhotosAllList;
+            // for (const i of ban) {
+            //   arr.push(i.FilePath)
+            // } 
+            // // 轮播列表
+            // that.setData({
+            //   bannerList: arr
+            // }) 
+            // // 百度地图经纬度转腾讯地图
+            // that.reverseLocation(res.data.data.Project.AddressXpoint, res.data.data.Project.AddressYpoint);                       
           }
           if (res.data.data.LinkType==2){
             that.setData({
@@ -974,56 +1087,52 @@ that.setData({
               })
             }            
           }
+          clearInterval(act);
           if (that.data.house.RotateStartUserAmountList.length > 4){
             
             if (that.data.oneAction == 1){
               that.action();
             }
                 
-            that.setData({
-              act: setInterval(function () {
+
+              act=setInterval(function () {
                 that.action();
-              }, 15000)
-            })            
+              }, 15000)           
           } else if (that.data.house.RotateStartUserAmountList.length > 3){
             if (that.data.oneAction == 1) {
               that.action1();
             }
-            that.setData({
-              act: setInterval(function () {
+              act=setInterval(function () {
                         that.action1();
                       }, 12000) 
-            })
                         
           } else if (that.data.house.RotateStartUserAmountList.length > 2) {
             if (that.data.oneAction == 1) {
               that.action2();
             }
-            that.setData({
-              act: setInterval(function () {
+              act=setInterval(function () {
                 that.action2();
-              }, 9000)
-            })            
+              }, 9000)         
                                     
           } else if (that.data.house.RotateStartUserAmountList.length > 1) {
             if (that.data.oneAction == 1) {
               that.action3();
             } 
-            that.setData({
-              act: setInterval(function () {
+
+              act=setInterval(function () {
                 that.action3();
               }, 6000) 
-            })                     
+                  
                  
           } else if (that.data.house.RotateStartUserAmountList.length > 0) {
             if (that.data.oneAction == 1) {
               that.action4();
             }
-            that.setData({
-              act: setInterval(function () {
+
+              act=setInterval(function () {
                 that.action4();
               }, 3000) 
-            })            
+         
                        
           }
           // // 设计定时器
@@ -1084,6 +1193,10 @@ that.setData({
         }
         resolve();
         wx.hideLoading() 
+        // 设计定时器
+        clearT = setInterval(function () {
+          that.djsList();
+        }, 1000) 
       },
       fail:error=>{
         wx.showToast({
@@ -1289,8 +1402,28 @@ that.setData({
       })
     }
   },   
-  showHouse(){
+  showHouse(e){
     var that=this;
+    if (e.currentTarget.dataset.j=='yes'){
+      that.setData({
+        isList:true,
+        uhouse: e.currentTarget.dataset.p
+      })
+    }
+    if (that.data.showHouseInfo==false){
+      var arr = [];
+      var ban = that.data.uhouse.Estate.EstatePhotosAllList;
+      for (const i of ban) {
+        arr.push(i.FilePath)
+      }
+      // 轮播列表
+      that.setData({
+        uhouseName: that.data.uhouse.ProjectName,
+        bannerList: arr
+      })
+      // 百度地图经纬度转腾讯地图
+      that.reverseLocation(that.data.uhouse.AddressXpoint, that.data.uhouse.AddressYpoint);        
+    }
     that.data.showHouseInfo = !that.data.showHouseInfo
     that.setData({
       showHouseInfo:that.data.showHouseInfo
@@ -1411,5 +1544,10 @@ that.setData({
       current: u,
       urls: that.data.bannerList
     })    
+  },
+  tcShow(){
+    this.setData({
+      listAll:true
+    })
   }    
 })

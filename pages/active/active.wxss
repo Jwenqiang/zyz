@@ -1007,3 +1007,37 @@ box-sizing: border-box}
 .uiht{margin-bottom: 20rpx}
  .uli label{color: #666;font-weight: bold}
  .footBarU{position: fixed;top: 1180rpx;left: 80rpx;padding-bottom: 20rpx;height: 120rpx}
+
+ /* 新增抢购列表 */
+ .partList{width: 100%;padding: 0 53rpx;box-sizing: border-box;position: relative;margin-bottom: 40rpx;}
+  .ptTitle{width: 100%;text-align: center}
+ .ptTitle .aqg{width: 444rpx;height: 103rpx;position: absolute;top: -16rpx;left: 153rpx;line-height: 90rpx;}
+ .aqg label{font-size: 42rpx;font-weight: bold;color: #ea3f38;}
+ .ptTitle .aqgbj{width: 642rpx;height: 32rpx}
+ .ptBj{padding-top: 60rpx;height: 92rpx;box-sizing: border-box}
+ .partT{padding: 0;height:auto;max-height: 740rpx;border: 14rpx solid #fd5f44;}
+ .partTc{width: 100%;background: #651700;max-height: 712rpx;padding: 20rpx 20rpx 0;box-sizing: border-box;overflow-y: auto}
+ .tcList{width: 278rpx;height: 289rpx;display: inline-block;margin-right: 20rpx;margin-bottom: 20rpx;float: left;box-sizing: border-box;padding: 24rpx;text-align: left;position: relative}
+.partTc .tcList:nth-of-type(2n){margin-right: 0}
+.tcName{font-size: 28rpx;font-weight: bold;color: #df3727;margin-bottom: 2rpx}
+.tcNames,.tcNames text{font-size: 24rpx;color: #e77466}
+.tcNames text{margin-left: 3rpx}
+.asale{width: 82rpx;height: 71rpx;vertical-align: middle}
+.asale1{width: 48rpx;height: 70rpx;margin-left: 8rpx}
+.tcSale{margin-top: 36rpx;text-align: center;height: 78rpx}
+.tcSale text{font-size: 48rpx;color: #fff;font-weight: bold}
+button.tcBtn{width: 140rpx;height: 44rpx;padding: 0; line-height: 44rpx;text-align: center;background: #fff;margin: 10rpx auto 0;font-size: 24rpx;color: #c53604;border-radius: 20rpx;font-weight: bold}
+
+.amation{width: 100%;clear: both}
+.amation image{width: 60rpx;height: 60rpx;animation: mymove 1s infinite;position:relative; }
+@keyframes mymove
+{
+from {top:0px;}
+to {top:20rpx;}
+}
+
+@-webkit-keyframes mymove /*Safari and Chrome*/
+{
+from {top:0px;}
+to {top:20rpx;}
+}
