@@ -6,9 +6,9 @@
     <cover-view class="line1"></cover-view>
     <cover-view class="navbar-action_item" bindtap="toIndex" ><cover-image src="/img/index.png"></cover-image></cover-view>
     </block>
-    <block wx:else>
+    <!-- <block wx:else>
 <cover-view class="navbar-action_item first" bindtap="navBack"></cover-view>
-    </block>
+    </block> -->
     
   </cover-view>
   <cover-view class='navbar-title'>

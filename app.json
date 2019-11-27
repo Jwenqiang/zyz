@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/index/index",    
     "pages/active/active",
+    "pages/asaleList/asaleList",    
     "pages/uhBan/uhBan",
     "pages/money/money",
     "pages/uFriends/friends",

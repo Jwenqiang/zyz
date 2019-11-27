@@ -5,11 +5,12 @@
 
 <view wx:if="{{isOld==false&&hasData}}" class="hd {{show?'hidden':''}}">
 <view class="page" wx:if="{{house.State!=2}}">
-  <view class="partOne" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part1.png') left top no-repeat;background-size:100%">
+
+  <view class="partOne" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part1.png') left top no-repeat;background-size:100%" wx:if="{{house.LinkTypeChoice==1}}">
     <view class="h1">{{house.Title}}</view>
     <view class="h4">{{house.SecondTitle}}</view>
   </view>
-  <view class="funsTip" wx:if="{{house.OtherAmountReward>0}}" bindtap="showFun">
+  <view class="funsTip" wx:if="{{house.OtherAmountReward>0}}" bindtap="showFun" wx:if="{{house.LinkTypeChoice==1}}">
     <image src="/img/lineB.png" class="lineB"></image>
     <image src="/img/king.png" class="king"></image>
     <label class="funsSm">?</label>
@@ -17,6 +18,26 @@
       <label>粉丝王</label>额外奖励<text>{{house.OtherAmountReward}}</text>元
     </view>  
   </view>  
+<!-- 抢购形式 -->
+  <view class="partOne partOneT" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part1-1.jpg') left center no-repeat;background-size:100%"  wx:if="{{house.LinkTypeChoice==2}}">
+    <view class="pot-top">
+      <view class="pot-name" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/al-tk.png') left center no-repeat;background-size:100%">
+        {{house.Title}}
+      </view>
+      <view class="pot-funs"  style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/al-fs.png') left center no-repeat;background-size:100%" wx:if="{{house.OtherAmountReward>0}}" bindtap="showFun">
+        <label>粉丝王</label>额外奖励<text>{{house.OtherAmountReward}}</text>元
+      </view>
+      <view class="pot-sm" bindtap="showFun">
+        <image src="../../img/a-sm.png"></image>
+      </view>
+    </view>
+    <view class="h4 pot-sname">{{house.SecondTitle}}</view>
+    <view class="pot-bottom">
+      <image src="../../img/at-zj.png"></image>
+      <text>{{house.PriceFall}}</text>
+      <label>万</label>
+    </view>
+  </view>
 
   <view class="partTwo {{house.OtherAmountReward>0?'':'mt80'}}" wx:if="{{house.LinkTypeChoice==1}}">
     <view class="acMsg" wx:if="{{house.LinkType==2||house.LinkType==3}}" bindtap="showHouse">
@@ -81,19 +102,18 @@
     </view> 
 
   </view>
-
-  <view class="partList"  wx:if="{{house.LinkTypeChoice==2}}">
+<!-- 抢购形式 -->
+  <view class="partList {{house.OtherAmountReward>0?'':'mt80'}}"  wx:if="{{house.LinkTypeChoice==2}}">
     <view class="ptTitle">
       <view class="ptBj"><image src="../../img/a-qgbj.png" class="aqgbj"></image></view>
-      <view class="aqg" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/a-qg.png') left top no-repeat;background-size:100%">
-        <label>本月抢购({{house.RotateProjectList.length}})</label>
+      <view class="aqg" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/a-qg.png') left top no-repeat;background-size:100%" bindtap="goAsl">
       </view>
       
     </view>
     
-    <view class="partTwo partT {{house.OtherAmountReward>0?'':'mt80'}}">
+    <view class="partTwo partT">
       <view class="outer partTc">
-        <view class="tcList" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/a-rect.png') left top no-repeat;background-size:100%" wx:for="{{house.RotateProjectList}}" wx:key="{{item.Id}}" data-j="yes" data-p="{{item.Project}}" bindtap="showHouse" wx:if="{{index<4||listAll}}">
+        <view class="tcList" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/a-rect.png') left top no-repeat;background-size:100%" wx:for="{{house.RotateProjectList}}" wx:key="{{item.Id}}" data-j="yes" data-p="{{item.Project}}" bindtap="showHouse" wx:if="{{index<4}}">
           <view class="tcName">
             {{item.Project.ProjectName}}<text class="iconfont icon-you" style="font-size:24rpx;margin-left:4rpx"></text>
           </view>
@@ -113,13 +133,10 @@
           <button class="tcBtn" open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber1" catchtap="getCode" data-id="{{item.ProjectId}}" data-t="{{item.DiscountType}}" data-c="{{item.DiscountContent}}" wx:if="{{mobile==''||mobile==null}}">
             立即领取
           </button>
-          <button class="tcBtn" catchtap="getSale" wx:else>
+          <button class="tcBtn" data-id="{{item.ProjectId}}" data-t="{{item.DiscountType}}" data-c="{{item.DiscountContent}}" catchtap="getSale" wx:else>
             立即领取
           </button>          
-        </view>
-        <view class="amation" bindtap="tcShow" wx:if="{{listAll==false&&house.RotateProjectList.length>4}}">
-          <image src="../../img/ddown.png"></image>
-        </view>            
+        </view>          
       </view>
 
       <view class="floatArea" animation="{{animationData}}" bindtap="goMoney"  wx:if="{{house.RotateStartUserAmountList[0].Amount>0}}">
@@ -472,6 +489,24 @@
       </view>
    </view>
 
+
+      <!--抢购优惠弹窗  -->
+   <view class='show' wx:if="{{hasSale}}">
+      <view class='bj' bindtap='showSale'></view>
+      <view class='showMsg showSale' animation="{{animationSale}}">
+        <text class='iconfont icon-guanbi' bindtap='showSale'></text>
+        <image src="../../img/i-asale.png" class="isale"></image>
+        <view class="h2 saleH2">成功领取楼盘优惠</view>
+        <view class="saleMsg">
+          您已成功领取了该楼盘优惠，我们会尽快联系您！
+        </view>
+        <view class="btnSale" bindtap='showSale'>我知道了</view>
+      </view>
+   </view>
+
+
+
+
 <!-- 显示房源 -->
 <view class="show" wx:if="{{showHouseInfo}}">
   <view class="bj" bindtap="showHouse"></view>
@@ -614,7 +649,7 @@
     </view>
     <view class="footBarH {{isX?'pd-b60 height160':''}}" wx:if="{{jjr==false}}">
       <image src='{{houseInfo.ShootEstateSale.HeadImg}}' wx:if="{{houseInfo.ShootEstateSale.HeadImg!=''&&houseInfo.ShootEstateSale.HeadImg!=null}}"  mode='aspectFill'></image>
-      <image src='../../img/tx3.png' wx:else></image>
+      <image src='../../img/tx2.png' wx:else></image>
       <view class='fbName'>
         <text>{{houseInfo.ShootEstateSale.FullName}}</text>
         <text>高级顾问</text>
@@ -626,7 +661,7 @@
     </view>
     <view class="footBarH {{isX?'pd-b60 height160':''}}" wx:if="{{jjr==true}}">
       <image src='{{houseInfo.BrokerStoreSale.HeadImg}}' wx:if="{{houseInfo.BrokerStoreSale.HeadImg!=''&&houseInfo.BrokerStoreSale.HeadImg!=null}}"  mode='aspectFill'></image>
-      <image src='../../img/tx3.png' wx:else></image>
+      <image src='../../img/tx2.png' wx:else></image>
       <view class='fbName'>
         <text>{{houseInfo.BrokerStoreSale.FullName}}</text>
         <text>经纪人</text>
@@ -737,7 +772,7 @@
           markers="{{markers}}"
           style="width:100%;height:200px;"
           longitude="{{lng}}"
-          latitude="{{lat}}" scale='17' bindtap='gotohere'></map>
+          latitude="{{lat}}" scale='17' bindtap='gotohere' bindmarkertap="gotohere"></map>
               <!-- <view class="uzb">
                   <view>配套学位：<text>南山小学</text></view>
                   <view>附近地铁：<text>后海地铁站，南山地铁站</text></view>  
@@ -771,7 +806,7 @@
       </view>
       <view class="footBarH footBarU">
         <image src='{{uhouse.ProjectAdviserList[0].HeadImg}}' wx:if="{{uhouse.ProjectAdviserList[0].HeadImg!=''&&uhouse.ProjectAdviserList[0].HeadImg!=null}}"  mode='aspectFill'></image>
-        <image src='../../img/tx3.png' wx:else></image>
+        <image src='../../img/tx2.png' wx:else></image>
         <view class='fbName'>
           <text>{{uhouse.ProjectAdviserList[0].FullName}}</text>
           <text>高级顾问</text>

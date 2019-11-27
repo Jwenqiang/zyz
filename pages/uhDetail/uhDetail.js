@@ -9,7 +9,8 @@ Page({
     navH:"",
     product:"",
     mainInfo:"",
-    id:""
+    id:"",
+    show:false
   },
 
   /**
@@ -93,7 +94,8 @@ Page({
           that.setData({
             product: res.data.data,
             mainInfo: res.data.data.Estate,
-          })
+            show:true
+          })             
           wx.hideLoading()
         }
       }

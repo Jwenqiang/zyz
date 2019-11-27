@@ -116,13 +116,13 @@ Component({
                 duration: 2000,
                 success: function () {
                   var codeSrc = "";
-                  that.getQrCode(productSrc, "../../img/tx3.png", imgInfo);
+                  that.getQrCode(productSrc, "../../img/tx2.png", imgInfo);
                 }
               })
             }
           },
           fail:res=>{
-            that.getQrCode(productSrc, "../../img/tx3.png", imgInfo);
+            that.getQrCode(productSrc, "../../img/tx2.png", imgInfo);
           }
         })
       } else {
@@ -152,7 +152,7 @@ Component({
               console.log(productSrc)
               console.log(codeSrc)
               if(tx==''){
-                tx="../../img/tx3.png"
+                tx="../../img/tx2.png"
               }
               console.log(tx)
               that.sharePosteCanvas(productSrc,tx, codeSrc, imgInfo);

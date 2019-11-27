@@ -21,7 +21,7 @@ Page({
     hasData:false,
     wxcode:"",
     isOld:false, 
-    activeId:"", 
+    activeId:"41", 
     oneId:0,
     secondId:0,
     shareOneId: 0,
@@ -87,7 +87,9 @@ Page({
     lng:"",
     lat:"",
     isList:false,
-    listAll:false
+    animationSale: {},
+    hasSale: false,
+    shareImg:""    
   },
 
   /**
@@ -206,12 +208,8 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    console.log("hid");
-    console.log(act);
     clearInterval(act);
     clearInterval(clearT);
-    console.log(act);
-    console.log(clearT);
   },
 
   /**
@@ -299,9 +297,11 @@ Page({
    */
   onShareAppMessage: function () {
     console.log('/pages/active/active?Id=' + this.data.activeId + "," + this.data.shareOneId + "," + this.data.shareSecondId)
+    console.log(this.data.shareImg);
     return {
       title: this.data.shareTitle,
-      path: '/pages/active/active?Id=' + this.data.activeId +","+ this.data.shareOneId + "," + this.data.shareSecondId+",channel=2"
+      path: '/pages/active/active?Id=' + this.data.activeId +","+ this.data.shareOneId + "," + this.data.shareSecondId+",channel=2",
+      imageUrl:this.data.shareImg
     }
 
   },
@@ -893,17 +893,9 @@ that.setData({
                 },
                 success:r=>{
                   if(r.data.code==1001){
-                    wx.showModal({
-                      title: "恭喜您已领取成功",
-                      content: '您已领取了该活动优惠，我们会尽快联系您!',
-                      showCancel: false,
-                      confirmText: "知道了",
-                      success: function (r) {
-                        if (r.confirm) {
-
-                        }
-                      }
-                    });
+                    setTimeout(function () {
+                      that.showSale()
+                    }, 500)
                   }else{
                     wx.showToast({
                       title: "网络异常，请稍后再试",
@@ -929,6 +921,9 @@ that.setData({
   },  
   // 已授权手机号领取
   getSale(e){
+    wx.showLoading({
+      title: '领取中',
+    })
     var that=this;
     console.log(e);
     var projectId = e.currentTarget.dataset.id;
@@ -945,18 +940,24 @@ that.setData({
         Mobile: that.data.mobile
       },
       success: r => {
+        console.log(r);
         if (r.data.code == 1001) {
-          wx.showModal({
-            title: "恭喜您已领取成功",
-            content: '您已领取了该活动优惠，我们会尽快联系您!',
-            showCancel: false,
-            confirmText: "知道了",
-            success: function (r) {
-              if (r.confirm) {
+          // wx.showModal({
+          //   title: "恭喜您已领取成功",
+          //   content: '您已领取了该活动优惠，我们会尽快联系您!',
+          //   showCancel: false,
+          //   confirmText: "知道了",
+          //   success: function (r) {
+          //     if (r.confirm) {
 
-              }
-            }
-          });
+          //     }
+          //   }
+          // });
+          setTimeout(function () {
+            wx.hideLoading()
+            that.showSale()
+          }, 500)
+          
         } else {
           wx.showToast({
             title: "网络异常，请稍后再试",
@@ -1050,12 +1051,16 @@ that.setData({
           that.setData({
             ready:true,
             house:res.data.data,
+            shareImg: res.data.data.ShareMainImg,
             ewm: res.data.data.WxQRcode,
             shareTitle: res.data.data.ShareTitle,
             active: res.data.data.RotateUserAmount,
             bzHouse: { EndTime: res.data.data.EndTime},
             hasData:true,
           })
+          if (res.data.data.RotateProjectList.length>0){
+            wx.setStorageSync('asaleList', res.data.data.RotateProjectList)
+          }
           if (res.data.data.ShootEstate!=null){
             that.setData({
               houseInfo: res.data.data.ShootEstate,
@@ -1278,12 +1283,12 @@ that.setData({
       delay: 0
     })
     animation.translateY(-400).step()
-    this.setData({
+    that.setData({
       animationBm: animation.export(),
       hasBm: that.data.hasBm
     })
     animation.translateY(0).step()
-    this.setData({
+    that.setData({
       animationBm: animation.export()
     })
   },
@@ -1306,6 +1311,15 @@ that.setData({
       animationBm: animation.export()
     })
   },
+
+  showSale() {
+    this.data.hasSale = !this.data.hasSale;
+    var that = this;
+    that.setData({
+      hasSale: that.data.hasSale
+    })
+  },
+
 
   setMsg(e) {
     var that = this;
@@ -1545,9 +1559,9 @@ that.setData({
       urls: that.data.bannerList
     })    
   },
-  tcShow(){
-    this.setData({
-      listAll:true
+  goAsl(){
+    wx.navigateTo({
+      url: '../asaleList/asaleList',
     })
   }    
 })

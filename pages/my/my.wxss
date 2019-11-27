@@ -17,7 +17,7 @@ image.mbj{width: 100%;height: 320rpx;position: absolute;left: 0;top: 0;z-index: 
 .edit .iconfont,button.edit.iconfont{font-size: 44rpx;position: relative; top: 6rpx;color: #fff}
 button.edit{background: none;padding: 0;color: #fff}
 button.edit::after{border: 0}
-button.editP{line-height: 1;top: 0;float: none;text-align: left;color: #f8f5ce;}
+button.editP{line-height: 40rpx;height: 40rpx; top: 0;float: none;text-align: left;color: #f8f5ce;}
 .topB{height: 84rpx;line-height: 84rpx;width: 100%;background: #f8f5ce;margin-top: 40rpx;border-radius: 10rpx;padding: 0 20rpx;box-sizing: border-box;color: #666}
 .topB image.rz{width: 42rpx;height: 36rpx;position: relative; top: 8rpx;margin-right: 20rpx}
 .mtip{font-weight: bold;color: #000}

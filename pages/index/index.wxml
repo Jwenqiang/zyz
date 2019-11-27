@@ -8,7 +8,7 @@
   </view>
   <view class="content">
   <!-- <button bindtap="pay">微信支付</button> -->
-    <view class="h1 conT">热门活动</view>
+    <view class="h1 conT" wx:if="{{bzHouse.length>0}}">热门活动</view>
     <view class="section" wx:for="{{bzHouse}}" wx:key="index"  bindtap="goActive" data-id="{{item.Id}}">
       <view class="secMsg">
         <view class="secImg">

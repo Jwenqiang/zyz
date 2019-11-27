@@ -1,7 +1,7 @@
 <!-- 活动页 -->
 <navbar page-name="楼盘资料"></navbar>
 <view class="htop" style='height:{{navH}}px'></view>
-<view class="uhd">
+<view class="uhd" wx:if="{{show}}">
   <view class="uhdli">
     <label>所在片区</label>
     <text wx:if="{{product.RegionName==null||product.RegionName==''}}">--</text>
