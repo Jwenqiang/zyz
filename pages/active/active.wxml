@@ -51,7 +51,7 @@
       <image src="{{house.DetailImg}}"></image>
     </view>    
 
-    <view class="floatArea" animation="{{animationData}}" bindtap="goMoney"  wx:if="{{house.RotateStartUserAmountList[0].Amount>0}}">
+    <view class="floatArea" animation="{{animationData}}" bindtap="goMoney" data-id="1"  wx:if="{{house.RotateStartUserAmountList[0].Amount>0}}">
       <view class="user">
         <image src="{{house.RotateStartUserAmountList[0].StartHeadImg}}"></image>
         <view class="fl areaMsg">
@@ -61,7 +61,7 @@
       </view>
     </view>   
 
-    <view class="floatArea" animation="{{animationData1}}" wx:if="{{house.RotateStartUserAmountList[1].Amount>0}}">
+    <view class="floatArea" animation="{{animationData1}}" bindtap="goMoney" data-id="1" wx:if="{{house.RotateStartUserAmountList[1].Amount>0}}">
       <view class="user">
         <image src="{{house.RotateStartUserAmountList[1].StartHeadImg}}"></image>
         <view class="fl areaMsg">
@@ -71,7 +71,7 @@
       </view>
     </view> 
 
-    <view class="floatArea" animation="{{animationData2}}" wx:if="{{house.RotateStartUserAmountList[2].Amount>0}}">
+    <view class="floatArea" animation="{{animationData2}}" bindtap="goMoney" data-id="1" wx:if="{{house.RotateStartUserAmountList[2].Amount>0}}">
       <view class="user">
         <image src="{{house.RotateStartUserAmountList[2].StartHeadImg}}"></image>
         <view class="fl areaMsg">
@@ -81,7 +81,7 @@
       </view>
     </view> 
 
-    <view class="floatArea" animation="{{animationData3}}" wx:if="{{house.RotateStartUserAmountList[3].Amount>0}}">
+    <view class="floatArea" animation="{{animationData3}}" bindtap="goMoney" data-id="1" wx:if="{{house.RotateStartUserAmountList[3].Amount>0}}">
       <view class="user">
         <image src="{{house.RotateStartUserAmountList[3].StartHeadImg}}"></image>
         <view class="fl areaMsg">
@@ -91,7 +91,7 @@
       </view>
     </view> 
 
-    <view class="floatArea" animation="{{animationData4}}" wx:if="{{house.RotateStartUserAmountList[4].Amount>0}}">
+    <view class="floatArea" animation="{{animationData4}}" bindtap="goMoney" data-id="1" wx:if="{{house.RotateStartUserAmountList[4].Amount>0}}">
       <view class="user">
         <image src="{{house.RotateStartUserAmountList[4].StartHeadImg}}"></image>
         <view class="fl areaMsg">
@@ -139,7 +139,7 @@
         </view>          
       </view>
 
-      <view class="floatArea" animation="{{animationData}}" bindtap="goMoney"  wx:if="{{house.RotateStartUserAmountList[0].Amount>0}}">
+      <view class="floatArea" animation="{{animationData}}" bindtap="goMoney" data-id="1"  wx:if="{{house.RotateStartUserAmountList[0].Amount>0}}">
         <view class="user">
           <image src="{{house.RotateStartUserAmountList[0].StartHeadImg}}"></image>
           <view class="fl areaMsg">
@@ -149,7 +149,7 @@
         </view>
       </view>   
 
-      <view class="floatArea" animation="{{animationData1}}" wx:if="{{house.RotateStartUserAmountList[1].Amount>0}}">
+      <view class="floatArea" animation="{{animationData1}}" bindtap="goMoney" data-id="1" wx:if="{{house.RotateStartUserAmountList[1].Amount>0}}">
         <view class="user">
           <image src="{{house.RotateStartUserAmountList[1].StartHeadImg}}"></image>
           <view class="fl areaMsg">
@@ -159,7 +159,7 @@
         </view>
       </view> 
 
-      <view class="floatArea" animation="{{animationData2}}" wx:if="{{house.RotateStartUserAmountList[2].Amount>0}}">
+      <view class="floatArea" animation="{{animationData2}}" bindtap="goMoney" data-id="1" wx:if="{{house.RotateStartUserAmountList[2].Amount>0}}">
         <view class="user">
           <image src="{{house.RotateStartUserAmountList[2].StartHeadImg}}"></image>
           <view class="fl areaMsg">
@@ -169,7 +169,7 @@
         </view>
       </view> 
 
-      <view class="floatArea" animation="{{animationData3}}" wx:if="{{house.RotateStartUserAmountList[3].Amount>0}}">
+      <view class="floatArea" animation="{{animationData3}}" bindtap="goMoney" data-id="1" wx:if="{{house.RotateStartUserAmountList[3].Amount>0}}">
         <view class="user">
           <image src="{{house.RotateStartUserAmountList[3].StartHeadImg}}"></image>
           <view class="fl areaMsg">
@@ -179,7 +179,7 @@
         </view>
       </view> 
 
-      <view class="floatArea" animation="{{animationData4}}" wx:if="{{house.RotateStartUserAmountList[4].Amount>0}}">
+      <view class="floatArea" animation="{{animationData4}}" bindtap="goMoney" data-id="1" wx:if="{{house.RotateStartUserAmountList[4].Amount>0}}">
         <view class="user">
           <image src="{{house.RotateStartUserAmountList[4].StartHeadImg}}"></image>
           <view class="fl areaMsg">
@@ -213,8 +213,9 @@
         </view>
       </view>      
       <view class="msgTip">
-        <label style="display:block;margin-bottom:10rpx;" wx:if="{{house.StartClickNumber>0}}">起始点击数<text>{{house.StartClickNumber}}</text>次，起始奖金<text>{{house.StartClickAmount}}</text>元</label>
-        单次有效点击<text>{{house.EveryTimeAmount}}</text>元，还需要<text>{{active.NeedUserClick}}</text>位好友助力
+        <!-- <label style="display:block;margin-bottom:10rpx;" wx:if="{{house.StartClickNumber>0}}">起始点击数<text>{{house.StartClickNumber}}</text>次，起始奖金<text>{{house.StartClickAmount}}</text>元</label>
+        单次有效点击<text>{{house.EveryTimeAmount}}</text>元，还需要<text>{{active.NeedUserClick}}</text>位好友助力 -->
+        每次有效点击，金额随机发放，单次最高可得<text>88</text>元~
       </view>
       <view class="time">
         <view class="timeT">- 活动倒计时 - </view>

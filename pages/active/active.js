@@ -1025,8 +1025,7 @@ that.setData({
   // 获取详情
   getCj(){
     wx.showLoading({
-      title: '数据加载中',
-      mask: true
+      title: '数据加载中'
     })    
     var that=this;
     console.log(that.data.activeId);
@@ -1059,7 +1058,11 @@ that.setData({
             hasData:true,
           })
           if (res.data.data.RotateProjectList.length>0){
-            wx.setStorageSync('asaleList', res.data.data.RotateProjectList)
+            console.log(res.data.data.RotateProjectList);
+            wx.setStorage({
+              key: 'asaleList',
+              data: res.data.data.RotateProjectList,
+            })
           }
           if (res.data.data.ShootEstate!=null){
             that.setData({
@@ -1146,10 +1149,26 @@ that.setData({
           //     that.djsList();
           //   }, 1000)
           // })          
-          wx.setStorageSync("activeData", res.data.data);
-          wx.setStorageSync("clickList", res.data.data.RotateHelpUserClickList);
-          wx.setStorageSync("moneyList", res.data.data.RotateStartUserAmountList);
-          wx.setStorageSync("funsList", res.data.data.RotateStartUserAmountFansList);
+          wx.setStorage({
+            key: 'activeData',
+            data: res.data.data,
+          })
+          wx.setStorage({
+            key: 'clickList',
+            data: res.data.data.RotateHelpUserClickList,
+          })
+          wx.setStorage({
+            key: 'moneyList',
+            data: res.data.data.RotateStartUserAmountList,
+          })
+          wx.setStorage({
+            key: 'funsList',
+            data: res.data.data.RotateStartUserAmountFansList,
+          })                              
+          // wx.setStorageSync("activeData", res.data.data);
+          // wx.setStorageSync("clickList", res.data.data.RotateHelpUserClickList);
+          // wx.setStorageSync("moneyList", res.data.data.RotateStartUserAmountList);
+          // wx.setStorageSync("funsList", res.data.data.RotateStartUserAmountFansList);
           if (res.data.data.UserMaxAmountBl){
             that.setData({
               isOld:true
@@ -1204,6 +1223,7 @@ that.setData({
         }, 1000) 
       },
       fail:error=>{
+        wx.hideLoading();
         wx.showToast({
           title: '网络异常,请稍后再进~',
           icon: 'none'
