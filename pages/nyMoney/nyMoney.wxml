@@ -1,0 +1,57 @@
+<wxs module="filter" src="../fun.wxs"></wxs>
+<!-- 活动页 -->
+<navbar page-name="活动详情"></navbar>
+<view class="htop" style='height:{{navH}}px'></view>
+<view class="container">
+
+	<view class="header" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/nyban1.jpg') left top no-repeat;background-size:100%">
+    <image src="/img/flogo.png" class="flogo"></image>
+		<view class="nyTop"><image src="/img/nyTop.png"></image> </view>
+    <view class="h4">人气王再奖<text style="font-weight:bold">888元</text></view>	
+	</view>
+</view>
+
+<view class="nySection">
+	<view class="nyList nyListT">
+		<view class="listContent">
+      <view class="outer lc-my">
+        <image src="/img/tx2.png"></image>
+        <view class="lcm-r">
+          <view class="lcmT">Top人气榜单</view>
+          <view>我的目前排名是第<text style="font-weight:bold;color:#ff0000;font-size:38rpx;margin:0 4rpx">8</text>名</view>
+        </view>
+      </view>
+
+			<view class="content">
+				<view class="list">
+					<view class="listTop">
+						<label>排名</label>
+						<label class="uName">用户信息</label>
+						<label>助力人数</label>
+					</view>
+					<view class="ulN">
+						<view class="outer userList" wx:for="[1,2,3,4,5,6,7,8]" wx:key="{{index}}" wx:if="{{index<5}}">
+							<label class="num" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/ny1.png') center no-repeat;background-size:52rpx" wx:if="{{index==0}}">1</label>
+							<label class="num" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/ny2.png') center no-repeat;background-size:52rpx" wx:elif="{{index==1}}">2</label>
+							<label class="num" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/ny3.png') center no-repeat;background-size:52rpx" wx:elif="{{index==2}}">3</label>
+							<label class="num" wx:else>{{index+1}}</label>
+							<view class="label">
+								<image src="/img/stx.png" class="stx"></image>
+								<text>名字名字2名字22</text>
+							</view>
+							<label>350</label>
+						</view>
+						<view class="goMore">查看剩余排名</view>
+					</view>
+
+					<!-- 无数据时 -->
+					<view wx:if="{{moneyList.length==0}}" style="text-align:center;padding-top:500rpx;background:url(https://hfugweb.centaline.com.cn/img/smallR/rotate/none.png) center no-repeat;background-size:320rpx;color:#999">
+						<text>暂无记录</text>
+					</view>  
+				</view>  
+
+				</view>
+
+		</view>
+	</view>
+</view>

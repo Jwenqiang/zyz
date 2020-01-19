@@ -1,8 +1,13 @@
 {
   "pages": [
-    "pages/index/index",    
+    
+    "pages/index/index",
+    "pages/newYears/newYears",
+    "pages/nyMoney/nyMoney",
+    "pages/nyFriends/nyFriends",
     "pages/active/active",
-    "pages/asaleList/asaleList",    
+
+    "pages/asaleList/asaleList",
     "pages/uhBan/uhBan",
     "pages/money/money",
     "pages/uFriends/friends",
@@ -20,6 +25,7 @@
     "pages/activeBm/activeBm",
     "pages/role/role",
     "pages/uhDetail/uhDetail"
+    
   ],
   "window": {
     "backgroundTextStyle": "light",

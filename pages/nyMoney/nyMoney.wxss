@@ -1,0 +1,79 @@
+@import "/font/iconfont_money.wxss";
+page {
+  background: #fe4700;
+}
+.header{height: 438rpx;width: 750rpx; padding: 40rpx 40rpx;
+  color: #fff;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+}
+.header image.flogo{width: 126rpx;height: 32rpx;float: left;}
+.header .h1 {
+  font-size: 44rpx;
+  margin-bottom: 10rpx;
+  color: #fff;
+  line-height: 1.5;
+    line-clamp: 2;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  display: box; 
+  overflow: hidden;
+    -webkit-box-orient: vertical;
+    box-orient: vertical;   
+}
+.header .h4{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;font-size: 32rpx;margin-top: 0rpx;}
+.nyTop image{width: 555rpx;height: 207rpx;}
+
+.nySection{text-align: center;padding: 0 40rpx;box-sizing: border-box;margin: 0 0 120rpx;position: relative;top: 0;}
+.nyList{width: 100%;border: 8rpx solid #fec093;box-sizing: border-box;border-radius: 10rpx;background: #fff;}
+.nyTitle{width: 450rpx;height: 66rpx;margin: 0 auto;text-align: center;line-height: 66rpx;color: #fff;font-size: 34rpx;margin-top: -37rpx;}
+.listContent{padding: 40rpx;}
+.lc-title{margin-bottom: 60rpx;height: 42rpx;line-height: 40rpx;}
+.lc-title label{float: left;font-size: 32rpx;color: #333;}
+.lc-title text{float: right;font-size: 24rpx;color: #999;}
+.lc-tx{text-align: left;text-align: center;width: 100%;}
+.lc-tx label{margin-right: 21rpx;display: block;width: 98rpx;float: left;margin-bottom: 40rpx;}
+.lc-tx label:nth-of-type(5n){margin-right: 0;}
+.lc-tx image{width: 98rpx;height: 98rpx;display: block;margin-bottom: 4rpx;}
+.lc-tx text{font-size: 24rpx;display: inline-block;overflow: hidden;width: 100%;text-overflow: ellipsis;white-space: nowrap;}
+
+.nyListT{margin-bottom: 80rpx;}
+.listContent .titleName {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 77rpx;
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #999;
+  font-size: 34rpx;
+  font-weight: bold;
+}
+.listContent .listTop {
+  box-sizing: border-box;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 574rpx;
+}
+.listContent .listTop label{display: inline-block;width: 120rpx;float: left;color: #999;font-weight: bold;font-size: 24rpx;}
+.listContent .listTop label.uName{text-align: center;width: 334rpx;}
+/* .listContent .listTop label:last-child{width: 160rpx;}
+.listContent .listTop label:first-child{width: 100rpx;} */
+
+.userList{text-align: left;text-align: center;}
+.userList label{display: block;width: 120rpx;height: 80rpx; float: left;color: #666;font-weight: bold;font-size: 24rpx;line-height: 80rpx;}
+.userList .label{width: 324rpx;float: left;height: 80rpx;line-height: 80rpx;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+.userList .label image.stx{width: 46rpx;height: 46rpx;vertical-align: middle;margin-right: 6rpx;}
+/* .userList label:last-child{width: 164rpx;}
+.userList label:first-child{width: 90rpx;} */
+.goMore{width: 200rpx;height: 60rpx;text-align: center;margin: 40rpx auto;border: 1px solid #666;color: #666;border-radius: 40rpx;line-height: 60rpx;font-size: 24rpx;}
+
+
+.lc-my{width: 100%;text-align: left;padding: 40rpx 0;margin-bottom: 40rpx;border-bottom: 1px solid #dedede;}
+.lc-my image{width: 130rpx;height: 130rpx;display: block;float: left;}
+.lcm-r{width: 400rpx;float: left;margin-left: 20rpx;padding-top: 10rpx;}
+.lcmT{font-size: 38rpx;margin-bottom: 10rpx;font-weight: bold;color: #000;}

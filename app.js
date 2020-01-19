@@ -33,14 +33,19 @@ App({
     success: res => {
       //导航高度
       this.globalData.navHeight = res.statusBarHeight + 46;
+
+      if (res.model.indexOf('iPhone X') > -1) {
+        this.globalData.isIphoneX = true
+      }  
     }, fail(err) {
       console.log(err);
     }
-  })
+  }) 
 
 },
   globalData: {
     navHeight: "",
+    isIphoneX: false,
     userInfo: null
   }
 })

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "navbar": "../../component/navbar/index"
+  },
+  "navigationBarTitleText": "Top人气榜"
+}

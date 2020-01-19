@@ -1,0 +1,200 @@
+<wxs module="filter" src="../fun.wxs"></wxs>
+<!-- 活动页 -->
+<navbar page-name="活动详情"></navbar>
+<view class="htop" style='height:{{navH}}px'></view>
+<view wx:show='{{ready}}'>
+<view class="container">
+	<view class="header" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/nyban.jpg') left top no-repeat;background-size:100%">
+    <image src="/img/flogo.png" class="flogo"></image>
+		<view class="nyTop"><image src="/img/nyTop.png"></image> </view>
+    <view class="h4">{{house.SecondTitle}}</view>	
+		<view class="hrole" bindtap="showRole">活动规则</view>	
+	</view>
+
+	<view class="main">
+		<view class="canvas-container">
+			<view  animation="{{animationData}}" class="canvas-content"  style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/ny-zp.png') left top no-repeat;background-size:100%">
+				<!-- <view class="canvas-line">
+					<view class="canvas-litem" wx:for="{{awardsList}}" wx:key="unique" style="-webkit-transform: rotate({{item.lineTurn}});transform: rotate({{item.lineTurn}})"></view>
+				</view> -->
+        
+				<view class="canvas-list">
+					<view class="canvas-item" wx:for="{{awardsList}}" wx:key="unique">
+				  		<view class="canvas-item-text" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}})" wx:if="{{item.award==0}}">谢谢惠顾</view>
+				  		<view class="canvas-item-text" style="-webkit-transform: rotate({{item.turn}});transform: rotate({{item.turn}})" wx:else>{{item.award}}元</view>
+					</view>
+				</view>
+			</view>
+      
+			<view class="canvas-btn {{btnDisabled}}" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/nybtn.png') left top no-repeat;background-size:100%">
+				<image src="/img/ny-jt.png" class="jt"></image>
+				<view bindtap="playReward" wx:if="{{showSq}}">
+					<view class="btnName">抽奖</view>
+					<view class="chance"><text>3</text>次机会</view>				
+				</view>				
+				<button open-type="getUserInfo" data-t="cj" bindgetuserinfo="getUserInfo" wx:else>
+					<view class="btnName">抽奖</view>
+					<view class="chance"><text>3</text>次机会</view>
+				</button>
+			</view>					
+		</view>
+		<view class="mlBj">
+			<image src="/img/nyb1.png"></image>
+		</view>
+		<view class="mrBj">
+			<image src="/img/nyb2.png"></image>
+		</view>
+
+	</view>
+</view>
+
+<view class="nyMid">
+	<view class="nym-num">已有123人参加</view>
+	<view class="nym-time">活动时间：2020年10月20日-11月30日</view>
+	<view class="ny-share">
+		<button open-type="share" wx:if="{{showSq}}"><image src="/img/ny-zyz.png" class="izyz"></image>邀请好友助力</button>
+		<button open-type="getUserInfo" bindgetuserinfo="getUserInfo" wx:else><image src="/img/ny-zyz.png" class="izyz"></image>邀请好友助力</button>
+	</view>
+</view>
+
+<view class="nySection">
+	<view class="nyList">
+		<view class="nyTitle" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/nyt.png') left top no-repeat;background-size:100%">
+			——◆ 好友助力 ◆——
+		</view>
+		<view class="listContent">
+			<view class="outer lc-title">
+				<label>已有50位好友为你助力</label>
+				<text bindtap="goNf">查看全部 ></text>
+			</view>
+			<view class="outer lc-tx">
+				<label wx:for="[1,2,3,4,5,6,7,8]" wx:if="{{index<10}}">
+					<image src="/img/ftx.png"></image>
+					<text>好友1</text>
+				</label>
+			</view>
+		</view>
+	</view>
+</view>
+
+<view class="nySection">
+	<view class="nyList nyListT">
+		<view class="nyTitle" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/nyt.png') left top no-repeat;background-size:100%">
+			——◆ 人气Top榜 ◆——
+		</view>
+		<view class="listContent">
+			<view class="content">
+				<view class="list">
+					<view class="listTop">
+						<label>排名</label>
+						<label class="uName">用户信息</label>
+						<label>助力人数</label>
+						<label>已获奖金(元)</label>
+					</view>
+					<view class="ulN">
+						<view class="outer userList" wx:for="[1,2,3,4,5,6,7,8]" wx:key="{{index}}" wx:if="{{index<5}}">
+							<label class="num" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/ny1.png') center no-repeat;background-size:52rpx" wx:if="{{index==0}}">1</label>
+							<label class="num" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/ny2.png') center no-repeat;background-size:52rpx" wx:elif="{{index==1}}">2</label>
+							<label class="num" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/ny3.png') center no-repeat;background-size:52rpx" wx:elif="{{index==2}}">3</label>
+							<label class="num" wx:else>{{index+1}}</label>
+							<view class="label">
+								<image src="/img/stx.png" class="stx"></image>
+								<text>名字名字2名字22</text>
+							</view>
+							<label>350</label>
+							<label>350</label>
+						</view>
+						<view class="goMore" bindtap="goNm">查看剩余排名</view>
+					</view>
+
+					<!-- 无数据时 -->
+					<view wx:if="{{moneyList.length==0}}" style="text-align:center;padding-top:500rpx;background:url(https://hfugweb.centaline.com.cn/img/smallR/rotate/none.png) center no-repeat;background-size:320rpx;color:#999">
+						<text>暂无记录</text>
+					</view>  
+				</view>  
+
+				</view>
+		</view>
+
+	</view>
+</view>
+
+
+<view class="fixr" data-t="f" bindtap="goF" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/nyf.png') center no-repeat;background-size:100%">好友助力</view>
+<view class="fixr1" data-t="b" bindtap="goF" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/nyf.png') center no-repeat;background-size:100%">人气排行</view>
+</view>
+<!-- 包裹层结束 -->
+	<!--弹窗  -->
+<view class='show' wx:if="{{roleS}}">
+	<view class='bj' bindtap='showRole'></view>
+	<view class='showMsg nyshow'>
+		<text class='iconfont icon-guanbi' bindtap='showRole'></text>
+		<view class="h2" style="margin-bottom:40rpx;text-align:center">活动规则</view>
+		<view class="funMsg">
+			好房U购发福利啦！转发抽奖，转发越多奖金越多好房U购发福利啦！转发抽奖，转发越多奖金越多好房U购发福利啦！转发抽奖，转发越多奖金越多好房U购发福利啦！转发抽奖，转发越多奖金越多好房U购发福利啦！转发抽奖，转发越多奖金越多好房U购发福利啦！转发抽奖，转发越多奖金越多
+		</view>
+	</view>
+</view>
+
+      <!--抢购优惠弹窗  已抢完-->
+   <view class='show' wx:if="{{hasSale}}">
+      <view class='bj' bindtap='showSale'></view>
+      <view class='showMsg showSale'>
+        <text class='iconfont icon-guanbi1' bindtap='showSale'></text>
+        <image src="../../img/i-fsale.png" class="isale"></image>
+        <!-- <view class="h2 saleH2">恭喜您~</view> -->
+        <view class="saleMsg">
+         您的抽奖次数已用完啦，邀请好友参加，双方都可以拿红包喔！
+        </view>
+        <button open-type="share" class="btnSale" bindtap='showSale'>邀请好友一起拿红包</button>
+      </view>
+   </view>
+      <!--抢购优惠弹窗  -->
+   <view class='show' wx:if="{{hasSaleMoney}}">
+      <view class='bj' bindtap='showSaleM'></view>
+      <view class='showMsg showSaleM' style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/ny_mbj.png') left top no-repeat;background-size:100%">
+        <text class='iconfont icon-guanbi1' bindtap='showSaleM'></text>
+        <!-- <image src="../../img/i-fsale.png" class="isale"></image> -->
+        <view class="h2 hmTitle">恭喜你获得红包</view>
+        <view class="hmInfo" wx:if="{{moneyNum>0}}">
+					￥<text>{{moneyNum}}</text>   
+        </view>
+        <view class="hmInfo" style="padding:60rpx 20rpx 0 0" wx:else>
+					<text style="font-size:50rpx">很遗憾</text>   
+        </view>				
+        <view class="btnSale btnMoney" bindtap='showSaleM' wx:if="{{moneyNum>0}}">提现,并继续参与</view>
+        <view class="btnSale btnMoney" bindtap='showSaleM' wx:else>再抽一次</view>
+				<view class="hmTip">
+					<view>该活动由深圳房友圈举办</view>
+					<view>领取后将存入你的<text style="font-weight:bold;">微信钱包</text></view>
+				</view>
+      </view>
+   </view>	 
+
+	       <!--好友邀请拿红包-->
+   <view class='show' wx:if="{{isYq}}">
+      <view class='bj' bindtap='showYq'></view>
+      <view class='showMsg showSale' style="height:340rpx">
+        <text class='iconfont icon-guanbi1' bindtap='showYq'></text>
+        <image src="../../img/fyq.png" class="ifyq"></image>
+        <!-- <view class="h2 saleH2">恭喜您~</view> -->
+        <view class="saleMsg" style="text-align:center">
+         你的好友邀请你一起拿红包啦！
+        </view>
+        <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="btnSale" bindtap='showYq'>立即拿红包</button>
+      </view>
+   </view>
+
+	 	       <!--好友邀请已助力-->
+   <view class='show' wx:if="{{hasYq&&isShare}}">
+      <view class='bj' bindtap='showHyq'></view>
+      <view class='showMsg showSale' style="height:340rpx">
+        <text class='iconfont icon-guanbi1' bindtap='showHyq'></text>
+        <image src="../../img/fyyq.png" class="ifyyq"></image>
+        <!-- <view class="h2 saleH2">恭喜您~</view> -->
+        <view class="saleMsg" style="text-align:center">
+         你已经为他人助力过了喔！
+        </view>
+        <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="btnSale" bindtap='showHyq'>自己参加</button>
+      </view>
+   </view>

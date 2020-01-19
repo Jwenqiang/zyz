@@ -15,6 +15,7 @@ button::after{
   padding: 80rpx 40rpx;
   color: #fff;
   height: 458rpx;
+  position: relative;
 }
 
 .partOne .h1 {
@@ -49,7 +50,7 @@ button::after{
   position: absolute;
   height: 60rpx;
   padding: 10rpx;
-  width: 176rpx;
+  width: 196rpx;
   left: 40rpx;
   top: -40rpx;
   background: -webkit-linear-gradient(left top, #2d56fa, #4274ef); /* Safari 5.1 to 6.0 */
@@ -66,7 +67,7 @@ button::after{
   position: absolute;
   height: 60rpx;
   padding: 10rpx;
-  width: 176rpx;
+  width: 196rpx;
   left: 40rpx;
   top: -40rpx;
   background: -webkit-linear-gradient(left top, #2d56fa, #4274ef); /* Safari 5.1 to 6.0 */
@@ -79,7 +80,7 @@ button::after{
   transform: translateX(-200px);
 }
 .areaMsg {
-  width: 100rpx;
+  width: 120rpx;
   float: left;
   text-align: left;
 }
@@ -106,6 +107,10 @@ button::after{
 .floatArea .money,.floatArea1 .money {
   font-size: 20rpx;
   color: #fff;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .money text {
@@ -158,12 +163,12 @@ button::after{
 }
 
 .taskTitle {
-  font-size: 32rpx;
+  font-size: 24rpx;
   font-weight: bold;
   margin-bottom: 20rpx;
   text-align: left
 }
-progress{border:  1px solid #b2e0de;border-radius: 20rpx}
+progress{border:  1px solid #ffbe57;border-radius: 20rpx}
 .taskTitle label {
   font-size: 60rpx;
   color: #ff4631;
@@ -173,7 +178,7 @@ progress{border:  1px solid #b2e0de;border-radius: 20rpx}
 .taskTitle text {
   color: #ff4631;
 }
-
+.isBack label,.isBack text{color: #999;}
 .lineNum {
   height: 40rpx;
   width: 100%;
@@ -193,7 +198,7 @@ progress{border:  1px solid #b2e0de;border-radius: 20rpx}
   width: 40px;
   height: 20px;
   line-height: 20px;
-  background: #3dcac3;
+  background: #fda400;
   /* box-shadow: 1px 2px 3px #E9FBE4;
     border: 1px solid #C9E9C0; */
   border-radius: 4px;
@@ -211,7 +216,7 @@ progress{border:  1px solid #b2e0de;border-radius: 20rpx}
   border-width: 6px;
   border-style: dashed dashed solid dashed;
   top: -12px;
-  border-color: transparent transparent #3dcac3 transparent;
+  border-color: transparent transparent #fda400 transparent;
 }
 
 .msgTip {
@@ -224,7 +229,7 @@ progress{border:  1px solid #b2e0de;border-radius: 20rpx}
 
 .msgTip text {
   font-weight: bold;
-  color: #3acbc4;
+  color: #fda400;
 }
 
 .time {
@@ -483,6 +488,7 @@ button.goTq::after{border: 0}
   left: 0;
   width: 100%;
   box-sizing: border-box;
+  /* background: #fff; */
 }
 
 .footBar {
@@ -503,7 +509,7 @@ button.goTq::after{border: 0}
 }
 
 .fbName {
-  width: 200rpx;
+  /* width: 180rpx; */
   float: left;
   color: #000;
   height: 100%;
@@ -513,7 +519,7 @@ button.goTq::after{border: 0}
   display: block;
   font-size: 24rpx;
   color: #999;
-  margin-top: 8rpx;
+  /* margin-top: 8rpx; */
 }
 
 .fbName label text {
@@ -521,6 +527,30 @@ button.goTq::after{border: 0}
   color: #ff4631;
   font-weight: bold;
   margin-right: 5rpx;
+}
+
+
+.fbtn_Cash {
+  width: 80rpx;
+  float: left;
+  padding-top: 10rpx;
+  padding-left:10rpx;
+}
+.fbtn_Cash button {
+  width: 80rpx;
+  height: 80rpx;
+  float: right;
+  margin-left: 10rpx;
+  font-size: 28rpx;
+  line-height: 80rpx;
+  padding: 0;
+  background: -webkit-linear-gradient(top, #ff0808, #ff8e8e); /* Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(top, #ff0808, #ff8e8e); /* Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(top, #ff0808, #ff8e8e); /* Firefox 3.6 to 15 */
+  background: linear-gradient(to top, #ff0808, #ff8e8e); /* 标准语法 */
+  border: 0;
+  color: #fff;
+  border-radius:40rpx;
 }
 
 .fbtn {
@@ -533,7 +563,7 @@ button.goTq::after{border: 0}
   width: 160rpx;
   height: 80rpx;
   float: right;
-  margin-left: 40rpx;
+  margin-left: 20rpx;
   font-size: 28rpx;
   line-height: 80rpx;
   padding: 0;
@@ -1064,3 +1094,244 @@ image.isale{width: 180rpx;height: 200rpx;position: absolute;left: 194rpx;top: -1
 }
 .pot-bottom text{display: inline-block; font-size: 120rpx;font-weight: bold;}
 .pot-bottom label{position: relative;top:-8rpx;font-size: 120rpx;font-weight: bold;}
+
+/* 提现弹窗 */
+.showMoney{padding-top: 60rpx;top: 36%;height: 400rpx}
+.mstip{text-align: left;font-size: 30rpx;color: #999;}
+.txMoneyNum{font-size: 32rpx;text-align: center;margin-bottom: 10rpx;}
+.txMoneyNum label{font-size: 48rpx;color: #fe483a;margin-right: 6rpx;}
+.showBtn{margin-top: 50rpx}
+.showBtn button:first-child {
+  background: #999;
+}
+.showBtn button:last-child {
+  background: #fe483a;
+}
+
+
+.redBj{background: #fe4600;}
+.hrole{width: 130rpx;height: 48rpx;position: absolute;line-height: 48rpx;text-align: center;top: 440rpx;right: 0;background: #fff;color: #fe7a3f;border-top-left-radius: 20rpx;border-bottom-left-radius: 20rpx;}
+.nyshow{height: 900rpx;overflow-y: auto;}
+.bjR{background: #000;opacity: 0.8;width: 100%;height: 100%;position: fixed;left: 0;top: 0;z-index: 9;}
+.topMain{width: 100%;height: 280rpx;position: fixed;top: 20%;left: 0;text-align: center;z-index: 10;}
+.topMain image{width: 655rpx;height: 219rpx;}
+.main{box-sizing: border-box;padding: 0 75rpx;position: FIXED;left: 0;top: 37%;z-index: 10;}
+/* 转盘 */
+.canvas-container {
+  position: relative;
+  width: 600rpx;
+  height: 600rpx;
+  border-radius: 50%;
+  /* box-shadow: 0 2px 3px #333, 0 0 2px #000; */
+}
+.canvas-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: block;
+  width: 600rpx;
+  height: 600rpx;
+  border-radius: inherit;
+  background-clip: padding-box;
+  background-color: #ffcb3f;
+}
+.canvas-element {
+  position: relative;
+  z-index: 1;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+}
+.canvas-list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: inherit;
+  height: inherit;
+  z-index: 9999;
+}
+.canvas-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  color: #e4370e;
+  font-weight: bold;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+.canvas-item-text {
+  position: relative;
+  display: block;
+  padding-top: 80rpx;
+  margin: 0 auto;
+  text-align: center;
+  -webkit-transform-origin: 50% 300rpx;
+  transform-origin: 50% 300rpx;
+  box-sizing: border-box;
+}
+
+/* 分隔线 */
+.canvas-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: inherit;
+  height: inherit;
+  z-index: 99;
+}
+.canvas-litem {
+  position: absolute;
+  left: 300rpx;
+  top: 0;
+  width: 1px;
+  height: 300rpx;
+  background-color: rgba(228, 55, 14, 0.4);
+  overflow: hidden;
+  -webkit-transform-origin: 50% 300rpx;
+  transform-origin: 50% 300rpx;
+}
+
+/**
+* 抽奖按钮
+*/
+.canvas-btn {
+  position: absolute;
+  left: 230rpx;
+  top: 230rpx;
+  z-index: 400;
+  width: 142rpx;
+  height: 142rpx;
+  border-radius: 50%;
+  color: #ff4423;
+  background-color: #e44025;
+  /* line-height: 80px; */
+  text-align: center;
+  font-size: 40rpx;
+  box-sizing: border-box;
+  /* text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.6); */
+  border: 10rpx solid #fa4734;
+  text-decoration: none;
+  padding-top: 40rpx;
+}
+.canvas-btn image.jt{width: 60rpx;height: 73rpx;position: absolute;top: -70rpx;left: 31rpx;}
+.canvas-btn .btnName{font-weight: bold;line-height: 1;margin-bottom: 4rpx;}
+.canvas-btn .chance{font-size: 20rpx;color: #fff;}
+.canvas-btn .chance text{font-size: 24rpx;font-weight: bold;}
+.canvas-btn button{padding: 0;background: none;line-height: 1;color: #ff4423;}
+.canvas-btn button::after{border: 0;}
+/* .canvas-btn::after {
+  position: absolute;
+  display: block;
+  content: ' ';
+  left: 10px;
+  top: -46px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  border-width: 30px;
+  border-style: solid;
+  border-color: transparent;
+  border-bottom-color: #e44025;
+} */
+.canvas-btn.disabled {
+  pointer-events: none;
+  /* background: #ccc !important;
+  color: #fff; */
+}
+/* .canvas-btn.disabled::after {
+  border-bottom-color: #b07a7b;
+} */
+.fixr,.fixr1{width: 125rpx;height: 103rpx;position: fixed;right: 0;bottom: 220rpx;padding: 26rpx 34rpx;box-sizing: border-box;line-height: 1.2;font-size: 24rpx;color: #fff;font-style: italic;}
+.fixr1{bottom: 80rpx;}
+.nyshow{height: 900rpx;width: 599rpx;left: 75rpx;border-radius: 10rpx;}
+.icon-guanbi1{position: absolute;right: 20rpx;top: 20rpx;font-size: 40rpx;}
+.icon-guanbi1{font-size: 28rpx;}
+.showSaleR{padding-top: 90rpx;top: 38%;height: 400rpx;}
+.showSaleM{top: 24%;width: 689rpx;height: 705rpx;left: 32rpx;padding: 80rpx 140rpx 40rpx;}
+.saleMsg{font-size: 28rpx;margin-bottom: 20rpx;margin-top: 20rpx;line-height: 1.8;color: #666;}
+image.isale {
+  width: 216rpx;
+  height: 223rpx;
+  position: absolute;
+  left: 194rpx;
+  top: -130rpx;
+}
+image.ifyq {
+  width: 258rpx;
+  height: 252rpx;
+  position: absolute;
+  left: 180rpx;
+  top: -150rpx;
+}
+image.ifyyq {
+  width: 228rpx;
+  height: 180rpx;
+  position: absolute;
+  left: 180rpx;
+  top: -100rpx;
+}
+button.btnSale {
+  width: 360rpx;
+  height: 70rpx;
+  color: #fff;
+  text-align: center;
+  line-height: 70rpx;
+  margin: 0 auto;
+  border-radius: 40rpx;
+  position: absolute;
+  bottom: 60rpx;
+  left: 104rpx;
+  background: -webkit-linear-gradient(left, #ffa401, #fe6804); /* Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(left, #ffa401, #fe6804); /* Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(left, #ffa401, #fe6804); /* Firefox 3.6 to 15 */
+  background: linear-gradient(to left, #ffa401, #fe6804); /* 标准语法 */  
+  /* box-shadow: 0 2px 3px #ffa401; */
+  font-size: 28rpx;
+  border: 0;
+}
+button.btnSale::after{border: none;}
+.saleH2 {
+  color: #000;
+  font-size: 48rpx;
+  margin-bottom: 20rpx;
+  text-align: left;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 40rpx;
+}
+
+.hmTitle{
+  color: #fe3e17;
+  font-size: 40rpx;
+  margin-bottom: 0;
+  text-align: left;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 30rpx;
+}
+.hmInfo{line-height: 1.6;color: #ff0000;font-size: 50rpx;text-align: center;padding-right: 54rpx;box-sizing: border-box;}
+.hmInfo text{font-size: 140rpx;}
+.btnMoney{
+  position: absolute;
+  bottom: 150rpx;
+  left: 156rpx;
+  width: 360rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 60rpx;
+  color: #c92b00;
+  font-size: 30rpx;
+  font-weight: bold;
+  background: -webkit-linear-gradient(bottom, #ffee58, #ffc10c); /* Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom, #ffee58, #ffc10c); /* Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom, #ffee58, #ffc10c); /* Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom, #ffee58, #ffc10c); /* 标准语法 */ 
+}
+.hmTip{position: absolute;bottom: 40rpx;left: 0;text-align: center;width: 100%;color: #fff;}    
+.showSaleM .icon-guanbi1{top: -30rpx;right: 40rpx;color: #e23f06;font-size: 36rpx;font-weight: bolder;}
+image.txTip{position: fixed;width: 207rpx;height: 188rpx;left: 200rpx;bottom: 120rpx;}
+  

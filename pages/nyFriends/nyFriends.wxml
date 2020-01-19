@@ -1,0 +1,39 @@
+<wxs module="filter" src="../fun.wxs"></wxs>
+<!-- 活动页 -->
+<navbar page-name="活动详情"></navbar>
+<view class="htop" style='height:{{navH}}px'></view>
+<view class="container">
+
+	<view class="header" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/nyban1.jpg') left top no-repeat;background-size:100%">
+    <image src="/img/flogo.png" class="flogo"></image>
+		<view class="nyTop"><image src="/img/nyTop.png"></image> </view>
+    <view class="h4">人气王再奖<text style="font-weight:bold">888元</text></view>	
+	</view>
+</view>
+
+<view class="nySection">
+	<view class="nyList">
+		<!-- <view class="nyTitle" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/RedMoney/nyt.png') left top no-repeat;background-size:100%">
+			——◆ 好友助力 ◆——
+		</view> -->
+		<view class="listContent">
+			<!-- <view class="outer lc-title">
+				<label>已有50位好友为你助力</label>
+				<text>查看全部 ></text>
+			</view> -->
+      <view class="outer lc-my">
+        <image src="/img/tx2.png"></image>
+        <view class="lcm-r">
+          <view class="lcmT">我的助力榜</view>
+          <view>已有50位好友为你助力</view>
+        </view>
+      </view>
+			<view class="outer lc-tx">
+				<label wx:for="[1,2,3,4,5,6,7,8]" wx:if="{{index<10}}">
+					<image src="/img/ftx.png"></image>
+					<text>好友1</text>
+				</label>
+			</view>
+		</view>
+	</view>
+</view>

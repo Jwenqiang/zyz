@@ -1,3 +1,5 @@
+var util = require("../../utils/util.js");
+var $api = require("../../utils/api.js").default;
 // 引入SDK核心类
 var QQMapWX = require('../../qqmap-wx-jssdk.js');
 var qqmapsdk;
@@ -11,17 +13,35 @@ var interval = null;
 //值越大旋转时间越长  即旋转速度
 var intime = 50;
 Page({
-
+  //奖品配置
+  awardsConfig: {
+    chance: true,
+    awards: [
+      { 'index': 0, 'name': '0元红包' },
+      { 'index': 1, 'name': '1元话费' },
+      { 'index': 2, 'name': '2元红包' },
+      { 'index': 3, 'name': '3元红包' },
+      { 'index': 4, 'name': '4元话费' },
+      { 'index': 5, 'name': '5元红包' }
+    ]
+  },
   /**
    * 页面的初始数据
    */
   data: {
+    awardsList: {},
+    qzList:"",
+    animationDataR: {},
+    btnDisabled: '',
+
+
+    isX:false,
     timer:"",
     ewm:"",
     hasData:false,
     wxcode:"",
     isOld:false, 
-    activeId:"41", 
+    activeId:"43", 
     oneId:0,
     secondId:0,
     shareOneId: 0,
@@ -89,7 +109,17 @@ Page({
     isList:false,
     animationSale: {},
     hasSale: false,
-    shareImg:""    
+    shareImg:"",
+    getMoney:false,
+    roleS:false,
+    thirdCj:false,
+    hasSaleMoney:false,
+    maxMoney: 0 ,
+    showSqR:false,
+    isYq:false,
+    clickYq:false,
+    hasYq:false,
+    txNum:0  
   },
 
   /**
@@ -99,7 +129,8 @@ Page({
     console.log(e);
     wx.hideShareMenu();
     this.setData({
-      navH: app.globalData.navHeight
+      navH: app.globalData.navHeight,
+      isX: app.globalData.isIphoneX
     })      
     if (e.scene) {
       let scene = decodeURIComponent(e.scene);
@@ -135,7 +166,8 @@ Page({
             })        
           }
     }      
-      this.getCode();     
+      this.getCode();   
+      
   },
 
   /**
@@ -152,7 +184,7 @@ Page({
     wx.getStorage({
       key: 'userInfo',
       success: function (res) {
-        if (res.data.NickName != '' && res.data.NickName != null) {
+        if (res.data.NickName != ''&& res.data.NickName != null) {
           that.setData({
             utoken: res.data.Token,
             uid: res.data.UserId,
@@ -160,10 +192,9 @@ Page({
             mobile: res.data.Mobile,
             bmPhone: res.data.Mobile,
             showSq: false,
+            isYq:true,
+            showSqR: true,
             oneAction: that.data.oneAction+1
-          })
-          wx.showShareMenu({
-            withShareTicket: true
           })
           setTimeout(function () {
             that.getCj().then(function(result){
@@ -200,8 +231,20 @@ Page({
         that.setData({
           showSq: true
         })
+      },
+      complete(){
+        // console.log('我的token:'+that.data.utoken);
+        // setTimeout(function () {
+        //   that.getCj().then(function(result){
+        //     console.log('首次进入获取详情');
+        //   }).catch(function (reason) {
+        //     console.log('失败：' + reason);
+        //   });
+        // }, 10)
+        console.log("分享的Id"+that.data.shareOneId);
       }
     })
+    
   },
 
   /**
@@ -230,6 +273,8 @@ Page({
     wx.getStorage({
       key: 'userInfo',
       success: function (res) {
+        console.log('下拉刷新用户数据：')
+        console.log(res)
         if (res.data.HeadImg != '' && res.data.HeadImg != null && res.data.NickName != '' && res.data.NickName != null) {
           that.setData({
             utoken: res.data.Token,
@@ -341,7 +386,100 @@ that.setData({
       }
     });
   },
+  getMessage(){
+    var that=this;
+    $api.api("https://spapi.centaline.com.cn/api/Rotate/GetRotateBaseById?Id="+that.data.activeId, "post").then(res=>{
+      console.log(res);
+      if(res.data.code==1001){
+        that.setData({
+          ready:true,
+          house:res.data.data,
+          shareImg: res.data.data.ShareMainImg,
+          maxMoney:res.data.data.UserMaxAmount,
+          ewm: res.data.data.WxQRcode,
+          shareTitle: res.data.data.ShareTitle,
+          active: res.data.data.RotateUserAmount,
+          bzHouse: { EndTime: res.data.data.EndTime},
+          hasData:true,
+          hasYq:res.data.data.effectiveBl
+        })
+          if (res.data.data.UserMaxAmountBl){
+            that.setData({
+              isOld:true
+            })
+            if(res.data.data.RotateType==1){
+              if (res.data.data.RotateAmountType == 1) {//固定奖金
+                that.setData({
+                  isHas:true,
+                  secondCj: true
+                })
+              } else if (res.data.data.RotateAmountType == 2) {//格子抽奖
+                that.setData({
+                  isHas: false,
+                  money: res.data.data.RotateMaxAmountConfigList,
+                  moneyNum: res.data.data.UserMaxAmount,
+                  zjgl: res.data.data.RotateMaxAmountArr[Math.floor(Math.random() * 100)]
+                })
+                var arr = [];
+                for (var i in res.data.data.RotateMaxAmountConfigList) {
+                  arr.push(res.data.data.RotateMaxAmountConfigList[i].Amount)
+                }
+                var idx = arr.indexOf(that.data.zjgl);
+                that.setData({
+                  luckPosition: idx
+                })
+                // 抽奖
+                console.log(that.data.money)
+                setTimeout(function(){
+                  that.clickLuck()
+                },500)
+              }
+            }else if(res.data.data.RotateType==2){//转盘抽奖
+              that.setData({
+                thirdCj:true,
+                isOld:false
+              })
+              that.awardsConfig.awards=res.data.data.RotateMaxAmountConfigList;
+              that.drawAwardRoundel();             
+            }          
+          }else{//不用抽奖
+            that.setData({
+              isOld:false
+            })
+          }
+        }else if(res.data.code==1101){
+          console.log('错误：'+res.data.message);
+          wx.showToast({
+            title: '网络异常,请稍后再试~',
+            icon: 'none',
+            duration: 2000
+          })
+          wx.clearStorage();
+          // that.setData({
+          //   showSq: true
+          // })
+          setTimeout(function(){
+            wx.reLaunch({
+              url: '../index/index',
+            }) 
+          },1500)         
+        }else{
+          wx.clearStorage();
+          wx.showToast({
+            title: '网络异常,请稍后~',
+            icon: 'none'
+          }) 
+          setTimeout(function(){
+            wx.reLaunch({
+              url: '../index/index',
+            }) 
+          },1000)          
+        }
+        wx.hideLoading() 
 
+
+    })
+  },
 
   goIndex(){
     wx.switchTab({
@@ -763,6 +901,11 @@ that.setData({
                 mobile: res.data.data.Mobile,                
                 showSq: false
               })
+              if(that.data.isShare){
+                that.setData({
+                  isYq:true
+                })
+              }
               wx.showShareMenu({
                 withShareTicket: true
               })
@@ -837,6 +980,141 @@ that.setData({
         })
       }
     }
+  },
+  //通过绑定手机号登录
+  getPhoneNumber0: function (e) {
+    console.log(e);
+    var projectId = e.currentTarget.dataset.id;
+    var discountType = e.currentTarget.dataset.t;
+    var discountContent = e.currentTarget.dataset.c;
+    var ivObj = e.detail.iv
+    var telObj = e.detail.encryptedData;
+    var that = this;
+
+    //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
+    if (e.detail.errMsg == 'getPhoneNumber:fail user deny') { //用户点击拒绝
+      wx.showToast({
+        title: "同意后才能提现哦",
+        icon: "none"
+      })
+    } else { //授权通过执行跳转 
+      if (that.data.wxcode != '') {
+        wx.showLoading({
+          title: '授权中',
+          mask: true
+        })
+        wx.request({
+          url: 'https://spapi.centaline.com.cn/api/Users/UserLogin', //接口地址
+          data: {
+            code: that.data.wxcode,
+            encryptedData: telObj,
+            iv: ivObj,
+            Type: 4,
+            AuthorizeType: 1
+          },
+          method: "post",
+          success: function (res) {
+            console.log(res);
+            if (res.data.code == 1001) {
+              wx.setStorage({   //存储数据并准备发送给下一页使用
+                key: "userInfo",
+                data: res.data.data,
+              })
+              that.setData({
+                mobile: res.data.data.Mobile
+              })
+              console.log(that.data.mobile);
+              // wx.request({
+              //   url: 'https://spapi.centaline.com.cn/api/Rotate/AddRotateProjectDiscount',
+              //   method: "post",
+              //   data: {
+              //     RotateId: that.data.activeId,
+              //     ProjectId: projectId,
+              //     DiscountType: discountType,
+              //     DiscountContent: discountContent,
+              //     Mobile: that.data.mobile
+              //   },
+              //   success: r => {
+              //     if (r.data.code == 1001) {
+              //       setTimeout(function () {
+              //         that.showSale()
+              //       }, 500)
+              //     } else {
+              //       wx.showToast({
+              //         title: "网络异常，请稍后再试",
+              //         icon: "none"
+              //       })
+              //     }
+              //   }
+              // })
+
+            }
+            else {
+              wx.showToast({
+                title: "授权失败，请稍后再试",
+                icon: "none"
+              })
+              that.getCode()
+            }
+            wx.hideLoading();
+          }
+        })
+      }
+    }
+  },  
+  txGet(){
+    var that=this;
+    $api.api("https://spapi.centaline.com.cn/api/Rotate/GetRotateDrawingByStartUser?RotateId="+that.data.activeId, "get", {},that.data.utoken).then(res=>{
+    if(res.data.code=='1001'){
+        that.setData({
+          getMoney: true,
+          txNum:res.data.data
+        })        
+      }
+    })
+  },
+  txM(){
+    var that=this;
+    this.setData({
+      getMoney: false
+    })
+  },
+  // 提现操作 
+  tMoney(){
+    wx.showLoading();
+    var that=this;
+    $api.api("https://spapi.centaline.com.cn/api/Rotate/AddRotateDrawing", "post", {RotateId: that.data.activeId,AmountCashOut:that.data.txNum},that.data.utoken).then(res=>{
+      console.log(res);
+      if(res.data.code=='1001'){
+        wx.hideLoading();      
+        setTimeout(function(){
+          that.setData({
+            getMoney: false
+          }) 
+          wx.showToast({
+            title: '提现成功',
+            icon:'success'
+          })
+          setTimeout(function(){
+            wx.hideLoading();
+            that.getCj();
+          },500)
+        },100)
+       
+      }else if(res.data.code=='1311'){
+        wx.hideLoading();      
+        setTimeout(function(){
+          that.setData({
+            getMoney: false
+          }) 
+          wx.showToast({
+            title: '您暂无可提现金额',
+            icon:'none'
+          })
+        },100)
+      }   
+    })
+
   },
   //通过绑定手机号登录
   getPhoneNumber1: function (e) {
@@ -1046,17 +1324,48 @@ that.setData({
       },
       success:res=>{
         console.log(res);
+        console.log({ Id:that.data.activeId,
+          OneStartUserId: that.data.oneId,
+          StartUserId: that.data.secondId,
+          Channel: that.data.channel,token:that.data.utoken});
         if(res.data.code==1001){
           that.setData({
             ready:true,
             house:res.data.data,
             shareImg: res.data.data.ShareMainImg,
+            maxMoney:res.data.data.UserMaxAmount,
             ewm: res.data.data.WxQRcode,
             shareTitle: res.data.data.ShareTitle,
             active: res.data.data.RotateUserAmount,
             bzHouse: { EndTime: res.data.data.EndTime},
-            hasData:true,
+            hasData:true
           })
+          // 判断是否助力成功
+          if(res.data.data.HelpCode==1001){
+            console.log('助力成功~')
+            setTimeout(function(){
+              wx.showToast({
+                title: '您已为好友助力成功~',
+                icon:'none',
+                duration:2000
+              })
+            },500)
+          }else if(res.data.data.HelpCode==1101){
+            setTimeout(function(){
+              wx.showToast({
+                title: '您已成为粉丝啦',
+                icon:'none',
+                duration:2000
+              })   
+            },500)
+            console.log('已成为粉丝~')        
+          }else if(res.data.data.HelpCode==1201){
+            that.setData({
+              hasYq:true
+            })      
+          }
+          console.log('我的任务');
+          console.log(res.data.data.RotateUserAmount);
           if (res.data.data.RotateProjectList.length>0){
             console.log(res.data.data.RotateProjectList);
             wx.setStorage({
@@ -1149,10 +1458,10 @@ that.setData({
           //     that.djsList();
           //   }, 1000)
           // })          
-          wx.setStorage({
-            key: 'activeData',
-            data: res.data.data,
-          })
+          // wx.setStorage({
+          //   key: 'activeData',
+          //   data: res.data.data,
+          // })
           wx.setStorage({
             key: 'clickList',
             data: res.data.data.RotateHelpUserClickList,
@@ -1173,46 +1482,72 @@ that.setData({
             that.setData({
               isOld:true
             })
-            if (res.data.data.RotateAmountType == 1) {
-              that.setData({
-                isHas:true,
-                secondCj: true
-              })
-            } else if (res.data.data.RotateAmountType == 2) {//转盘抽奖
-              that.setData({
-                isHas: false,
-                money: res.data.data.RotateMaxAmountConfigList,
-                moneyNum: res.data.data.UserMaxAmount,
-                zjgl: res.data.data.RotateMaxAmountArr[Math.floor(Math.random() * 100)]
-              })
-              var arr = [];
-              for (var i in res.data.data.RotateMaxAmountConfigList) {
-                arr.push(res.data.data.RotateMaxAmountConfigList[i].Amount)
+            if(res.data.data.RotateType==1){
+              if (res.data.data.RotateAmountType == 1) {//固定奖金
+                that.setData({
+                  isHas:true,
+                  secondCj: true
+                })
+              } else if (res.data.data.RotateAmountType == 2) {//格子抽奖
+                that.setData({
+                  isHas: false,
+                  money: res.data.data.RotateMaxAmountConfigList,
+                  moneyNum: res.data.data.UserMaxAmount,
+                  zjgl: res.data.data.RotateMaxAmountArr[Math.floor(Math.random() * 100)]
+                })
+                var arr = [];
+                for (var i in res.data.data.RotateMaxAmountConfigList) {
+                  arr.push(res.data.data.RotateMaxAmountConfigList[i].Amount)
+                }
+                var idx = arr.indexOf(that.data.zjgl);
+                that.setData({
+                  luckPosition: idx
+                })
+                // 抽奖
+                console.log(that.data.money)
+                setTimeout(function(){
+                  that.clickLuck()
+                },500)
               }
-              var idx = arr.indexOf(that.data.zjgl);
+            }else if(res.data.data.RotateType==2){//转盘抽奖
               that.setData({
-                luckPosition: idx
+                thirdCj:true,
+                isOld:false
               })
-              // 抽奖
-
-              setTimeout(function(){
-                that.clickLuck()
-              },500)
-            }            
+              that.awardsConfig.awards=res.data.data.RotateMaxAmountConfigList;
+              that.drawAwardRoundel();             
+            }          
+          }else{//不用抽奖
+            that.setData({
+              isOld:false
+            })
           }
         }else if(res.data.code==1101){
-          that.setData({
-            showSq: true
+          console.log('错误：'+res.data.message);
+          wx.showToast({
+            title: '网络异常,请稍后再试~',
+            icon: 'none',
+            duration: 2000
           })
+          wx.clearStorage();
+          // that.setData({
+          //   showSq: true
+          // })
+          setTimeout(function(){
+            wx.reLaunch({
+              url: '../index/index',
+            }) 
+          },1500)         
         }else{
+          wx.clearStorage();
           wx.showToast({
             title: '网络异常,请稍后~',
             icon: 'none'
           }) 
           setTimeout(function(){
-            wx.navigateBack({
-              delta:1
-            })
+            wx.reLaunch({
+              url: '../index/index',
+            }) 
           },1000)          
         }
         resolve();
@@ -1223,6 +1558,7 @@ that.setData({
         }, 1000) 
       },
       fail:error=>{
+        wx.clearStorage();
         wx.hideLoading();
         wx.showToast({
           title: '网络异常,请稍后再进~',
@@ -1236,6 +1572,7 @@ that.setData({
   setMoney(e){
     var that=this;
     var num=e.currentTarget.dataset.num;
+    console.log('token:'+that.data.utoken);
     wx.request({
       url: 'https://spapi.centaline.com.cn/api/Rotate/AddRotateStartUserAmount',
       method: "post",
@@ -1248,6 +1585,9 @@ that.setData({
       }, 
       success:res=>{
         console.log(res);
+        wx.showShareMenu({
+          withShareTicket: true
+        })
         if(res.data.code==1001){
           that.setData({
             isOld: false
@@ -1583,5 +1923,316 @@ that.setData({
     wx.navigateTo({
       url: '../asaleList/asaleList',
     })
+  },
+  
+  showRole(){
+    this.data.roleS=!this.data.roleS;
+    this.setData({
+      roleS:this.data.roleS
+    })
+  }, 
+ //画抽奖圆盘
+ drawAwardRoundel: function () {
+  var awards = this.awardsConfig.awards;
+  var awardsList = [];
+  var qzList = [];
+  var turnNum = 1 / awards.length;  // 文字旋转 turn 值  1turn=一圈
+
+  // 奖项列表
+  for (var i = 0; i < awards.length; i++) {
+    // awardsList.push({ turn: i * turnNum + 'turn', lineTurn: i * turnNum + turnNum / 2 + 'turn', award: awards[i].name });原始状态
+    awardsList.push({ turn: i * turnNum + turnNum / 2 + 'turn', lineTurn: i * turnNum  + 'turn', award: awards[i].Amount});      
+    qzList.push(awards[i].Probability);
+  }
+
+  this.setData({
+    btnDisabled: this.awardsConfig.chance ? '' : 'disabled',
+    awardsList: awardsList,
+    qzList: qzList
+  });
+  console.log(awardsList);
+},
+
+//发起抽奖
+playReward: function () {
+
+  var weightArr = this.data.qzList;
+  weightArr = this.arrOverAdd(weightArr);
+  console.log(weightArr);
+  var totalWeight = weightArr[weightArr.length - 1];
+  var random = Math.random() * totalWeight;
+  console.log(random);
+  var arrIndex = this.getArrIndex(random,weightArr);
+  console.log("索引："+arrIndex);    
+  //中奖index
+  var awardIndex = arrIndex;
+
+
+  console.log(awardIndex);
+  var runNum = 3;//旋转8周
+  var duration = 5000;//时长
+  // 旋转角度
+  this.runDeg = this.runDeg || 0;
+  console.log(this.runDeg);
+  console.log(360 - this.runDeg % 360);
+  // this.runDeg = this.runDeg + (360 - this.runDeg % 360) + (360 * runNum - awardIndex * (360 / 6))  原始状态
+  this.runDeg = this.runDeg + (360 - this.runDeg % 360) + (360 * runNum - awardIndex * (360 / 6))-30
+  //360 - this.runDeg % 360表示回到起点项需要转的角度   360 * runNum - awardIndex * (360 / 6)表示中奖项的角度
+  //创建动画
+  var animationRun = wx.createAnimation({
+    duration: duration,
+    timingFunction: 'ease'
+  })
+  animationRun.rotate(this.runDeg).step();
+  this.setData({
+    animationDataR: animationRun.export(),
+    btnDisabled: 'disabled'
+  });
+  
+  // 中奖提示
+  var awardsConfig = this.awardsConfig;
+// 分享状态抽奖
+  if(this.data.isShare){
+    this.helpFriend(awardsConfig.awards[awardIndex].Amount);
+  }else{
+      // 用户自行抽奖
+    this.getData(awardsConfig.awards[awardIndex].Amount);
+  }
+  setTimeout(function () {
+    // this.showSaleM();
+
+    // wx.showModal({
+    //   title: '恭喜',
+    //   content: '获得' + (awardsConfig.awards[awardIndex].name),
+    //   showCancel: false
+    // });
+    this.setData({
+      btnDisabled: '',
+      hasSaleMoney:true,
+      moneyNum:awardsConfig.awards[awardIndex].Amount
+    });
+  }.bind(this), duration);
+
+}, 
+// 抽奖随机
+//数组元素叠加 [1,2,3,4,,] -> [1,3,6,10,,,,]
+arrOverAdd(arr){
+  if( !arr || arr.length <= 0){
+      return [];
+  } else {
+      var temp = [];
+      for(var i = 0;i < arr.length ; i++){
+          if(i == 0){
+              temp[i] = parseInt(arr[i]);
+          } else {
+              temp[i] = temp[i-1] + parseInt(arr[i]);
+          }
+      }
+      return temp;
+  }
+},
+/**
+ * 获取数组中最接近的值得index
+ * @param random 随机数
+ * @param weightArray 权重数组
+ * @returns {number}
+ */
+getArrIndex(random,weightArray){
+  var index = 0;
+  if(random <= weightArray[0]){
+      return 0;
+  } else if(random >= weightArray[weightArray.length-1]){
+      index = weightArray.length - 1;
+      return index;
+  } else {
+      for(var i = 0 ;i < weightArray.length; i++){
+          if(random <= weightArray[i]){
+              index = i;
+          } else if(random > weightArray[i] && random <= weightArray[i + 1]){
+              index = i + 1;
+              break
+          } else if (random > weightArray[i] && random <= weightArray[ i + 1] ){
+              index = i + 1;
+              break;
+          }
+      }
+  }
+  return index;
+}, 
+  // getInfo(){
+  //   var that=this;
+  //   $api.api("https://spapi.centaline.com.cn/api/Rotate/GetRotateById", "post", {Id:that.data.activeId},that.data.utoken).then(res=>{
+  //     console.log(res);    
+  //     if(res.data.code==1001){
+  //       that.setData({
+  //         house:res.data.data,
+  //         shareImg: res.data.data.ShareMainImg
+  //       })
+  //       that.awardsConfig.awards=res.data.data.RotateMaxAmountConfigList
+  //     }
+  //   }).then(res=>{
+  //     this.drawAwardRoundel();
+  //     wx.hideLoading();
+  //   })
+  // },
+  // showYq(n){
+  //   this.setData({
+  //     isYq:false,
+  //     clickYq:true
+  //   })
+  //   if(this.data.hasYq){//用户未助力过
+  //     this.helpFriend();
+  //   }
+    
+  // },  
+  showHyq(n){
+    this.setData({
+      hasYq:false,
+      clickYq:true
+    })
+  }, 
+  showSaleM(){
+    console.log("关闭抽奖结果");
+    this.setData({
+      hasSaleMoney:false,
+      thirdCj:false,
+      clickYq:true
+    })
+    this.getCj();    
+  },   
+  //获取头像昵称
+  getUserInfoR(e) {
+    const isCj=e.currentTarget.dataset.t;
+    var ivObj = e.detail.iv
+    var telObj = e.detail.encryptedData;
+    var that = this;
+    //-----------------是否授权，授权通过进入主页面，授权拒绝则停留在登陆界面
+    if (e.detail.errMsg == 'getUserInfo:fail auth deny') { //用户点击拒绝
+      wx.showToast({
+        title: "授权后才能抽奖哦",
+        icon: "none"
+      })      
+    } else { //授权通过执行跳转
+      if (that.data.wxcode!=''){
+        wx.showLoading({
+          title: '授权中',
+          mask: true
+        })
+        wx.request({
+          url: 'https://spapi.centaline.com.cn/api/Users/UserLogin', //接口地址
+          data: {
+            code: that.data.wxcode,
+            encryptedData: telObj,
+            iv: ivObj,
+            Type: 4,
+            AuthorizeType: 2
+          },
+          method: "post",
+          success: function (res) {
+            console.log(res);
+            if (res.data.code == 1001) {
+              wx.setStorage({   //存储数据并准备发送给下一页使用
+                key: "userInfo",
+                data: res.data.data,
+              })
+              console.log('覆盖用户信息');
+              console.log(res.data.data.Token);
+              that.setData({             
+                showSqR: true
+              })
+              
+              if(isCj=='cj'){
+                that.playReward(); 
+              }else if(isCj=='zl'){
+                // that.setData({
+                //   isYq:false
+                // })
+                that.showYq()
+              }
+                             
+            }
+            else {
+              wx.showToast({
+                title: "授权失败，请稍后再试",
+                icon: "none"
+              })
+              that.getCode()
+            }
+          },
+          complete(){
+            wx.hideLoading();
+          }
+        })
+      }
+    }
+
+  },
+  getData(num){
+    var that=this;
+    $api.api("https://spapi.centaline.com.cn/api/Rotate/AddRotateStartUserAmount", "post", {RotateId: that.data.activeId,UserMaxAmount:num},that.data.utoken).then(res=>{
+      console.log(res);
+      if(res.data.code==1001){
+        that.setData({
+          isOld:false
+        })
+      }else{
+        wx.showToast({
+          title: '网络异常,请稍后再试~',
+          icon: 'none'
+        })
+        wx.clearStorage();
+        setTimeout(function(){
+          wx.reLaunch({
+            url: '../index/index',
+          }) 
+        },1500)        
+      }
+    })
+  },
+  helpFriend(cj){
+    var that=this;
+    $api.api("https://spapi.centaline.com.cn/api/Rotate/AddRotateStartUserAmount", "post", {RotateId: that.data.activeId,UserMaxAmount:cj},that.data.utoken).then(res=>{
+      console.log(res);
+      if(res.data.code==1001){
+        wx.showShareMenu({
+          withShareTicket: true
+        })
+        // wx.showToast({
+        //   title: '助力成功~',
+        //   icon: 'none'
+        // })
+      }else{
+        wx.showToast({
+          title: '网络异常,请稍后再试~',
+          icon: 'none'
+        })
+        wx.clearStorage();
+        setTimeout(function(){
+          wx.reLaunch({
+            url: '../index/index',
+          }) 
+        },1500)        
+      }
+    })   
+  },
+  helpUpdate(money){
+    var that=this;
+    $api.api("https://spapi.centaline.com.cn/api/Rotate/UpdateRotateStartUserAmountByAmount", "post", {RotateId: that.data.activeId,StartUserId:that.data.uId,Amount:money},that.data.utoken).then(res=>{
+      console.log(res);
+      if(res.data.code==1001){
+        
+      }else{
+        wx.showToast({
+          title: '网络异常,请稍后再试~',
+          icon: 'none'
+        })
+        wx.clearStorage();
+        setTimeout(function(){
+          wx.reLaunch({
+            url: '../index/index',
+          }) 
+        },1500)        
+      }
+    })     
   }    
 })

@@ -1,4 +1,4 @@
-// pages/test/test.js
+// pages/nyFriends/nyFriends.js
 Page({
 
   /**
@@ -12,8 +12,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // this.getData();
-    console.log(wx.getMenuButtonBoundingClientRect())
+
   },
 
   /**
@@ -63,19 +62,5 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-  getData(){
-    var that=this;
-    wx.request({
-      url: 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=ACCESS_TOKEN',
-      method:"post",
-      data:{
-        access_token:"",
-        scene:""
-      },
-      success:res=>{
-        console.log(res);
-      }
-    })
   }
 })
