@@ -60,7 +60,7 @@
     </view>
     
   </view>  
-  <view class="hrole" bindtap="showRole">活动规则</view>
+  <view class="hrole {{house.LinkTypeChoice==1&&house.RotateType==1?'top370':''}}" bindtap="showRole">活动规则</view>
   <view class="partTwo {{house.OtherAmountReward>0?'':'mt80'}}" wx:if="{{house.LinkTypeChoice==1&&house.RotateType==1}}">
     <view class="acMsg" wx:if="{{house.LinkType==2||house.LinkType==3}}" bindtap="showHouse">
       <image src="{{house.DetailImg}}"></image>

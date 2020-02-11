@@ -1110,7 +1110,8 @@ image.isale{width: 180rpx;height: 200rpx;position: absolute;left: 194rpx;top: -1
 
 
 .redBj{background: #fe4600;}
-.hrole{width: 130rpx;height: 48rpx;position: absolute;line-height: 48rpx;text-align: center;top: 440rpx;right: 0;background: #fff;color: #fe7a3f;border-top-left-radius: 20rpx;border-bottom-left-radius: 20rpx;}
+.hrole{z-index: 2;width: 130rpx;height: 48rpx;position: absolute;line-height: 48rpx;text-align: center;top: 440rpx;right: 0;background: #fff;color: #fe7a3f;border-top-left-radius: 20rpx;border-bottom-left-radius: 20rpx;}
+.top370{top: 370rpx;}
 .nyshow{height: 900rpx;overflow-y: auto;}
 .bjR{background: #000;opacity: 0.8;width: 100%;height: 100%;position: fixed;left: 0;top: 0;z-index: 9;}
 .topMain{width: 100%;height: 280rpx;position: fixed;top: 20%;left: 0;text-align: center;z-index: 10;}
@@ -1246,7 +1247,7 @@ image.isale{width: 180rpx;height: 200rpx;position: absolute;left: 194rpx;top: -1
 } */
 .fixr,.fixr1{width: 125rpx;height: 103rpx;position: fixed;right: 0;bottom: 220rpx;padding: 26rpx 34rpx;box-sizing: border-box;line-height: 1.2;font-size: 24rpx;color: #fff;font-style: italic;}
 .fixr1{bottom: 80rpx;}
-.nyshow{height: 900rpx;width: 599rpx;left: 75rpx;border-radius: 10rpx;}
+.nyshow{height: 940rpx;width: 599rpx;left: 75rpx;border-radius: 10rpx;}
 .icon-guanbi1{position: absolute;right: 20rpx;top: 20rpx;font-size: 40rpx;}
 .icon-guanbi1{font-size: 28rpx;}
 .showSaleR{padding-top: 90rpx;top: 38%;height: 400rpx;}
