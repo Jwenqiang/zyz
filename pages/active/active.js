@@ -1463,6 +1463,13 @@ that.setData({
           //   data: res.data.data,
           // })
           wx.setStorage({
+            key: 'activePoster',
+            data: res.data.data.Poster,
+            success: r => {
+              console.log("海报图缓存成功！")
+            }
+          }) 
+          wx.setStorage({
             key: 'clickList',
             data: res.data.data.RotateHelpUserClickList,
           })

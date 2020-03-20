@@ -8,7 +8,8 @@
 <view class="page {{house.RotateType==2?'redBj':''}}" wx:if="{{house.State!=2}}">
 
   <view class="partOne" style="background:url('https://hfugweb.centaline.com.cn/img/smallR/rotate/part1.png') left top no-repeat;background-size:100%" wx:if="{{house.LinkTypeChoice==1&&house.RotateType==1}}">
-    <view class="h1">{{house.Title}}</view>
+    <view class="h1" style="margin-bottom:0">{{filter.nextLine1(house.Title)}}</view>
+    <view class="h1">{{filter.nextLine2(house.Title)}}</view>
     <view class="h4">{{house.SecondTitle}}</view>
   </view>
   <view class="funsTip" wx:if="{{house.OtherAmountReward>0}}" bindtap="showFun" wx:if="{{house.LinkTypeChoice==1&&house.RotateType==1}}">

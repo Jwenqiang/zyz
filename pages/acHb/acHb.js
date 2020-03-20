@@ -43,14 +43,25 @@ Page({
       })
     } 
     var that = this;
+    // wx.getStorage({
+    //   key: 'activeData',
+    //   success: function (res) {
+    //     that.setData({
+    //       bgImg: res.data.Poster
+    //     })
+    //   },
+    // })
     wx.getStorage({
-      key: 'activeData',
+      key: 'activePoster',
       success: function (res) {
         that.setData({
-          bgImg: res.data.Poster
+          bgImg: res.data
         })
       },
-    })
+      complete: r => {
+        console.log('活动：' + r.data);
+      }      
+    })    
     wx.getStorage({
       key: 'userInfo',
       success: function (res) {
